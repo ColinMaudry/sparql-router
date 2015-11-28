@@ -1,0 +1,17 @@
+{
+  "name": "sparql-route",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test.js"
+  },
+  "author": "Colin Maudry",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "devDependencies": {
+    "supertest": "^1.1.0"
+  }
+}
