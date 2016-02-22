@@ -76,6 +76,14 @@ app.get('/tables/:name',function(request,response) {
 	}
 });
 
+app.get('/query',function(request,response) {
+	response.redirect(301,'/sparql/');
+});
+
+app.get('/sparql',function(request,response) {
+	response.send('Redirected\n');
+});
+
 module.exports = app;
 
 // app.listen(3000,function(){
