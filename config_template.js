@@ -1,9 +1,10 @@
 var config = {
 	endpoint : {
-		host: "localhost",
+		hostname: "localhost",
 		port: 3030,
 		queryPath: '/ds/query',
-		queryParameterName: 'query'
+		queryParameterName: 'query',
+		headers: {}
 	},
-	defaultAccept : "application/json+sparql-results"
+	defaultAccept : "application/sparql-results+json"
 }
