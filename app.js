@@ -45,9 +45,13 @@ app.get('/tables/:name',function(request,response) {
 app.get('/sparql',function(request,response) {
 	var data = request.query.query;
 	debug(data);
-	if (data == undefined) response.status(400).send("With GET, you must pass your SPARQL query in the 'query' parameter");
-	getQuery(request, response, data);	
-	});
+	if (data == undefined) 
+		{
+			response.status(400).send("With GET, you must pass your SPARQL query in the 'query' parameter");
+		} else {
+			getQuery(request, response, data);	
+	}
+});
 
 
 
