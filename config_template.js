@@ -3,7 +3,8 @@ var config = {
 		host: "localhost",
 		port: 3030,
 		queryPath: '/ds/query',
-		queryParameterName: 'query'
+		queryParameterName: 'query',
+		updateParameterName: ''
 	},
-	defaultAccept : "application/json+sparql-results"
+	defaultAccept : "application/sparql-results+json"
 }
