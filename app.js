@@ -81,7 +81,7 @@ app.post('/sparql',function(request,response) {
 	
 });
 
-app.get('/:type(tables|graphs)/:name(\\w+):dot(\.)?:extension(\\w+)?',function(request,response) {
+app.get('/:type(tables|graphs)/:name([\\w-]+):dot(\.)?:extension(\\w+)?',function(request,response) {
 	var sparqlPath = __dirname + "/public/" + request.params.type;
 	var sparqlFiles = fs.readdirSync(sparqlPath);
 	var name = request.params.name;
@@ -125,7 +125,7 @@ app.get('/:type(tables|graphs)/:name(\\w+):dot(\.)?:extension(\\w+)?',function(r
 	}
 });
 
-app.post('/:type(tables|graphs)/:name', function(request,response) {
+app.post('/:type(tables|graphs)/:name([\\w-]+)', function(request,response) {
 	var sparqlPath = __dirname + "/public/" + request.params.type;
 	var name = request.params.name;
 	var filepath = sparqlPath + '/' + name + '.rq';
@@ -139,28 +139,52 @@ app.post('/:type(tables|graphs)/:name', function(request,response) {
   	request.on('end', function () {
       	if (query == undefined) {
 			response.status(400)
-			.send("You must pass your SPARQL query as data to create or modify a query.");
+			.send("You must pass your SPARQL query as data to create or modify a query.\n");
 		} else {
 			fs.stat(filepath,function(err, stats){
-				if (err) {
-					fileExists = false;
-
+				if (!err) {
+					fileExists = true;
 				}
 			});
 			fs.writeFile(filepath,query,'utf8', function (err) {
 				if (err) {
 					console.log(err);
-					response.status(500).send("There was an error writing the file.");
+					response.status(500).send("There was an error writing the query.\n");
 				} else {
-					if (fileExists = true) {
-						response.status(201).send("The query was updated.");
+					if (fileExists === true) {
+						response.status(200).send("The query was updated.\n");
 					} else {
-						response.status(201).send("The query was created.");
+						response.status(201).send("The query was created.\n");
 					}
 				}
 			});	
 	}
    	});	
+});
+
+
+app.delete('/:type(tables|graphs)/:name([\\w-]+)', function(request,response) {
+	var sparqlPath = __dirname + "/public/" + request.params.type;
+	var name = request.params.name;
+	var filepath = sparqlPath + '/' + name + '.rq';
+
+	fs.stat(filepath,function(err, stats){
+		if (err) {
+			response.status(404).send(name + ": This query doesn't exist.\n");
+		} else {
+			fs.unlink(filepath, function (err) {
+				if (err) {
+					console.log(err);
+					response.status(500).send(name + ": There was an error deleting the query.\n");
+				} else {
+					response.status(200).send(name + ": The query was deleted.\n");
+				}
+			});
+		}
+	});
+	
+
+
 });
 
 app.get('/',function(request,response) {

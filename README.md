@@ -19,7 +19,8 @@ This module solves the issue:
 ## Features
 
 - Exposes SPARQL queries as simple URLs, with choice of format
-- A new canned query is a simple `.rq` file located in `/public/tables` or `/public/graphs` depending on the query type (SELECT, CONSTRUCT, DESCRIBE)
+- A canned query is a simple `.rq` file located in `/public/tables` or `/public/graphs` depending on the query type (SELECT, CONSTRUCT, DESCRIBE)
+- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name} or /graphs/{query-name} (no authentication *yet*)
 - Supports content negotiation (via the `Accept` HTTP header)
 - Possibility to GET or POST SPARQL queries on `/sparql`
 
@@ -91,7 +92,7 @@ To do
 - Enabled canned queries
 - Extension (.csv, .xml, etc.) defines the format returned by the endpoint
 - Passthrough queries via `/sparql`
-- Create new canned queries by HTTP POST, HTTP PUT, SSH or FTP
+- Create new canned queries by HTTP POST, SSH or FTP
 
 ## License
 

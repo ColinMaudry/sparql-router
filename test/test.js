@@ -71,12 +71,42 @@ describe('GET results from canned queries', function() {
 }); 
 
 describe('Create, modify or delete canned queries', function() {
+	it('POST a query update via data', function(done) {
+		request(app)
+			.post('/tables/test')
+			.send('select * where {?s ?p ?o} limit 1')
+			.expect(200, done);
+	});
 	it('POST a new query via data', function(done) {
 		request(app)
-			.post('/tables/new-query')
+			.post('/tables/new')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
+
+	it('...and the POSTed query works', function(done) {
+		request(app)
+			.get('/tables/new')
+			.set('Accept', 'application/sparql-results+json')
+			.expect('Content-Type', /json/)
+			.expect(200, done);
+	});
+	it('DELETE the new query.', function(done) {
+		request(app)
+			.delete('/tables/new')
+			.expect(200, done);
+	});
+	it('The new query is gone.', function(done) {
+		request(app)
+			.get('/tables/new')
+			.expect(404, done);
+	});
+	it('DELETE an inexistent query returns 404.', function(done) {
+		request(app)
+			.delete('/tables/random')
+			.expect(404, done);
+	});
+
 }); 
 
 
