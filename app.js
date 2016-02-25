@@ -59,6 +59,39 @@ app.get('/sparql',function(request,response) {
 	}
 });
 
+app.get('/sparql',function(request,response) {
+	var query = request.query.query;
+	debug(query);
+	if (query == undefined) 
+		{
+			response.status(400).send("With GET, you must pass your SPARQL query in the 'query' parameter");
+		} else {
+			getQuery(request, response, query);	
+	}
+});
+
+app.post('/query',function(request,response) {
+	response.redirect(301, '/sparql');
+});
+
+app.post('/sparql',function(request,response) {
+	var query = '';
+
+   	request.on('data', function (data) {
+     	 // Append data.
+      	query += data;
+  	});
+
+   	request.on('end', function () {
+      	if (query == undefined) {
+			response.status(400).send("With POST, you must pass your SPARQL query as data.");
+		} else {
+			getQuery(request, response, query);	
+	}
+   	});
+	
+});
+
 
 
 module.exports = app;
@@ -74,7 +107,8 @@ function stringBefore(str, sep) {
 }
 
 function getQuery(request,response, data) {
-	var queryPath = config.endpoint.queryPath + '?' + config.endpoint.queryParameterName + '=' + encodeURIComponent(data);
+	var queryPath = config.endpoint.queryPath + '?'
+		+ config.endpoint.queryParameterName + '=' + encodeURIComponent(data);
 	var options = {
 		  hostname: config.endpoint.host,
 		  port: config.endpoint.port,
@@ -87,8 +121,9 @@ function getQuery(request,response, data) {
 	var req = http.request(options, (res) => {
 	  	debug(`HEADERS: ${JSON.stringify(res.headers)}`);
 		res.setEncoding('utf8');
-		res.on('data', (chunk) => {
-			response.status(200).set('Content-Type', res.headers["content-type"]).send(chunk);
+		res.on('data', (data) => {
+			response.status(res.statusCode)
+			.set('Content-Type', res.headers["content-type"]).send(data);
 		});
 		res.on('end', () => {
 		   debug('No more data in response.')

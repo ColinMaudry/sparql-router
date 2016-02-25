@@ -62,9 +62,29 @@ describe('POST and GET queries in passthrough mode', function() {
 			.expect('Location', '/sparql?query=select * where {?s ?p ?o} limit 1')
 			.expect(301, done)
 	});
-	it('GET queries to /sparql without "query" parameter returns 400', function(done) {
+	it('GET malformed queries to /sparql returns 400', function(done) {
 		request(app)
-			.get('/sparql?queri=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.get('/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.expect(400, done);
+	});
+	it('POST queries to /sparql are passed through', function(done) {
+		request(app)
+			.post('/sparql')
+			.send('select * where {?s ?p ?o} limit 1')
+			.expect('Content-Type', /xml|json|csv/)
+			.expect(200, done);
+	});
+	it('POST queries to /query are 301 redirected to /sparql', function(done) {
+		request(app)
+			.post('/query')
+			.send('select * where {?s ?p ?o} limit 1')
+			.expect('Location', '/sparql')
+			.expect(301, done)
+	});
+	it('POST malformed queries to /sparql returns 400', function(done) {
+		request(app)
+			.post('/sparql')
+			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
 	});
 });
