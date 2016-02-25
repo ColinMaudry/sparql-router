@@ -1,6 +1,6 @@
 var config = {
 	endpoint : {
-		hostname: "localhost",
+		hostname: "http://localhost",
 		port: 3030,
 		queryPath: '/ds/query',
 		queryParameterName: 'query',
