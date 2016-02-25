@@ -41,13 +41,36 @@ describe('Basic tests', function() {
 	});
 }); 
 describe('GET results from canned queries', function() {
+	it('/random/random returns 404', function(done) {
+		request(app)
+			.get('/random/random') 
+			.expect(404, done);
+	});
 	it('/tables/random returns 404', function(done) {
 		request(app)
 			.get('/tables/random') 
 			.expect(404, done);
 	});
-
+	it('/tables/test.csv returns text/csv results', function(done) {
+		request(app)
+			.get('/tables/test.csv')
+			.expect('Content-Type', /text\/csv/) 
+			.expect(200, done);
+	});
+	it('/graphs/test.rdf returns application/rdf+xml results', function(done) {
+		request(app)
+			.get('/graphs/test.rdf')
+			.expect('Content-Type', /application\/rdf\+xml/) 
+			.expect(200, done);
+	});
+	it('/tables/test.xxx returns 400', function(done) {
+		request(app)
+			.get('/tables/test.xxx')
+			.expect(400, done);
+	});
 }); 
+
+
 
 describe('POST and GET queries in passthrough mode', function() {
 	it('GET queries to /sparql are passed through', function(done) {
