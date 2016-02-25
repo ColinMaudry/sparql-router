@@ -1,8 +1,8 @@
 {
   "name": "sparql-route",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An API layer in front of a SPARQL endpoint.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "mocha test/test.js"
   },
@@ -11,7 +11,6 @@
   "dependencies": {
     "debug": "^2.2.0",
     "express": "^4.13.3",
-    "follow-redirects": "0.0.7",
     "fs": "0.0.2",
     "http": "0.0.0"
   },
