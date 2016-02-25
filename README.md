@@ -61,8 +61,8 @@ The most important part is the endpoint configuration, where you configure the d
 - `hostname`: the address where the SPARQL endpoint is deployed. Example: `http://mydomain.com`
 - `port`: the port number on which the SPARQL endpoint runs. 
 - `queryPath`: this is the path used to make the full endpoint URL.
-If the enpoint is `http://mydomain.com/data/sparql`, `queryPath` must be `/data/sparql`.
-- `queryParameterName`: When passing a custom query to a SPARQL endpoint, you must use a URL parameter (Example: `http://mydomain.com/data/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201`). It's usally `query`, but in case it's different, you can change it here. 
+If the endpoint is `http://mydomain.com/data/sparql`, `queryPath` must be `/data/sparql`.
+- `queryParameterName`: When passing a custom query to a SPARQL endpoint, you must use a URL parameter (Example: `http://mydomain.com/data/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201`). It's usally `query`, but in case your endpoint uses a different parameter name, you can change it here. 
 - `headers`: an object in which you can add custom headers that will be sent with all SPARQL queries to the configured endpoint.
 - `defaultAccept`: when no format is provided by the user request, these content types are returned by default
 
