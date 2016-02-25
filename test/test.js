@@ -70,6 +70,14 @@ describe('GET results from canned queries', function() {
 	});
 }); 
 
+describe('Create, modify or delete canned queries', function() {
+	it('POST a new query via data', function(done) {
+		request(app)
+			.post('/tables/new-query')
+			.send('select * where {?s ?p ?o} limit 1')
+			.expect(201, done);
+	});
+}); 
 
 
 describe('POST and GET queries in passthrough mode', function() {

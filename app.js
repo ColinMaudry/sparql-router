@@ -27,31 +27,6 @@ eval(fs.readFileSync('config.js', encoding="utf8"));
 
 app.use(express.static('public'))
 
-
-app.get('/tables/:name(\.:extension)?',function(request,response,next) {
-	console.log("Has extension " + request.params.extension);
-	var foundExtension = false;
-	for (var extension in config.typeByExtension) {
-		if (extension == request.params.extension) {
-			console.log("Matched extension " + extension);
-			console.log("Value " + config.typeByExtension[extension]);
-			request.headers['Accept'] = config.typeByExtension[extension];
-			foundExtension = true;
-			next();
-		}
-
-	}
-	if (foundExtension == false) {
-		var extensions = '';
-		for (var extension in config.typeByExtension) {
-		extensions += extension + " ";
-	}
-		response.status(400).send(request.path + ': extension "'
-			+ request.params.extension + '" not valid. Authorized extensions: '
-			+ extensions + '\n');
-	}
-});
-
 app.get('/query',function(request,response) {
 	var query = request.query.query;
 	if (query == undefined) 
@@ -148,6 +123,44 @@ app.get('/:type(tables|graphs)/:name(\\w+):dot(\.)?:extension(\\w+)?',function(r
 	if (foundQuery == false) {
 		response.status(404).send(request.params.type + "/" + request.params.name + ': This query does not exist.\n');
 	}
+});
+
+app.post('/:type(tables|graphs)/:name', function(request,response) {
+	var sparqlPath = __dirname + "/public/" + request.params.type;
+	var name = request.params.name;
+	var filepath = sparqlPath + '/' + name + '.rq';
+	var query = '';
+	var fileExists = false;
+
+	request.on('data', function (data) {
+     	 // Append data.
+      	query += data;
+  	});
+  	request.on('end', function () {
+      	if (query == undefined) {
+			response.status(400)
+			.send("You must pass your SPARQL query as data to create or modify a query.");
+		} else {
+			fs.stat(filepath,function(err, stats){
+				if (err) {
+					fileExists = false;
+
+				}
+			});
+			fs.writeFile(filepath,query,'utf8', function (err) {
+				if (err) {
+					console.log(err);
+					response.status(500).send("There was an error writing the file.");
+				} else {
+					if (fileExists = true) {
+						response.status(201).send("The query was updated.");
+					} else {
+						response.status(201).send("The query was created.");
+					}
+				}
+			});	
+	}
+   	});	
 });
 
 app.get('/',function(request,response) {
