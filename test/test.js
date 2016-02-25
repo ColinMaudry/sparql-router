@@ -56,7 +56,12 @@ describe('POST and GET queries in passthrough mode', function() {
 			.expect('Content-Type', /xml|json|csv/)
 			.expect(200, done)
 	});
-
+	it('GET queries to /query are 301 redirected to /sparql', function(done) {
+		request(app)
+			.get('/query?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.expect('Location', '/sparql?query=select * where {?s ?p ?o} limit 1')
+			.expect(301, done)
+	});
 	it('GET queries to /sparql without "query" parameter returns 400', function(done) {
 		request(app)
 			.get('/sparql?queri=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')

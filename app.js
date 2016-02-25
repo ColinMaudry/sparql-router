@@ -38,18 +38,24 @@ app.get('/tables/:name',function(request,response) {
 	}
 });
 
-// app.get('/query',function(request,response) {
-// 	response.redirect(301,'/sparql');
-// });
+app.get('/query',function(request,response) {
+	var query = request.query.query;
+	if (query == undefined) 
+		{
+			response.redirect(301, '/sparql');
+		} else {
+			response.redirect(301, '/sparql?query=' + query);	
+	}
+});
 
 app.get('/sparql',function(request,response) {
-	var data = request.query.query;
-	debug(data);
-	if (data == undefined) 
+	var query = request.query.query;
+	debug(query);
+	if (query == undefined) 
 		{
 			response.status(400).send("With GET, you must pass your SPARQL query in the 'query' parameter");
 		} else {
-			getQuery(request, response, data);	
+			getQuery(request, response, query);	
 	}
 });
 
