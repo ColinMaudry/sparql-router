@@ -1,6 +1,6 @@
 var request = require('supertest');
 var fs = require('fs');
-var http = require('follow-redirects').http;
+var http = require('http');
 var app = require('./../app');
 
 
