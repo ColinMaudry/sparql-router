@@ -46,8 +46,20 @@ describe('GET results from canned queries', function() {
 			.get('/tables/random') 
 			.expect(404, done);
 	});
-
+	it('/tables/test.csv returns text/csv results', function(done) {
+		request(app)
+			.get('/tables/test.csv')
+			.expect('Content-Type', /csv/) 
+			.expect(200, done);
+	});
+	it('/tables/test.xxx returns 400', function(done) {
+		request(app)
+			.get('/tables/test.xxx')
+			.expect(400, done);
+	});
 }); 
+
+
 
 describe('POST and GET queries in passthrough mode', function() {
 	it('GET queries to /sparql are passed through', function(done) {

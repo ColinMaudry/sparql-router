@@ -11,30 +11,31 @@ eval(fs.readFileSync('config.js', encoding="utf8"));
 
 app.use(express.static('public'))
 
-app.get('/',function(request,response) {
-	response.send("Hello");
-});
 
-app.get('/tables/:name',function(request,response) {
-	var tablesSparqlPath = __dirname + "/public/tables";
-	var tablesSparqlFiles = fs.readdirSync(tablesSparqlPath);
-	var name = request.params.name;
-	var foundQuery = false;
 
-	for (key in tablesSparqlFiles) {
 
-		//If the URL fragment matches a query file name, return the query text
-		if (stringBefore(tablesSparqlFiles[key],'.') == name) {
-			fs.readFile(tablesSparqlPath + '/' + tablesSparqlFiles[key],'utf8', function (err, data) {
-	  			if (err) throw err;
-	  			getQuery(request, response, data);
-			});	 
-			foundQuery = true;
+
+app.get('/tables/:name(\.:extension)?',function(request,response,next) {
+	console.log("Has extension " + request.params.extension);
+	var foundExtension = false;
+	for (var extension in config.typeByExtension) {
+		if (extension == request.params.extension) {
+			console.log("Matched extension " + extension);
+			console.log("Value " + config.typeByExtension[extension]);
+			request.headers['Accept'] = config.typeByExtension[extension];
+			foundExtension = true;
+			next();
 		}
-	};
-	//Otherwise, return 404
-	if (foundQuery == false) {
-		response.status(404).send(request.path + ': This query does not exist.\n');
+
+	}
+	if (foundExtension == false) {
+		var extensions = '';
+		for (var extension in config.typeByExtension) {
+		extensions += extension + " ";
+	}
+		response.status(400).send(request.path + ': extension "'
+			+ request.params.extension + '" not valid. Authorized extensions: '
+			+ extensions + '\n');
 	}
 });
 
@@ -92,10 +93,57 @@ app.post('/sparql',function(request,response) {
 	
 });
 
+app.get('/:type(tables|graphs)/:name(\\w+):dot(\.)?:extension(\\w+)?',function(request,response) {
+	var sparqlPath = __dirname + "/public/" + request.params.type;
+	var sparqlFiles = fs.readdirSync(sparqlPath);
+	var name = request.params.name;
+	var foundQuery = false;
+
+	for (key in sparqlFiles) {
+
+		//If the URL fragment matches a query file name, return the query text
+		if (stringBefore(sparqlFiles[key],'.') == name) {
+			fs.readFile(sparqlPath + '/' + sparqlFiles[key],'utf8', function (err, data) {
+	  			if (err) throw err;
+	  			if (request.params.extension) {
+					var foundExtension = false;
+					for (var extension in config.typeByExtension[request.params.type]) {
+						if (extension == request.params.extension) {
+							request.headers.accept = config.typeByExtension[request.params.type][extension];
+							foundExtension = true;
+						}
+					}
+					if (foundExtension == false) {
+						var extensions = '';
+						for (var i = 0; config.typeByExtension[request.params.type].length; i++) {
+						extensions += config.typeByExtension[request.params.type][i] + " ";
+					}
+						response.status(400).send(request.path + ': extension "'
+							+ request.params.extension + '" not valid for ' + [request.params.type] + '. Authorized extensions: '
+							+ extensions + '\n');
+					} else {
+						getQuery(request, response, data);
+					}
+	  			} else {
+	  				getQuery(request, response, data);
+	  			}
+			});	 
+			foundQuery = true;
+		}
+	};
+	//Otherwise, return 404
+	if (foundQuery == false) {
+		response.status(404).send(request.params.type + "/" + request.params.name + ': This query does not exist.\n');
+	}
+});
+
+app.get('/',function(request,response) {
+	response.send("Hello");
+});
+
 
 
 module.exports = app;
-
 
 function stringBefore(str, sep) {
  var i = str.indexOf(sep);
@@ -116,13 +164,17 @@ function getQuery(request,response, data) {
 		  method: 'GET',
 		  headers: {}
 	};
-	if (request.get('Accept')) options.headers.Accept = request.get('Accept');
+	if (request.get('accept')) options.headers['Accept'] = request.get('accept');
+
+	debug("Accept: " + request.get('accept'));
 
 	var req = http.request(options, (res) => {
 	  	debug(`HEADERS: ${JSON.stringify(res.headers)}`);
 		res.setEncoding('utf8');
 		res.on('data', (data) => {
-			response.status(res.statusCode)
+			debug("Returned format: " + res.headers["content-type"]);
+			response
+			.status(res.statusCode)
 			.set('Content-Type', res.headers["content-type"]).send(data);
 		});
 		res.on('end', () => {
