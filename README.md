@@ -1,4 +1,4 @@
-# SPARQL router 0.1.0
+# SPARQL router 0.1.0b (Same as 0.1.0, but still no documentation)
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
@@ -20,7 +20,7 @@ This module solves the issue:
 
 - Exposes SPARQL queries as simple URLs, with choice of format
 - A canned query is a simple `.rq` file located in `/public/tables` or `/public/graphs` depending on the query type (SELECT, CONSTRUCT, DESCRIBE)
-- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name} or /graphs/{query-name} (no authentication *yet*)
+- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name} or /graphs/{query-name} (if authenticated)
 - Supports content negotiation (via the `Accept` HTTP header)
 - Possibility to GET or POST SPARQL queries on `/sparql`
 
@@ -93,6 +93,7 @@ To do
 - Extension (.csv, .xml, etc.) defines the format returned by the endpoint
 - Passthrough queries via `/sparql`
 - Create new canned queries by HTTP POST, SSH or FTP
+- Basic auth for POST and DELETE
 
 ## License
 
