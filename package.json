@@ -1,0 +1,38 @@
+{
+  "name": "sparql-router",
+  "version": "0.1.0",
+  "description": "An API layer in front of a SPARQL endpoint in order to serve canned queries, and more.",
+  "keywords": [
+    "sparql",
+    "endpoint",
+    "rdf"
+  ],
+  "main": "app.js",
+  "homepage": "https://github.com/ColinMaudry/sparql-router",
+  "bugs": {
+    "url": "https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug",
+    "email": "colin@maudry.com"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "author": {
+    "name": "Colin Maudry",
+    "email": "colin@maudry.com",
+    "url": "http://colin.maudry.com"
+  },
+  "repository": "ColinMaudry/sparql-router",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "supertest": "^1.1.0"
+  }
+}
