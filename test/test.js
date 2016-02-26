@@ -3,9 +3,6 @@ var fs = require('fs');
 var http = require('http');
 var app = require('./../app');
 
-
-
-
 describe('Basic tests', function() {
 
 	it('App runs and / returns a 200 status code', function(done) {
@@ -70,20 +67,21 @@ describe('GET results from canned queries', function() {
 	});
 }); 
 
-describe('Create, modify or delete canned queries', function() {
+describe('Create, modify or delete canned queries, with basic auth', function() {
 	it('POST a query update via data', function(done) {
 		request(app)
 			.post('/tables/test')
+			.auth('user','password')			
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200, done);
 	});
 	it('POST a new query via data', function(done) {
 		request(app)
 			.post('/tables/new')
+			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
-
 	it('...and the POSTed query works', function(done) {
 		request(app)
 			.get('/tables/new')
@@ -91,12 +89,13 @@ describe('Create, modify or delete canned queries', function() {
 			.expect('Content-Type', /json/)
 			.expect(200, done);
 	});
-	it('DELETE the new query.', function(done) {
+	it('DELETE the new query, with credentials.', function(done) {
 		request(app)
 			.delete('/tables/new')
+			.auth('user','password')
 			.expect(200, done);
 	});
-	it('The new query is gone.', function(done) {
+	it('The DELETEd new query is gone.', function(done) {
 		request(app)
 			.get('/tables/new')
 			.expect(404, done);
@@ -104,10 +103,38 @@ describe('Create, modify or delete canned queries', function() {
 	it('DELETE an inexistent query returns 404.', function(done) {
 		request(app)
 			.delete('/tables/random')
+			.auth('user','password')
 			.expect(404, done);
 	});
 
 }); 
+
+describe('Authentication', function() {
+	it('DELETE a query with no credentials returns 401.', function(done) {
+		request(app)
+			.delete('/tables/test')
+			.expect(401, done);
+	});
+	it('DELETE a query with good username but no password returns 401.', function(done) {
+		request(app)
+			.delete('/tables/test')
+			.auth('user','')
+			.expect(401, done);
+	});
+	it('DELETE a query with no username and good password returns 401.', function(done) {
+		request(app)
+			.delete('/tables/test')
+			.auth('','password')
+			.expect(401, done);
+	});
+	it('POST a new query with no credentials returns 401.', function(done) {
+		request(app)
+			.post('/tables/new')
+			.send('select * where {?s ?p ?o} limit 1')
+			.expect(401, done);
+	});
+
+});
 
 
 describe('POST and GET queries in passthrough mode', function() {
