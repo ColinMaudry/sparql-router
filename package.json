@@ -24,6 +24,7 @@
   "repository": "ColinMaudry/sparql-router",
   "license": "MIT",
   "dependencies": {
+    "config": "^1.19.0",
     "debug": "^2.2.0",
     "express": "^4.13.3",
     "fs": "0.0.2",

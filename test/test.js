@@ -3,6 +3,11 @@ var fs = require('fs');
 var http = require('http');
 var app = require('./../app');
 
+before(function() {
+  process.env.NODE_ENV = 'test';
+});
+
+
 describe('Basic tests', function() {
 
 	it('App runs and / returns a 200 status code', function(done) {

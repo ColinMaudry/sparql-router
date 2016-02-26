@@ -3,11 +3,9 @@ var app = express();
 var fs = require('fs');
 var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
+var config = require('config'); 
 
 var routes = require("./lib/routes");
-
-//My functions
-eval(fs.readFileSync('config.js', encoding="utf8"));
 
 /*
 MIT License (MIT)
@@ -35,7 +33,7 @@ routes(app);
 //Authenticate user
 passport.use(new Strategy(
   function(username, password, cb) {
-    if (username === config.user && password === config.password) {
+    if (username === config.get("user") && password === config.get("password")) {
     	return cb(null, username);
     } else {
     	return cb(null, false);
