@@ -6,6 +6,8 @@ var config = {
 		queryParameterName: 'query',
 		headers: {}
 	},
+	user : "user",
+	password: "password",
 	defaultAccept : "application/sparql-results+json",
 	typeByExtension : {
 		tables : {
