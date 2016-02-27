@@ -2,10 +2,10 @@
     "swagger": "2.0",
     "info": {
         "title": "SPARQL router API",
-        "description": "SPARQL router serves SPARQL query results for developers and data fanatics who don't know the SPARQL language.\n\n\nSee more on the [README](https://github.com/ColinMaudry/sparql-router).\n",
+        "description": "SPARQL router serves SPARQL query results for developers and data fanatics who don't know the SPARQL language.\n\nSee more on the [README](https://github.com/ColinMaudry/sparql-router).\n\n[YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec, written with [Swagger Editor](http://editor.swagger.io/).\n",
         "version": "0.1.0"
     },
-    "host": "secure-chamber-54895.herokuapp.com",
+    "host": "sparql-router.herokuapp.com",
     "schemes": [
         "https"
     ],
@@ -27,16 +27,16 @@
         "application/n-triples"
     ],
     "paths": {
-        "/{tables|graphs}/{name}{extension}": {
+        "/{tablesOrGraphs}/{name}{extension}": {
             "get": {
                 "tags": [
                     "canned query"
                 ],
                 "summary": "Query that returns the results of a SPARQL query. The extension determines the requested format.",
-                "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n\n**The returned format depends on the chosen extension**. See valid extensions [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n\n\n\n\nExamples:\n\n\n- `/tables/test.csv`\n- `/graphs/test.ttl`\n",
+                "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n\n**The returned format depends on the chosen extension**. See valid extensions [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n\nExamples:\n\n- [/tables/test.csv](/tables/test.csv)\n- [/graphs/test.ttl](/tables/test.csv)\n",
                 "parameters": [
                     {
-                        "name": "tables|graphs",
+                        "name": "tablesOrGraphs",
                         "in": "path",
                         "description": "Either `tables` or `graphs` depending on the type of query.",
                         "type": "string",
@@ -82,16 +82,16 @@
                 }
             }
         },
-        "/{tables|graphs}/{name}": {
+        "/{tablesOrGraphs}/{name}": {
             "get": {
                 "summary": "Query that returns the results of a SPARQL query. The Accept header determines the requested format.",
-                "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n**The returned format depends on the chosen content-type**. See possible content-types [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n",
+                "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n**The returned format depends on the chosen content-type**. See possible content-types [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n",
                 "tags": [
                     "canned query"
                 ],
                 "parameters": [
                     {
-                        "name": "tables|graphs",
+                        "name": "tablesOrGraphs",
                         "in": "path",
                         "description": "Either `tables` or `graphs` depending on the type of query.",
                         "type": "string",
@@ -126,13 +126,13 @@
             },
             "post": {
                 "summary": "Creates a new query or updates an existing one.",
-                "description": "The new query must be passed in the body of the request.\n\n\nIf you `POST` to `/tables`, the query must be a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and consequently return tabular data.\n\n\nIf you `POST` to `/graphs`, the query must be a [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or [DESCRIBE](https://www.w3.org/TR/sparql11-query/#describe) query and return a graph.",
+                "description": "The new query must be passed in the body of the request.\n\nIf you `POST` to `/tables`, the query must be a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and consequently return tabular data.\n\nIf you `POST` to `/graphs`, the query must be a [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or [DESCRIBE](https://www.w3.org/TR/sparql11-query/#describe) query and return a graph.",
                 "tags": [
                     "canned query"
                 ],
                 "parameters": [
                     {
-                        "name": "tables|graphs",
+                        "name": "tablesOrGraphs",
                         "in": "path",
                         "description": "Either `tables` or `graphs` depending on the type of query.",
                         "type": "string",
@@ -191,7 +191,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "tables|graphs",
+                        "name": "tablesOrGraphs",
                         "in": "path",
                         "description": "Either `tables` or `graphs` depending on the type of query.",
                         "type": "string",
@@ -226,7 +226,7 @@
         "/sparql": {
             "get": {
                 "summary": "Sends a query directly to the configured endpoint, without using a canned query.",
-                "description": "Example: `/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201`, which is the URL encoded version of `select * where {?s ?p ?o} limit 1`.",
+                "description": "Example: [/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201](/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201), which is the URL encoded version of `select * where {?s ?p ?o} limit 1`.",
                 "tags": [
                     "passthrough query"
                 ],
