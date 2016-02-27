@@ -10,14 +10,14 @@ before(function() {
 
 describe('Basic tests', function() {
 
-	it('App runs and / returns a 200 status code', function(done) {
+	it('App runs and / returns 200', function(done) {
 		request(app)
 			.get('/')
 			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
 	
-	it('The configured endpoint returns 200 and JSON Sparql results', function(done) {
+	it('The configured endpoint returns 200 and JSON SPARQL results', function(done) {
 		request(app)
 			.get('/tables/test') 
 			.set('Accept', 'application/sparql-results+json')
@@ -41,6 +41,12 @@ describe('Basic tests', function() {
 			if (error) return done(error);
 			done();
 			});
+	});
+	it('POST typically designed to brew coffee is ineffective.', function(done) {
+		request(app)
+			.post('/')
+			.set('Content-Type','application/coffee-pot-command')
+			.expect(418, done)
 	});
 }); 
 describe('GET results from canned queries', function() {
