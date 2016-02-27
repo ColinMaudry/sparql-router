@@ -2,11 +2,11 @@ var request = require('supertest');
 var fs = require('fs');
 var http = require('http');
 var app = require('./../app');
+var config = require('config');
 
 before(function() {
   process.env.NODE_ENV = 'test';
 });
-
 
 describe('Basic tests', function() {
 
@@ -60,7 +60,7 @@ describe('GET results from canned queries', function() {
 			.expect('Content-Type', /text\/csv/) 
 			.expect(200, done);
 	});
-	it('/graphs/test.rdf returns application/rdf+xml results', function(done) {
+	it('/graphs/test.rdf returns application/rdf+xml or XML results.', function(done) {
 		request(app)
 			.get('/graphs/test.rdf')
 			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
@@ -95,6 +95,17 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.set('Accept', 'application/sparql-results+json')
 			.expect('Content-Type', /json/)
 			.expect(200, done);
+	});
+	it('POSTing a too big query returns a 413 Request too large.', function(done) {
+		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
+		while (bigQuery.length < config.get('app.maxQueryLength')) {
+			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
+		} 
+		request(app)
+			.post('/tables/new')
+			.auth('user','password')
+			.send(bigQuery)
+			.expect(413, done);
 	});
 	it('DELETE the new query, with credentials.', function(done) {
 		request(app)
@@ -163,7 +174,7 @@ describe('POST and GET queries in passthrough mode', function() {
 			.get('/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
-	it('POST queries to /sparql are passed through', function(done) {
+	it('POST queries to /sparql are passed through to the endpoint.', function(done) {
 		request(app)
 			.post('/sparql')
 			.send('select * where {?s ?p ?o} limit 1')
