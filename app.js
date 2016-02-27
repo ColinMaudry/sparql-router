@@ -3,7 +3,9 @@ var app = express();
 var fs = require('fs');
 var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
-var config = require('config'); 
+var config = require('config');
+var cors = require('express-cors')
+
 
 var routes = require("./lib/routes");
 
@@ -28,6 +30,12 @@ copies or substantial portions of the Software.
 express.static.mime.define({'application/sparql-query': ['rq']});
 
 app.use(express.static('public'));
+app.use(cors({
+	allowedOrigins: ['*'],
+	methods: ['GET','POST','DELETE','OPTIONS','HEAD']
+}))
+
+
 routes(app);
 
 //Authenticate user
