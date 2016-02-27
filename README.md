@@ -24,7 +24,15 @@ This module solves the issue:
 - Supports content negotiation (via the `Accept` HTTP header)
 - Possibility to GET or POST SPARQL queries on `/sparql`
 
-**Demo** (to do)
+**Demo**
+
+An instance is deployed on Heroku, with API documentation:
+
+https://sparql-router.herokuapp.com
+
+You can create new queries through this form (username: `user`, password: `password`):
+
+https://sparql-router.herokuapp.com/#!/canned_query/post_tablesOrGraphs_name
 
 **[Upcoming features](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+-label%3Abug)**
 
