@@ -1,18 +1,25 @@
 
 {
 	"endpoint" : {
-		"hostname": "localhost",
-		"port": 3030,
-		"queryPath": "/ds/query",
+		"hostname": "dydra.com",
+		"port": "",
+		"queryPath": "/colin-maudry/me/sparql",
 		"queryParameterName": "query",
 		"headers": {}
 	},
-	"user" : "user",
-	"password": "password",
-	"defaultAccept" : {
-		"tables" : "application/sparql-results+json",
-		"graphs" : "text/turtle"
+	"app" : {
+		"user" : "user",
+		"password": "password",
+		"defaultAccept" : {
+			"tables" : "application/sparql-results+json",
+			"graphs" : "text/turtle"
+		},
+		"port" : 3000,
+		"maxQueryLength" : 4000
 	},
+
+
+
 	"typeByExtension" : {
 		"tables" : {
 			"csv" : "text/csv",
