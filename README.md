@@ -30,7 +30,7 @@ An instance is deployed on Heroku, with API documentation:
 
 https://sparql-router.herokuapp.com
 
-You can create new queries through this form (username: `user`, password: `password`):
+You can create new queries through this form. Authentication is currently disabled.
 
 https://sparql-router.herokuapp.com/#!/canned_query/post_tablesOrGraphs_name
 

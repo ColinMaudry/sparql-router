@@ -6,7 +6,6 @@ var Strategy = require('passport-http').BasicStrategy;
 var config = require('config');
 var cors = require('express-cors')
 
-
 var routes = require("./lib/routes");
 
 /*
@@ -30,18 +29,18 @@ copies or substantial portions of the Software.
 express.static.mime.define({'application/sparql-query': ['rq']});
 
 app.use(express.static('public'));
-app.use(cors({
-	allowedOrigins: ['*'],
-	methods: ['GET','POST','DELETE','OPTIONS','HEAD']
-}))
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 routes(app);
 
 //Authenticate user
 passport.use(new Strategy(
   function(username, password, cb) {
-    if (username === config.get("app.user") && password === config.get("app.password")) {
+    if (username === config.get("app.user")	&& password === config.get("app.password") && process.env.authentication === undefined) {
     	return cb(null, username);
     } else {
     	return cb(null, false);

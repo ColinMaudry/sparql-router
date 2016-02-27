@@ -3,6 +3,9 @@ var fs = require('fs');
 var http = require('http');
 var app = require('./../app');
 var config = require('config');
+var env = require('env-variable')({
+  authentication : "off"
+}); 
 
 before(function() {
   process.env.NODE_ENV = 'test';
@@ -133,6 +136,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 
 }); 
 
+//Only test authentication if it's on
 describe('Authentication', function() {
 	it('DELETE a query with no credentials returns 401.', function(done) {
 		request(app)
