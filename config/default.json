@@ -1,9 +1,9 @@
 
 {
 	"endpoint" : {
-		"hostname": "localhost",
-		"port": 3030,
-		"queryPath": "/ds/query",
+		"hostname": "dydra.com",
+		"port": "",
+		"queryPath": "/colin-maudry/me/sparql",
 		"queryParameterName": "query",
 		"headers": {}
 	},
