@@ -13,6 +13,7 @@ describe('Basic tests', function() {
 	it('App runs and / returns a 200 status code', function(done) {
 		request(app)
 			.get('/')
+			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
 	
@@ -62,7 +63,7 @@ describe('GET results from canned queries', function() {
 	it('/graphs/test.rdf returns application/rdf+xml results', function(done) {
 		request(app)
 			.get('/graphs/test.rdf')
-			.expect('Content-Type', /application\/rdf\+xml/) 
+			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
 			.expect(200, done);
 	});
 	it('/tables/test.xxx returns 400', function(done) {
@@ -73,6 +74,7 @@ describe('GET results from canned queries', function() {
 }); 
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
+	this.timeout(4000);
 	it('POST a query update via data', function(done) {
 		request(app)
 			.post('/tables/test')
@@ -143,6 +145,7 @@ describe('Authentication', function() {
 
 
 describe('POST and GET queries in passthrough mode', function() {
+	this.timeout(4000);
 	it('GET queries to /sparql are passed through', function(done) {
 		request(app)
 			.get('/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
