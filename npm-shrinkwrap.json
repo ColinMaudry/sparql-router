@@ -102,6 +102,11 @@
       "version": "4.13.3",
       "from": "express@latest"
     },
+    "express-cors": {
+      "version": "0.0.3",
+      "from": "express-cors@latest",
+      "resolved": "https://registry.npmjs.org/express-cors/-/express-cors-0.0.3.tgz"
+    },
     "extend": {
       "version": "1.2.1",
       "from": "extend@1.2.1",
