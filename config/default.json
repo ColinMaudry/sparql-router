@@ -3,7 +3,7 @@
 	"endpoint" : {
 		"scheme" : "https",
 		"hostname": "query.wikidata.org",
-		"port": "",
+		"port":"",
 		"queryPath": "/sparql",
 		"queryParameterName": "query",
 		"headers": {}
