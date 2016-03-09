@@ -1,9 +1,10 @@
 
 {
 	"endpoint" : {
-		"hostname": "dydra.com",
+		"scheme" : "https",
+		"hostname": "query.wikidata.org",
 		"port": "",
-		"queryPath": "/colin-maudry/me/sparql",
+		"queryPath": "/sparql",
 		"queryParameterName": "query",
 		"headers": {}
 	},
