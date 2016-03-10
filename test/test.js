@@ -1,11 +1,8 @@
 var request = require('supertest');
 var fs = require('fs');
-var http = require('http');
+var http = require('follow-redirects').http;
 var app = require('./../app');
 var config = require('config');
-var env = require('env-variable')({
-  authentication : "off"
-}); 
 
 before(function() {
   process.env.NODE_ENV = 'test';
@@ -167,21 +164,22 @@ describe('Authentication', function() {
 
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
-	it('GET queries to /sparql are passed through', function(done) {
+	it('GET queries to /sparql/ are passed through', function(done) {
 		request(app)
-			.get('/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
-			.expect('Content-Type', /xml|json|csv/)
-			.expect(200, done)
+			.get('/sparql/?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.expect(200)
+			.expect('Content-Type', /xml|json|csv/, done)
+
 	});
-	it('GET queries to /query are 301 redirected to /sparql', function(done) {
+	it('GET queries to /query are 301 redirected to /sparql/', function(done) {
 		request(app)
 			.get('/query?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect('Location', '/sparql?query=select * where {?s ?p ?o} limit 1')
 			.expect(301, done)
 	});
-	it('GET malformed queries to /sparql returns 400', function(done) {
+	it('GET malformed queries to /sparql/ returns 400', function(done) {
 		request(app)
-			.get('/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.get('/sparql/?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
 	it('POST queries to /sparql are passed through to the endpoint.', function(done) {
