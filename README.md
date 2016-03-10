@@ -99,7 +99,8 @@ To do
 - Passthrough queries via `/sparql`
 - Create new canned queries by HTTP POST, SSH or FTP
 - Basic auth for POST and DELETE
-- Support for HTTPS endopoints
+- API doc written in Swagger
+- Support for HTTPS endpoints
 - CORS enabled
 
 ## License
