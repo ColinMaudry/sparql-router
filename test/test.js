@@ -21,8 +21,8 @@ describe('Basic tests', function() {
 		request(app)
 			.get('/tables/test') 
 			.set('Accept', 'application/sparql-results+json')
-			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /json/, done);
 	});
 
 	it('The configured endpoint has data loaded', function(done) {
@@ -79,6 +79,15 @@ describe('GET results from canned queries', function() {
 	});
 }); 
 
+describe('GET results from UPDATE canned queries, with basic auth', function() {
+	it('/update/test returns 200', function(done) {
+		request(app)
+			.get('/update/test')
+			.auth('user','password')
+			.expect(200, done);
+	});
+}); 
+
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
 	it('POST a query update via data', function(done) {
@@ -99,8 +108,8 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 		request(app)
 			.get('/tables/new')
 			.set('Accept', 'application/sparql-results+json')
-			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /json/, done);
 	});
 	it('POSTing a too big query returns a 413 Request too large.', function(done) {
 		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
@@ -186,8 +195,8 @@ describe('POST and GET queries in passthrough mode', function() {
 		request(app)
 			.post('/sparql')
 			.send('select * where {?s ?p ?o} limit 1')
-			.expect('Content-Type', /xml|json|csv/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /xml|json|csv/, done);
 	});
 	it('POST queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)

@@ -27,6 +27,8 @@ copies or substantial portions of the Software.
 //Load custom configuration file
 
 express.static.mime.define({'application/sparql-query': ['rq']});
+express.static.mime.define({'application/sparql-update': ['ru']});
+
 
 app.use(express.static('public'));
 app.use(function(req, res, next) {
