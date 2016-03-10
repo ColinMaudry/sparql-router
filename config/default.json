@@ -1,10 +1,11 @@
 
 {
 	"endpoint" : {
-		"scheme" : "https",
-		"hostname": "query.wikidata.org",
-		"port":"",
-		"queryPath": "/sparql",
+		"scheme" : "http",
+		"hostname": "www.data.maudry.com",
+		"port":"3030",
+		"queryPath": "/test/sparql",
+		"updatePath": "/test/update",
 		"queryParameterName": "query",
 		"headers": {}
 	},
@@ -13,7 +14,8 @@
 		"password": "password",
 		"defaultAccept" : {
 			"tables" : "application/sparql-results+json",
-			"graphs" : "text/turtle"
+			"graphs" : "text/turtle",
+			"update" : "application/json"
 		},
 		"port" : 3000,
 		"maxQueryLength" : 4000
@@ -36,6 +38,11 @@
 			"jsonld" : "application/ld+json",
 			"nt" : "application/n-triples",
 			"json" : "application/ld+json"
+		},
+		"update" : {
+			"json" : "application/json",
+			"txt" : "text/plain"
+
 		}		
 
 	}
