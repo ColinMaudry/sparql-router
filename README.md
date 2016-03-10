@@ -1,4 +1,4 @@
-# SPARQL router 0.1.0b (Same as 0.1.0, but still no documentation)
+# SPARQL router 0.1.0
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
@@ -38,6 +38,8 @@ https://sparql-router.herokuapp.com/#!/canned_query/post_tablesOrGraphs_name
 
 **[Known issues](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug)**
 
+Now it's still jut a useful middleman between your RDF data and your data consumers, but the objective is to develop an open plateform to share SPARQL queries on any endpoint. With a nice UI.
+
 ## Requirements
 
 [NodeJS and NPM](https://nodejs.org/en/download/stable/) must be installed.
@@ -59,27 +61,22 @@ npm install sparql-router --production
 
 ## Configuration
 
-The config file must be created as a copy of `config_template.js`, be in the same directory, and be called `config.js`
-
-```bash
-cp config_template.js config.js
-```
+The configuration sits in `config/default.json`. The default configuration queries Wikidata.
 
 The most important part is the endpoint configuration, where you configure the default SPARQL endpoint to be used by the queries.
 
-- `hostname`: the address where the SPARQL endpoint is deployed. Example: `http://mydomain.com`
+- `scheme`: whether the endpoint is reachable via http or https protocol.
+- `hostname`: the address where the SPARQL endpoint is deployed. Example: `mydomain.com`
 - `port`: the port number on which the SPARQL endpoint runs. 
 - `queryPath`: this is the path used to make the full endpoint URL.
 If the endpoint is `http://mydomain.com/data/sparql`, `queryPath` must be `/data/sparql`.
 - `queryParameterName`: When passing a custom query to a SPARQL endpoint, you must use a URL parameter (Example: `http://mydomain.com/data/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201`). It's usally `query`, but in case your endpoint uses a different parameter name, you can change it here. 
 - `headers`: an object in which you can add custom headers that will be sent with all SPARQL queries to the configured endpoint.
-- `defaultAccept`: when no format is provided by the user request, these content types are returned by default
+- `defaultAccept`: when no `Accept` format is provided by the user request, these content types are requested by default
 
 ### Test
 
-I haven't found a proper way to mock a triple store for testing purposes. As a consequence, an actual triple store, that I maintain, is used as the default triple store for tests.
-
-This means that, with the default configuration, tests can only succeed if your computer/server is connected to Internet.
+I haven't found a proper way to mock a triple store for testing purposes. As a consequence, I use Wikidata triple store.
 
 To run the tests:
 
@@ -102,6 +99,9 @@ To do
 - Passthrough queries via `/sparql`
 - Create new canned queries by HTTP POST, SSH or FTP
 - Basic auth for POST and DELETE
+- API doc written in Swagger
+- Support for HTTPS endpoints
+- CORS enabled
 
 ## License
 
