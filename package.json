@@ -24,10 +24,14 @@
   "repository": "ColinMaudry/sparql-router",
   "license": "MIT",
   "dependencies": {
+    "config": "^1.19.0",
     "debug": "^2.2.0",
     "express": "^4.13.3",
+    "express-cors": "0.0.3",
+    "follow-redirects": "0.0.7",
     "fs": "0.0.2",
     "http": "0.0.0",
+    "https": "^1.0.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0"
   },

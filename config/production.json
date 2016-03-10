@@ -1,0 +1,43 @@
+
+{
+	"endpoint" : {
+		"scheme" : "https",
+		"hostname": "query.wikidata.org",
+		"port": "",
+		"queryPath": "/sparql",
+		"queryParameterName": "query",
+		"headers": {}
+	},
+	"app" : {
+		"user" : "user",
+		"password": "password",
+		"defaultAccept" : {
+			"tables" : "application/sparql-results+json",
+			"graphs" : "text/turtle"
+		},
+		"port" : 3000,
+		"maxQueryLength" : 4000
+	},
+
+
+
+	"typeByExtension" : {
+		"tables" : {
+			"csv" : "text/csv",
+			"json" : "application/sparql-results+json",
+			"srj" : "application/sparql-results+json",
+			"srx" : "application/sparql-results+xml",
+			"xml" : "application/sparql-results+xml"
+		},
+		"graphs" : {
+			"xml" : "application/rdf+xml",
+			"rdf" : "application/rdf+xml",
+			"ttl" : "text/turtle",
+			"jsonld" : "application/ld+json",
+			"nt" : "application/n-triples",
+			"json" : "application/ld+json"
+		}		
+
+	}
+}
+

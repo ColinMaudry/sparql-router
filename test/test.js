@@ -1,17 +1,23 @@
 var request = require('supertest');
 var fs = require('fs');
-var http = require('http');
+var http = require('follow-redirects').http;
 var app = require('./../app');
+var config = require('config');
+
+before(function() {
+  process.env.NODE_ENV = 'test';
+});
 
 describe('Basic tests', function() {
 
-	it('App runs and / returns a 200 status code', function(done) {
+	it('App runs and / returns 200', function(done) {
 		request(app)
 			.get('/')
+			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
 	
-	it('The configured endpoint returns 200 and JSON Sparql results', function(done) {
+	it('The configured endpoint returns 200 and JSON SPARQL results', function(done) {
 		request(app)
 			.get('/tables/test') 
 			.set('Accept', 'application/sparql-results+json')
@@ -36,6 +42,12 @@ describe('Basic tests', function() {
 			done();
 			});
 	});
+	it('POST typically designed to brew coffee is ineffective.', function(done) {
+		request(app)
+			.post('/')
+			.set('Content-Type','application/coffee-pot-command')
+			.expect(418, done)
+	});
 }); 
 describe('GET results from canned queries', function() {
 	it('/random/random returns 404', function(done) {
@@ -54,10 +66,10 @@ describe('GET results from canned queries', function() {
 			.expect('Content-Type', /text\/csv/) 
 			.expect(200, done);
 	});
-	it('/graphs/test.rdf returns application/rdf+xml results', function(done) {
+	it('/graphs/test.rdf returns application/rdf+xml or XML results.', function(done) {
 		request(app)
 			.get('/graphs/test.rdf')
-			.expect('Content-Type', /application\/rdf\+xml/) 
+			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
 			.expect(200, done);
 	});
 	it('/tables/test.xxx returns 400', function(done) {
@@ -68,6 +80,7 @@ describe('GET results from canned queries', function() {
 }); 
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
+	this.timeout(4000);
 	it('POST a query update via data', function(done) {
 		request(app)
 			.post('/tables/test')
@@ -89,6 +102,17 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.expect('Content-Type', /json/)
 			.expect(200, done);
 	});
+	it('POSTing a too big query returns a 413 Request too large.', function(done) {
+		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
+		while (bigQuery.length < config.get('app.maxQueryLength')) {
+			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
+		} 
+		request(app)
+			.post('/tables/new')
+			.auth('user','password')
+			.send(bigQuery)
+			.expect(413, done);
+	});
 	it('DELETE the new query, with credentials.', function(done) {
 		request(app)
 			.delete('/tables/new')
@@ -109,6 +133,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 
 }); 
 
+//Only test authentication if it's on
 describe('Authentication', function() {
 	it('DELETE a query with no credentials returns 401.', function(done) {
 		request(app)
@@ -138,11 +163,13 @@ describe('Authentication', function() {
 
 
 describe('POST and GET queries in passthrough mode', function() {
+	this.timeout(4000);
 	it('GET queries to /sparql are passed through', function(done) {
 		request(app)
 			.get('/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
-			.expect('Content-Type', /xml|json|csv/)
-			.expect(200, done)
+			.expect(200)
+			.expect('Content-Type', /xml|json|csv/, done)
+
 	});
 	it('GET queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)
@@ -155,7 +182,7 @@ describe('POST and GET queries in passthrough mode', function() {
 			.get('/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
-	it('POST queries to /sparql are passed through', function(done) {
+	it('POST queries to /sparql are passed through to the endpoint.', function(done) {
 		request(app)
 			.post('/sparql')
 			.send('select * where {?s ?p ?o} limit 1')

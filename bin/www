@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+var config = require('config');
+
 var app = require('./../app');
-var port = process.env.PORT || 3000; 
+var port = process.env.PORT || config.get('app.port'); 
 app.listen(port,function() {
 console.log('Listening on port ' + port);
 });
