@@ -86,6 +86,17 @@ describe('GET results from UPDATE canned queries, with basic auth', function() {
 			.auth('user','password')
 			.expect(200, done);
 	});
+	it('/update/toast returns 404', function(done) {
+		request(app)
+			.get('/update/toast')
+			.auth('user','password')
+			.expect(404, done);
+	});
+	it('/update/test without crendentials returns 401', function(done) {
+		request(app)
+			.get('/update/test')
+			.expect(401, done);
+	});
 }); 
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
@@ -169,7 +180,6 @@ describe('Authentication', function() {
 	});
 
 });
-
 
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
