@@ -16,7 +16,7 @@
 		"defaultAccept" : {
 			"tables" : "application/sparql-results+json",
 			"graphs" : "text/turtle",
-			"update" : "application/json"
+			"update" : "text/html"
 		},
 		"port" : 3000,
 		"maxQueryLength" : 4000
