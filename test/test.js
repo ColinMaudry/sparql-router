@@ -24,7 +24,13 @@ describe('Basic tests', function() {
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
-
+	it('The configured endpoint returns 200 and CSV results', function(done) {
+		request(app)
+			.get('/tables/test') 
+			.set('Accept', 'text/csv')
+			.expect(200)
+			.expect('Content-Type', /csv/, done);
+	});
 	it('The configured endpoint has data loaded', function(done) {
 		request(app)
 			.get('/tables/test') 
@@ -76,6 +82,25 @@ describe('GET results from canned queries', function() {
 		request(app)
 			.get('/tables/test.xxx')
 			.expect(400, done);
+	});
+}); 
+
+describe('GET results from canned queries, passing variables', function() {
+	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
+		request(app)
+			.get('/tables/test?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Variable not applied successfully.");
+				}
+			})
+			.expect(200, done);
 	});
 }); 
 
