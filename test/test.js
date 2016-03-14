@@ -95,8 +95,6 @@ describe('GET results from canned queries, passing variables', function() {
 					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
-					console.log(JSON.stringify(response.body));
-
 					throw new Error("Variable not applied successfully.");
 				}
 			})
@@ -111,8 +109,6 @@ describe('GET results from canned queries, passing variables', function() {
 					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
-					console.log(JSON.stringify(response.body));
-
 					throw new Error("Variable not applied successfully.");
 				}
 			})
@@ -123,7 +119,7 @@ describe('GET results from canned queries, passing variables', function() {
 			.get('/tables/test3?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].obelix.value =="http://colin.maudry.com/ontologies/dgfr#" &&
 					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
