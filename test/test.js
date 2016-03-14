@@ -119,24 +119,8 @@ describe('GET results from canned queries, passing variables', function() {
 			.get('/tables/test3?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].obelix.value == "http://colin.maudry.com/ontologies/dgfr#" &&
-					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
-					return "Variable successfully replaced."; }
-				else {
-					console.log(JSON.stringify(response.body));
-
-					throw new Error("Longer variable was affected.");
-				}
-			})
-			.expect(200, done);
-	});
-	it('If present in the SELECT, the replaced variable is stripped.)', function(done) {
-		request(app)
-			.get('/tables/test3?$o="dgfr"')
-			.expect(function(response) {
-				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].obelix.value == "http://colin.maudry.com/ontologies/dgfr#" &&
-					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					response.body.results.bindings[0].obelix.value =="http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
 					console.log(JSON.stringify(response.body));
