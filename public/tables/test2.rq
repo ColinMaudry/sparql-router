@@ -1,0 +1,1 @@
+select * where {?s ?p ?under_score} limit 1
