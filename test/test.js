@@ -102,6 +102,38 @@ describe('GET results from canned queries, passing variables', function() {
 			})
 			.expect(200, done);
 	});
+	it('/tables/test2?$under_score="dgfr" returns 200 and single result', function(done) {
+		request(app)
+			.get('/tables/test2?$under_score="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Variable not applied successfully.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('Longer variable names are not replaced (?o replaced, not ?obelix)', function(done) {
+		request(app)
+			.get('/tables/test3?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
 }); 
 
 describe('GET results from UPDATE canned queries, with basic auth', function() {
