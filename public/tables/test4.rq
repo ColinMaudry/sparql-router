@@ -1,0 +1,1 @@
+select ?p ?o where {?s ?p ?o} limit 1

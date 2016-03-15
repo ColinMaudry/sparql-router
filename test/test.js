@@ -85,14 +85,14 @@ describe('GET results from canned queries', function() {
 	});
 }); 
 
-describe('GET results from canned queries, passing variables', function() {
+describe('GET results from canned queries, populating query variables', function() {
 	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
 		request(app)
 			.get('/tables/test?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
-					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
 					throw new Error("Variable not applied successfully.");
@@ -105,8 +105,8 @@ describe('GET results from canned queries, passing variables', function() {
 			.get('/tables/test2?$under_score="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].s.value =="http://colin.maudry.com/ontologies/dgfr#" &&
-					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
 					throw new Error("Variable not applied successfully.");
@@ -119,8 +119,24 @@ describe('GET results from canned queries, passing variables', function() {
 			.get('/tables/test3?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
-					response.body.results.bindings[0].obelix.value =="http://colin.maudry.com/ontologies/dgfr#" &&
-					response.body.results.bindings[0].p.value =="http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					response.body.results.bindings[0].obelix.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('Populated variables that are present in the SELECT clause are removed (no subquery support).', function(done) {
+		request(app)
+			.get('/tables/test4?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].o == undefined &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
 					return "Variable successfully replaced."; }
 				else {
 					console.log(JSON.stringify(response.body));
