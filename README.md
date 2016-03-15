@@ -24,6 +24,11 @@ This module solves the issue:
 - Supports content negotiation (via the `Accept` HTTP header)
 - Possibility to GET or POST SPARQL queries on `/sparql`
 
+A screenshot of the tests gives you an overview of the features:
+
+<img src="tests.png" style="width=500px"/>
+
+
 **Demo**
 
 An instance is deployed on Heroku, with API documentation:
