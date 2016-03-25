@@ -191,6 +191,20 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
+	it('An invalid query is rejected and not created.', function(done) {
+		request(app)
+			.post('/tables/new-with-error')
+			.auth('user','password')
+			.send('zelect * where {?s ?p ?o} limit 1')
+			.expect(400, done);
+	});
+	it('An empty query is rejected and not created.', function(done) {
+		request(app)
+			.post('/tables/new-with-error')
+			.auth('user','password')
+			.send('')
+			.expect(400, done);
+	});
 	it('POSTing a too big query returns a 413 Request too large.', function(done) {
 		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
 		while (bigQuery.length < config.get('app.maxQueryLength')) {

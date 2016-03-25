@@ -24,11 +24,9 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 */
 
-//Load custom configuration file
-
 express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
-
+app.disable('x-powered-by');
 
 app.use(express.static('public'));
 app.use(function(req, res, next) {
@@ -49,6 +47,7 @@ passport.use(new Strategy(
     }
     })
   );
+
 
 module.exports = app;
 
