@@ -5,6 +5,8 @@ var passport = require('passport');
 var Strategy = require('passport-http').BasicStrategy;
 var config = require('config');
 var cors = require('express-cors')
+var helmet = require('helmet');
+
 
 var routes = require("./lib/routes");
 
@@ -26,7 +28,9 @@ copies or substantial portions of the Software.
 
 express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
-app.disable('x-powered-by');
+
+//Security
+app.use(helmet());
 
 app.use(express.static('public'));
 app.use(function(req, res, next) {
