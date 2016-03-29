@@ -193,10 +193,17 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	});
 	it('An invalid query is rejected and not created.', function(done) {
 		request(app)
-			.post('/tables/new-with-error')
+			.post('/tables/new')
 			.auth('user','password')
 			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
+	});
+	it('The working query wasn\'t overriden by the bad one, and still works.', function(done) {
+		request(app)
+			.get('/tables/new')
+			.set('Accept', 'application/sparql-results+json')
+			.expect(200)
+			.expect('Content-Type', /json/, done);
 	});
 	it('An empty query is rejected and not created.', function(done) {
 		request(app)
