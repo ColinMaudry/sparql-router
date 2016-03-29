@@ -1,4 +1,4 @@
-# SPARQL router 0.1.0
+# SPARQL router 0.2.0
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
@@ -9,25 +9,22 @@
 This module solves the issue:
 
 1. You write the query and gives it a name (e.g. `biggest-asian-cities`)
-2. You save it under /tables or /graphs, depending on the query type (SELECT, CONSTRUCT, DESCRIBE)
+2. You save it under /tables, /graphs or /update, depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
 3. You give the URL to your fellow developer, picking the right format for their usage:
 	- `http:/yourhost/tables/biggest-asian-cities.csv` for manipulations as a spreadsheet
 	- `http:/yourhost/tables/biggest-asian-cities.json` as input for a Web app
-	- `http:/yourhost/tables/biggest-asian-cities.xml` if they are into XML...
+	- `http:/yourhost/tables/biggest-asian-cities.xml` if they are into XML
 4. They get fresh updated results from the store every time they hit the URL!
 
 ## Features
 
 - Exposes SPARQL queries as simple URLs, with choice of format
-- A canned query is a simple `.rq` file located in `/public/tables` or `/public/graphs` depending on the query type (SELECT, CONSTRUCT, DESCRIBE)
-- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name} or /graphs/{query-name} (if authenticated)
+- A canned query is a simple `.rq` file located in `/public/tables`, `/public/graphs` or `/public/update` depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
+- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name}, /graphs/{query-name} or /update/{query-name} (if authenticated)
 - Supports content negotiation (via the `Accept` HTTP header)
-- Possibility to GET or POST SPARQL queries on `/sparql`
+- Possibility to GET or POST SPARQL queries on `/sparql`, without saving it
 
-A screenshot of the tests gives you an overview of the features:
-
-<img src="tests.png" style="width=500px"/>
-
+[A screenshot of the tests as overview of the features](test/tests.png).
 
 **Demo**
 
@@ -81,7 +78,7 @@ If the endpoint is `http://mydomain.com/data/sparql`, `queryPath` must be `/data
 
 ### Test
 
-I haven't found a proper way to mock a triple store for testing purposes. As a consequence, I use Wikidata triple store.
+I haven't found a proper way to mock a triple store for testing purposes. I consequently use a remote triple store. That means the tests only work if the machine has Internet access.
 
 To run the tests:
 
@@ -91,11 +88,26 @@ npm test
 Tests rely on [mocha](http://mochajs.org/) and 
 [supertest](https://www.npmjs.com/package/supertest).
 
+## Start it
+
+```
+node bin/www
+```
+
 ## Use it
 
-To do
+See this wiki page for detailed instructions: [Using SPARQL router](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
+
+The API documentation can be found [here](http://sparql-router.herokuapp.com/) (development version). If you're running the app, at the root (/).
 
 ## Change log
+
+#### 0.2.0
+
+- Support for SPARQL Update queries (authenticated)
+- Possibility to populate query variable values via URL parameters
+- Queries created and updated via HTTP POST are tested before creation/update
+- Applied security best practices
 
 #### 0.1.0
 
