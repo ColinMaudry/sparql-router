@@ -19,9 +19,11 @@
 			"update" : "text/html"
 		},
 		"port" : 3000,
-		"publicScheme" : "https",
-		"publicHostname" : "sparql-router.heroku.com",
-		"publicPort" : "",
+		"public" : {
+			"scheme" : "https",
+			"hostname" : "sparql-router.heroku.com",
+			"port" : ""
+			},
 		"maxQueryLength" : 4000
 	},
 

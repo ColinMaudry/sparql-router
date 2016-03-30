@@ -19,10 +19,10 @@ This module solves the issue:
 ## Features
 
 - Exposes SPARQL queries as simple URLs, with choice of format
-- A canned query is a simple `.rq` file located in `/public/tables`, `/public/graphs` or `/public/update` depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
-- Besides FTP and SSH, you can POST a new canned query to /tables/{query-name}, /graphs/{query-name} or /update/{query-name} (if authenticated)
+- A canned query is a simple file located in `/public/tables`, `/public/graphs` or `/public/update` depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
+- Besides FTP and SSH, you can POST a new canned query to `/tables/{query-name}`, `/graphs/{query-name}` or `/update/{query-name}` (if authenticated)
 - Supports content negotiation (via the `Accept` HTTP header)
-- Possibility to GET or POST SPARQL queries on `/sparql`, without saving it
+- Possibility to GET or POST a SPARQL query on `/sparql` and get the results, without saving it
 
 [A screenshot of the tests as overview of the features](test/tests.png).
 
@@ -107,6 +107,7 @@ The API documentation can be found [here](http://sparql-router.herokuapp.com/) (
 - Support for SPARQL Update queries (authenticated)
 - Possibility to populate query variable values via URL parameters
 - Queries created and updated via HTTP POST are tested before creation/update
+- The URL of the query is returned when creating or updating a query
 - Applied security best practices
 
 #### 0.1.0
