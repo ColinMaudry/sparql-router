@@ -78,6 +78,19 @@ describe('GET results from canned queries', function() {
 			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
 			.expect(200, done);
 	});
+	it('/tables/test with Accept:text/csv returns text/csv.', function(done) {
+		request(app)
+			.get('/tables/test')
+			.set('Accept', 'text/csv')
+			.expect('Content-Type', /text\/csv/) 
+			.expect(200, done);
+	});
+	it('/tables/test with Accept:random/type returns 400.', function(done) {
+		request(app)
+			.get('/tables/test')			
+			.set('Accept', 'random/type')
+			.expect(400, done);
+	});
 	it('/tables/test.xxx returns 400', function(done) {
 		request(app)
 			.get('/tables/test.xxx')
