@@ -33,7 +33,13 @@ This module solves the issue:
 
 [Detailed usage documentation](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
 
-**Demo**
+**[Upcoming features](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+-label%3Abug)**
+
+**[Known issues](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug)**
+
+Now it's still jut a useful middleman between your RDF data and your data consumers, but the objective is to develop an open platform to share SPARQL queries on any endpoint. With [a nice UI](https://github.com/ColinMaudry/sparql-router-ui).
+
+## Demo
 
 An instance is deployed on Heroku, with API documentation:
 
@@ -43,15 +49,9 @@ You can create new queries through this form. Authentication is disabled in the 
 
 https://sparql-router.herokuapp.com/#!/canned_query/post_tablesOrGraphs_name
 
-**[Upcoming features](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+-label%3Abug)**
-
-**[Known issues](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug)**
-
-Now it's still jut a useful middleman between your RDF data and your data consumers, but the objective is to develop an open platform to share SPARQL queries on any endpoint. With [a nice UI](https://github.com/ColinMaudry/sparql-router-ui).
-
 ## Requirements
 
-[NodeJS and NPM](https://nodejs.org/en/download/stable/) must be installed.
+[NodeJS (4.x or 5.x) and NPM](https://nodejs.org/en/download/stable/) must be installed.
 
 They are also available in most Linux package managers as `nodejs` and `npm`.
 
