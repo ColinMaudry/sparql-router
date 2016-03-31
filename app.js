@@ -1,14 +1,17 @@
-var express = require('express');
-var app = express();
-var fs = require('fs');
+var Strategy = require('passport-http').BasicStrategy
 var passport = require('passport');
-var Strategy = require('passport-http').BasicStrategy;
+var cors = require('express-cors');
+var express = require('express');
 var config = require('config');
-var cors = require('express-cors')
 var helmet = require('helmet');
-
+var debug = require('debug');
+var fs = require('fs');
+var app = express();
 
 var routes = require("./lib/routes");
+
+//My functions
+var functions = require('./lib/functions');
 
 /*
 MIT License (MIT)
@@ -26,6 +29,18 @@ The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 */
 
+//Update API documentation configuration
+var apiConfigFile = "./public/swagger.json";
+var apiConfig = require(apiConfigFile);
+apiConfig.host = config.get('app.public.hostname') + functions.getPublicPort();
+apiConfig.schemes = [];
+apiConfig.schemes.push(config.get('app.public.scheme'));
+fs.writeFile(apiConfigFile, JSON.stringify(apiConfig), function (err) {
+  if (err) return console.log(err);
+  debug('Writing API configuration to ' + apiConfigFile);
+});
+
+//Mapping content-types with file extensions
 express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
 
