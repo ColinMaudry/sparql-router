@@ -66,6 +66,13 @@ describe('GET results from canned queries', function() {
 			.get('/tables/random') 
 			.expect(404, done);
 	});
+	it('/tables/test.csv with Accept:application/json returns text/csv results', function(done) {
+		request(app)
+			.get('/tables/test.csv')
+			.set('Accept','application/json')
+			.expect('Content-Type', /text\/csv/) 
+			.expect(200, done);
+	});
 	it('/tables/test.csv returns text/csv results', function(done) {
 		request(app)
 			.get('/tables/test.csv')
@@ -85,16 +92,16 @@ describe('GET results from canned queries', function() {
 			.expect('Content-Type', /text\/csv/) 
 			.expect(200, done);
 	});
-	it('/tables/test with Accept:random/type returns 400.', function(done) {
+	it('/tables/test with Accept:random/type returns error 406.', function(done) {
 		request(app)
 			.get('/tables/test')			
 			.set('Accept', 'random/type')
-			.expect(400, done);
+			.expect(406, done);
 	});
-	it('/tables/test.xxx returns 400', function(done) {
+	it('/tables/test.xxx returns error 406', function(done) {
 		request(app)
 			.get('/tables/test.xxx')
-			.expect(400, done);
+			.expect(406, done);
 	});
 }); 
 
