@@ -1,8 +1,8 @@
-var request = require('supertest');
-var fs = require('fs');
 var http = require('follow-redirects').http;
-var app = require('./../app');
+var request = require('supertest');
 var config = require('config');
+var app = require('./../app');
+var fs = require('fs');
 
 before(function() {
   process.env.NODE_ENV = 'test';
