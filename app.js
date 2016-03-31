@@ -35,7 +35,7 @@ var apiConfig = require(apiConfigFile);
 apiConfig.host = config.get('app.public.hostname') + functions.getPublicPort();
 apiConfig.schemes = [];
 apiConfig.schemes.push(config.get('app.public.scheme'));
-fs.writeFile(apiConfigFile, JSON.stringify(apiConfig), function (err) {
+fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
   if (err) return console.log(err);
   debug('Writing API configuration to ' + apiConfigFile);
 });
