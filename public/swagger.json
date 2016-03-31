@@ -23,7 +23,7 @@
         "application/n-triples"
     ],
     "paths": {
-        "/{tablesOrGraphs}/{name}{extension}": {
+        "/{queryType}/{name}{extension}": {
             "get": {
                 "tags": [
                     "canned query"
@@ -32,9 +32,9 @@
                 "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n\n\n**The returned format depends on the chosen extension**. See valid extensions [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n\n\nExamples:\n\n\n- [/tables/test.csv](/tables/test.csv)\n- [/graphs/test.ttl](/tables/test.csv)\n",
                 "parameters": [
                     {
-                        "name": "tablesOrGraphs",
+                        "name": "queryType",
                         "in": "path",
-                        "description": "Either `tables` or `graphs` depending on the type of query.",
+                        "description": "Either `tables`, `graphs` or `update` depending on the type of query.",
                         "type": "string",
                         "required": true
                     },
@@ -78,7 +78,7 @@
                 }
             }
         },
-        "/{tablesOrGraphs}/{name}": {
+        "/{queryType}/{name}": {
             "get": {
                 "summary": "Query that returns the results of a SPARQL query. The Accept header determines the requested format.",
                 "description": "The queries in `/tables` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\n\nThe queries in `/graphs` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n**The returned format depends on the chosen content-type**. See possible content-types [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).\n",
@@ -87,9 +87,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "tablesOrGraphs",
+                        "name": "queryType",
                         "in": "path",
-                        "description": "Either `tables` or `graphs` depending on the type of query.",
+                        "description": "Either `tables`, `graphs` or `update` depending on the type of query.",
                         "type": "string",
                         "required": true
                     },
@@ -128,9 +128,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "tablesOrGraphs",
+                        "name": "queryType",
                         "in": "path",
-                        "description": "Either `tables` or `graphs` depending on the type of query.",
+                        "description": "Either `tables`, `graphs` or `update` depending on the type of query.",
                         "type": "string",
                         "required": true
                     },
@@ -187,9 +187,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "tablesOrGraphs",
+                        "name": "queryType",
                         "in": "path",
-                        "description": "Either `tables` or `graphs` depending on the type of query.",
+                        "description": "Either `tables`, `graphs` or `update` depending on the type of query.",
                         "type": "string",
                         "required": true
                     },
@@ -338,9 +338,5 @@
                 }
             }
         }
-    },
-    "host": "sparql-router.heroku.com",
-    "schemes": [
-        "https"
-    ]
+    }
 }

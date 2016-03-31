@@ -4,16 +4,16 @@ info:
   description: >
     SPARQL router serves SPARQL query results for developers and data fanatics
     who don't know the SPARQL language.
-    
+
+
 
     See more on the [README](https://github.com/ColinMaudry/sparql-router).
-    
-    
-    [YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec, writter with [Swagger Editor](http://editor.swagger.io/).
+
+
+
+    [YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec,
+    written with [Swagger Editor](http://editor.swagger.io/).
   version: 0.1.0
-host: sparql-router.herokuapp.com
-schemes:
-  - https
 securityDefinitions:
   basicAuth:
     type: basic
@@ -29,7 +29,7 @@ produces:
   - application/ld+json
   - application/n-triples
 paths:
-  '/{tablesOrGraphs}/{name}{extension}':
+  '/{queryType}/{name}{extension}':
     get:
       tags:
         - canned query
@@ -40,6 +40,7 @@ paths:
         XML.
 
 
+
         The queries in `/graphs` return graph data, or [RDF
         triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
         form of `subject predicate object` statements. These results are
@@ -48,21 +49,24 @@ paths:
         or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
 
 
+
         **The returned format depends on the chosen extension**. See valid
         extensions
         [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
-        
+
+
 
         Examples:
-        
-        
+
+
+
         - [/tables/test.csv](/tables/test.csv)
 
         - [/graphs/test.ttl](/tables/test.csv)
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -92,13 +96,14 @@ paths:
           description: Extension not valid.
         '404':
           description: "The query doesn't exist."
-  '/{tablesOrGraphs}/{name}':
+  '/{queryType}/{name}':
     get:
       summary: Query that returns the results of a SPARQL query. The Accept header determines the requested format.
       description: >
         The queries in `/tables` return tabular data, that is data in columns,
         with column headers. These results are typically returned as JSON, CSV or
         XML.
+
 
 
         The queries in `/graphs` return graph data, or [RDF
@@ -114,9 +119,9 @@ paths:
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -145,9 +150,11 @@ paths:
         The new query must be passed in the body of the request.
 
 
+
         If you `POST` to `/tables`, the query must be
         a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and
         consequently return tabular data.
+
 
 
         If you `POST` to `/graphs`, the query must be
@@ -157,9 +164,9 @@ paths:
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -195,9 +202,9 @@ paths:
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
