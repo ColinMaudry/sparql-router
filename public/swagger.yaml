@@ -145,6 +145,8 @@ paths:
             $ref: '#/definitions/JsonResults'
         '404':
           description: "The query doesn't exist."
+        '406':
+          description: The provided content-type is not valid for this type of query.
     post:
       summary: Creates a new query or updates an existing one.
       description: >-
@@ -239,7 +241,7 @@ paths:
           type: string
       responses:
         '200':
-          description: The update was successfully performed.
+          description: The update was successfully performed. The code can vary as it depends on the SPARQL endpoint configuration.
           schema:
             $ref: '#/definitions/JsonResults'
         '400':

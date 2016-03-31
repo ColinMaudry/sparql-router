@@ -117,6 +117,9 @@
                     },
                     "404": {
                         "description": "The query doesn't exist."
+                    },
+                    "406": {
+                        "description": "The provided content-type is not valid for this type of query."
                     }
                 }
             },
@@ -237,7 +240,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "The update was successfully performed.",
+                        "description": "The update was successfully performed. The code can vary as it depends on the SPARQL endpoint configuration.",
                         "schema": {
                             "$ref": "#/definitions/JsonResults"
                         }
