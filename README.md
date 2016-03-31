@@ -1,6 +1,10 @@
-# SPARQL router 0.2.0
+# SPARQL router 0.2.0 
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
+
+| [master](https://github.com/ColinMaudry/sparql-router)  |  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) |
+| ------------- | ------------- |
+| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)  |
 
 ## Description
 
