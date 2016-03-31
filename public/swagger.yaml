@@ -66,7 +66,7 @@ paths:
       parameters:
         - name: queryType
           in: path
-          description: Either `tables`, `graphs` or `update` depending on the type of query.
+          description: Either `tables` or `graphs` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -116,12 +116,13 @@ paths:
         **The returned format depends on the chosen content-type**. See possible
         content-types
         [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
+        
       tags:
         - canned query
       parameters:
         - name: queryType
           in: path
-          description: Either `tables`, `graphs` or `update` depending on the type of query.
+          description: Either `tables` or `graphs` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -219,6 +220,30 @@ paths:
           description: "The specified query doesn't exist."
         '500':
           description: There was an error deleting the query.
+      security:
+        - basicAuth: []
+  '/update/{name}':
+    get:
+      summary: Query that executes a SPARQL Update query.
+      description: >
+        The queries in `/update` execute a SPARQL Update query on the configured SPARQL endpoint. A SPARQL Update query does not return data.
+        
+        The HTTP status code of the response determines whether the update was successful or not.
+      tags:
+        - canned query
+      parameters:
+        - name: name
+          in: path
+          description: The name of the query to trigger.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The update was successfully performed.
+          schema:
+            $ref: '#/definitions/JsonResults'
+        '400':
+          description: "There was an error with the executed SPARQL Update query."
       security:
         - basicAuth: []
   /sparql:
