@@ -70,29 +70,7 @@ npm install sparql-router --production
 
 ## Configuration
 
-The configuration sits in [`config/default.json`](config/default.json). The default configuration queries the repository where I store [the data.gouv.fr (dgfr:) ontology](https://github.com/ColinMaudry/datagouvfr-rdf/blob/master/ontology/dgfr.ttl). This is also the data that I use for the tests.
-
-[Certain actions](#actions-that-require-authentication) must be authenticated using the master user name and password:
-
-- `app.user`: the master user name
-- `app.password`: the master password
-
-The endpoint configuration, where you configure the default SPARQL endpoint to be used by the queries.
-
-- `endpoint.scheme`: whether the endpoint is reachable via http or https protocol.
-- `endpoint.hostname`: the address where the SPARQL endpoint is deployed. Example: `mydomain.com`
-- `endpoint.port`: the port number on which the SPARQL endpoint runs. 
-- `endpoint.queryPath`: this is the path used to make the full endpoint URL.
-If the endpoint is `http://mydomain.com/data/sparql`, `queryPath` must be `/data/sparql`.
-- `endpoint.queryParameterName`: When passing a custom query to a SPARQL endpoint, you must use a URL parameter (Example: `http://mydomain.com/data/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201`). It's usally `query`, but in case your endpoint uses a different parameter name, you can change it here. 
-- `endpoint.headers`: an object in which you can add custom headers that will be sent with all SPARQL queries to the configured endpoint.
-- `app.defaultAccept`: when no `Accept` format is provided by the user request, these content types are requested by default
-
-Although it's only necessary for the API documentation and having helpful feedback when creating a query, you should configure the public facing URL (the URL your users hit to use the API):
-
-- `app.public.scheme`: whether the API is reachable via http or https protocol.
-- `app.public.hostname`: the domain where the API is deployed.
-- `app.public.port`: the port through which the API is reachable. If it's 80 (http) or 443 (https) you can leave it empty.
+[On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router).
 
 ### Test
 
@@ -134,9 +112,10 @@ The actions that are not read-only on the canned queries or the data require [ba
 #### 0.2.0
 
 - Support for SPARQL Update queries (requires authentication)
-- Possibility to populate query variable values via URL parameters!
+- Possibility to populate query variable values via URL parameters! ([#10](https://github.com/ColinMaudry/sparql-router/issues/10))
 - Queries created and updated via HTTP POST are tested before creation/update
 - The URL of the query is returned when creating or updating a query
+- More useful error messages
 - Applied NodeJS security best practices (with [helmet](https://www.npmjs.com/package/helmet))
 
 #### 0.1.0
