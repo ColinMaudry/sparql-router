@@ -191,7 +191,7 @@ paths:
         '201':
           description: 'The query was successfully **created**.'
         '400':
-          description: The `POST` request body is empty.
+          description: The `POST` request body is empty or the syntax of the submitted query is invalid.
         '401':
           description: The provided credientials are not valid.
         '413':
@@ -325,3 +325,4 @@ definitions:
             type: string
           value:
             type: string
+add

@@ -165,7 +165,7 @@
                         "description": "The query was successfully **created**."
                     },
                     "400": {
-                        "description": "The `POST` request body is empty."
+                        "description": "The `POST` request body is empty or the syntax of the submitted query is invalid."
                     },
                     "401": {
                         "description": "The provided credientials are not valid."
@@ -375,5 +375,9 @@
                 }
             }
         }
-    }
+    },
+    "host": "sparql-router.heroku.com",
+    "schemes": [
+        "https"
+    ]
 }
