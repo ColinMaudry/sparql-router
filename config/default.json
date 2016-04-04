@@ -2,9 +2,11 @@
 {
 	"endpoint" : {
 		"scheme" : "http",
-		"hostname": "www.data.maudry.com",
+		"hostname": "queery.link",
 		"port":"3030",
-		"queryPath": "/test/sparql",
+		"user" : "",
+		"password" : "",
+		"queryPath": "/test/query",
 		"updatePath": "/test/update",
 		"queryParameterName": "query",
 		"updateParameterName": "update",
