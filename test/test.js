@@ -4,9 +4,8 @@ var config = require('config');
 var app = require('./../app');
 var fs = require('fs');
 
-before(function() {
-  process.env.NODE_ENV = 'test';
-});
+console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.NODE_ENV + ".json)");
+
 
 describe('Basic tests', function() {
 
