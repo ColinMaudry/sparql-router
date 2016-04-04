@@ -57,16 +57,13 @@ They are also available in most Linux package managers as `nodejs` and `npm`.
 
 ## Installation
 
-With the test framework:
-
 ```bash
-npm install sparql-router 
+git clone https://github.com/ColinMaudry/sparql-router.git
+cd sparql-router
+npm install
 ```
 
-Without:
-```bash
-npm install sparql-router --production
-```
+SPARQL router is also available as an [NPM package](https://www.npmjs.com/package/sparql-router).
 
 ## Configuration
 
