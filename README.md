@@ -1,4 +1,4 @@
-# SPARQL router 0.2.0 
+# SPARQL router 0.2.1
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
@@ -45,13 +45,13 @@ Now it's still jut a useful middleman between your RDF data and your data consum
 
 ## Demo
 
-An instance is deployed on Heroku, with API documentation:
+An instance, with [the develop branch](https://github.com/ColinMaudry/sparql-router/tree/develop), is deployed on Heroku, with API documentation:
 
 https://sparql-router.herokuapp.com
 
-You can create new queries through this form. Authentication is disabled in the demo:
+You can create new queries through this form and have fun. Authentication is disabled in the demo:
 
-https://sparql-router.herokuapp.com/#!/canned_query/post_tablesOrGraphs_name
+http://sparql-router.herokuapp.com/#!/canned_query/post_queryType_name
 
 ## Requirements
 
