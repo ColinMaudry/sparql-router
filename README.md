@@ -76,6 +76,8 @@ npm install sparql-router --production
 
 I haven't found a proper way to mock a triple store for testing purposes. I consequently use a remote triple store. That means the tests only work if the machine has Internet access.
 
+The configuration used for the tests is stored in `[app folder]/config/test.json`.
+
 To run the tests:
 
 ```bash
@@ -114,7 +116,9 @@ The actions that are not read-only on the canned queries or the data require [ba
 - Support for SPARQL Update queries (requires authentication)
 - Possibility to populate query variable values via URL parameters! ([#10](https://github.com/ColinMaudry/sparql-router/issues/10))
 - Queries created and updated via HTTP POST are tested before creation/update
+- Possibility to setup user:password for the configured endpoint (Basic authentication)
 - The URL of the query is returned when creating or updating a query
+- Tested on Fuseki 2.x, [Dydra](http://dydra.com), [Stardog 4.0.5](http://stardog.com/), [OpenLink Virtuoso (LOD cache)](http://lod.openlinksw.com/sparql)
 - More useful error messages
 - Applied NodeJS security best practices (with [helmet](https://www.npmjs.com/package/helmet))
 
@@ -127,7 +131,7 @@ The actions that are not read-only on the canned queries or the data require [ba
 - Basic auth for POST and DELETE
 - API doc written in Swagger
 - Support for HTTPS endpoints
-- CORS enabled
+- CORS support
 
 ## License
 
