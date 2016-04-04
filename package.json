@@ -1,6 +1,6 @@
 {
   "name": "sparql-router",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An API layer in front of a SPARQL endpoint in order to serve canned queries, and more.",
   "keywords": [
     "sparql",
