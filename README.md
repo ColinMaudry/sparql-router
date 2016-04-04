@@ -20,6 +20,10 @@ This module solves the issue:
 	- `http:/yourhost/tables/biggest-asian-cities.xml` if they are into XML
 4. They get fresh updated results from the store every time they hit the URL!
 
+![Create a query](https://www.lucidchart.com/publicSegments/view/0ea72916-0669-4b70-b388-dae7973c51b6/image.png)
+
+![Get query results](https://www.lucidchart.com/publicSegments/view/7a81dea2-5876-49b1-b6fe-4d9771da152a/image.png)
+
 ## Features
 
 - Exposes SPARQL queries as simple URLs, with choice of result format
@@ -31,7 +35,7 @@ This module solves the issue:
 
 [A screenshot of the tests as overview of the features](test/tests.png).
 
-[Detailed usage documentation](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
+[Configuration](https://github.com/ColinMaudry/sparql-router/wiki/Configuring-SPARQL-router) and [detailed usage documentation](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
 
 **[Upcoming features](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+-label%3Abug)**
 
@@ -67,7 +71,7 @@ SPARQL router is also available as an [NPM package](https://www.npmjs.com/packag
 
 ## Configuration
 
-[On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router).
+[On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Configuring-SPARQL-router).
 
 ### Test
 
