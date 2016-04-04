@@ -1,11 +1,15 @@
 
 {
 	"endpoint" : {
-		"scheme" : "https",
-		"hostname": "query.wikidata.org",
-		"port": "",
-		"queryPath": "/sparql",
+		"scheme" : "http",
+		"hostname": "queery.link",
+		"port":"5820",
+		"user" : "admin",
+		"password" : "admin",
+		"queryPath": "/dgfr/query",
+		"updatePath": "/dgfr/update",
 		"queryParameterName": "query",
+		"updateParameterName": "query",
 		"headers": {}
 	},
 	"app" : {
@@ -13,9 +17,15 @@
 		"password": "password",
 		"defaultAccept" : {
 			"tables" : "application/sparql-results+json",
-			"graphs" : "text/turtle"
+			"graphs" : "text/turtle",
+			"update" : "text/html"
 		},
 		"port" : 3000,
+		"public" : {
+			"scheme" : "https",
+			"hostname" : "sparql-router.heroku.com",
+			"port" : ""
+			},
 		"maxQueryLength" : 4000
 	},
 
@@ -36,6 +46,11 @@
 			"jsonld" : "application/ld+json",
 			"nt" : "application/n-triples",
 			"json" : "application/ld+json"
+		},
+		"update" : {
+			"json" : "application/json",
+			"txt" : "text/plain"
+
 		}		
 
 	}

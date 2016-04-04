@@ -2,14 +2,14 @@
 {
 	"endpoint" : {
 		"scheme" : "http",
-		"hostname": "queery.link",
-		"port":"3030",
+		"hostname": "lod.openlinksw.com",
+		"port":"",
 		"user" : "",
 		"password" : "",
-		"queryPath": "/test/query",
-		"updatePath": "/test/update",
+		"queryPath": "/sparql",
+		"updatePath": "/sparql",
 		"queryParameterName": "query",
-		"updateParameterName": "update",
+		"updateParameterName": "query",
 		"headers": {}
 	},
 	"app" : {

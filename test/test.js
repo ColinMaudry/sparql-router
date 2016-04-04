@@ -1,12 +1,11 @@
-var request = require('supertest');
-var fs = require('fs');
 var http = require('follow-redirects').http;
-var app = require('./../app');
+var request = require('supertest');
 var config = require('config');
+var app = require('./../app');
+var fs = require('fs');
 
-before(function() {
-  process.env.NODE_ENV = 'test';
-});
+console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.NODE_ENV + ".json)");
+
 
 describe('Basic tests', function() {
 
@@ -21,10 +20,16 @@ describe('Basic tests', function() {
 		request(app)
 			.get('/tables/test') 
 			.set('Accept', 'application/sparql-results+json')
-			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /json/, done);
 	});
-
+	it('The configured endpoint returns 200 and CSV results', function(done) {
+		request(app)
+			.get('/tables/test') 
+			.set('Accept', 'text/csv')
+			.expect(200)
+			.expect('Content-Type', /csv/, done);
+	});
 	it('The configured endpoint has data loaded', function(done) {
 		request(app)
 			.get('/tables/test') 
@@ -60,6 +65,13 @@ describe('GET results from canned queries', function() {
 			.get('/tables/random') 
 			.expect(404, done);
 	});
+	it('/tables/test.csv with Accept:application/json returns text/csv results', function(done) {
+		request(app)
+			.get('/tables/test.csv')
+			.set('Accept','application/json')
+			.expect('Content-Type', /text\/csv/) 
+			.expect(200, done);
+	});
 	it('/tables/test.csv returns text/csv results', function(done) {
 		request(app)
 			.get('/tables/test.csv')
@@ -72,10 +84,106 @@ describe('GET results from canned queries', function() {
 			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
 			.expect(200, done);
 	});
-	it('/tables/test.xxx returns 400', function(done) {
+	it('/tables/test with Accept:text/csv returns text/csv.', function(done) {
+		request(app)
+			.get('/tables/test')
+			.set('Accept', 'text/csv')
+			.expect('Content-Type', /text\/csv/) 
+			.expect(200, done);
+	});
+	it('/tables/test with Accept:random/type returns error 406.', function(done) {
+		request(app)
+			.get('/tables/test')			
+			.set('Accept', 'random/type')
+			.expect(406, done);
+	});
+	it('/tables/test.xxx returns error 406', function(done) {
 		request(app)
 			.get('/tables/test.xxx')
-			.expect(400, done);
+			.expect(406, done);
+	});
+}); 
+
+describe('GET results from canned queries, populating query variables', function() {
+	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
+		request(app)
+			.get('/tables/test?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					throw new Error("Variable not applied successfully.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('/tables/test2?$under_score="dgfr" returns 200 and single result', function(done) {
+		request(app)
+			.get('/tables/test2?$under_score="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					throw new Error("Variable not applied successfully.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('Longer variable names are not replaced (?o replaced, not ?obelix)', function(done) {
+		request(app)
+			.get('/tables/test3?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].obelix.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('Populated variables that are present in the SELECT clause are removed (no subquery support).', function(done) {
+		request(app)
+			.get('/tables/test4?$o="dgfr"')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].o == undefined &&
+					response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
+}); 
+
+describe('GET results from UPDATE canned queries, with basic auth', function() {
+	it('/update/test returns 200', function(done) {
+		request(app)
+			.get('/update/test')
+			.auth('user','password')
+			.expect(200, done);
+	});
+	it('/update/toast returns 404', function(done) {
+		request(app)
+			.get('/update/toast')
+			.auth('user','password')
+			.expect(404, done);
+	});
+	it('/update/test without crendentials returns 401', function(done) {
+		request(app)
+			.get('/update/test')
+			.expect(401, done);
 	});
 }); 
 
@@ -99,8 +207,29 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 		request(app)
 			.get('/tables/new')
 			.set('Accept', 'application/sparql-results+json')
-			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /json/, done);
+	});
+	it('An invalid query is rejected and not created.', function(done) {
+		request(app)
+			.post('/tables/new')
+			.auth('user','password')
+			.send('zelect * where {?s ?p ?o} limit 1')
+			.expect(400, done);
+	});
+	it('The working query wasn\'t overriden by the bad one, and still works.', function(done) {
+		request(app)
+			.get('/tables/new')
+			.set('Accept', 'application/sparql-results+json')
+			.expect(200)
+			.expect('Content-Type', /json/, done);
+	});
+	it('An empty query is rejected and not created.', function(done) {
+		request(app)
+			.post('/tables/new-with-error')
+			.auth('user','password')
+			.send('')
+			.expect(400, done);
 	});
 	it('POSTing a too big query returns a 413 Request too large.', function(done) {
 		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
@@ -161,7 +290,6 @@ describe('Authentication', function() {
 
 });
 
-
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
 	it('GET queries to /sparql are passed through', function(done) {
@@ -186,8 +314,8 @@ describe('POST and GET queries in passthrough mode', function() {
 		request(app)
 			.post('/sparql')
 			.send('select * where {?s ?p ?o} limit 1')
-			.expect('Content-Type', /xml|json|csv/)
-			.expect(200, done);
+			.expect(200)
+			.expect('Content-Type', /xml|json|csv/, done);
 	});
 	it('POST queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)

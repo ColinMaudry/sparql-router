@@ -4,16 +4,16 @@ info:
   description: >
     SPARQL router serves SPARQL query results for developers and data fanatics
     who don't know the SPARQL language.
-    
+
+
 
     See more on the [README](https://github.com/ColinMaudry/sparql-router).
-    
-    
-    [YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec, writter with [Swagger Editor](http://editor.swagger.io/).
+
+
+
+    [YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec,
+    written with [Swagger Editor](http://editor.swagger.io/).
   version: 0.1.0
-host: sparql-router.herokuapp.com
-schemes:
-  - https
 securityDefinitions:
   basicAuth:
     type: basic
@@ -29,7 +29,7 @@ produces:
   - application/ld+json
   - application/n-triples
 paths:
-  '/{tablesOrGraphs}/{name}{extension}':
+  '/{queryType}/{name}{extension}':
     get:
       tags:
         - canned query
@@ -40,6 +40,7 @@ paths:
         XML.
 
 
+
         The queries in `/graphs` return graph data, or [RDF
         triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
         form of `subject predicate object` statements. These results are
@@ -48,19 +49,22 @@ paths:
         or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
 
 
+
         **The returned format depends on the chosen extension**. See valid
         extensions
         [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
-        
+
+
 
         Examples:
-        
-        
+
+
+
         - [/tables/test.csv](/tables/test.csv)
 
         - [/graphs/test.ttl](/tables/test.csv)
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
           description: Either `tables` or `graphs` depending on the type of query.
           type: string
@@ -92,13 +96,14 @@ paths:
           description: Extension not valid.
         '404':
           description: "The query doesn't exist."
-  '/{tablesOrGraphs}/{name}':
+  '/{queryType}/{name}':
     get:
       summary: Query that returns the results of a SPARQL query. The Accept header determines the requested format.
       description: >
         The queries in `/tables` return tabular data, that is data in columns,
         with column headers. These results are typically returned as JSON, CSV or
         XML.
+
 
 
         The queries in `/graphs` return graph data, or [RDF
@@ -111,10 +116,11 @@ paths:
         **The returned format depends on the chosen content-type**. See possible
         content-types
         [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
+        
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
           description: Either `tables` or `graphs` depending on the type of query.
           type: string
@@ -139,15 +145,19 @@ paths:
             $ref: '#/definitions/JsonResults'
         '404':
           description: "The query doesn't exist."
+        '406':
+          description: The provided content-type is not valid for this type of query.
     post:
       summary: Creates a new query or updates an existing one.
       description: >-
         The new query must be passed in the body of the request.
 
 
+
         If you `POST` to `/tables`, the query must be
         a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and
         consequently return tabular data.
+
 
 
         If you `POST` to `/graphs`, the query must be
@@ -157,9 +167,9 @@ paths:
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -181,7 +191,7 @@ paths:
         '201':
           description: 'The query was successfully **created**.'
         '400':
-          description: The `POST` request body is empty.
+          description: The `POST` request body is empty or the syntax of the submitted query is invalid.
         '401':
           description: The provided credientials are not valid.
         '413':
@@ -195,9 +205,9 @@ paths:
       tags:
         - canned query
       parameters:
-        - name: 'tablesOrGraphs'
+        - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: Either `tables`, `graphs` or `update` depending on the type of query.
           type: string
           required: true
         - name: name
@@ -212,6 +222,30 @@ paths:
           description: "The specified query doesn't exist."
         '500':
           description: There was an error deleting the query.
+      security:
+        - basicAuth: []
+  '/update/{name}':
+    get:
+      summary: Query that executes a SPARQL Update query.
+      description: >
+        The queries in `/update` execute a SPARQL Update query on the configured SPARQL endpoint. A SPARQL Update query does not return data.
+        
+        The HTTP status code of the response determines whether the update was successful or not.
+      tags:
+        - canned query
+      parameters:
+        - name: name
+          in: path
+          description: The name of the query to trigger.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The update was successfully performed. The code can vary as it depends on the SPARQL endpoint configuration.
+          schema:
+            $ref: '#/definitions/JsonResults'
+        '400':
+          description: "There was an error with the executed SPARQL Update query."
       security:
         - basicAuth: []
   /sparql:
@@ -291,3 +325,4 @@ definitions:
             type: string
           value:
             type: string
+add
