@@ -110,6 +110,13 @@ The actions that are not read-only on the canned queries or the data require [ba
 - HTTP DELETE to delete a query
 - HTTP GET  on the `/update` endpoint (because it affects the data)
 
+## Similar software
+
+If SPARQL router doesn't match your requirements, you can have a look at these solutions:
+
+- [The Datatank](https://github.com/tdt/) (PHP5) "The DataTank is open source software, which you can use to transform any dataset into an HTTP API."
+- [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."	
+
 ## Change log
 
 #### 0.2.0
