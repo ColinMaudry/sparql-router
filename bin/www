@@ -6,8 +6,13 @@ var app = require('./../app');
 var port = process.env.PORT || config.get('app.port'); 
 var usedConfig = process.env.NODE_ENV || "default";
 app.listen(port,function() {
-console.log('Listening on port ' + port);
-console.log('Configuration: /config/' + usedConfig + ".json");
+console.log(
+	'Listening on port ' + port + "\n"
+	+ 'Configuration: /config/' + usedConfig + ".json, which sets:\n\n" 
+	+ "Authentication enabled:........" + config.get('app.authentication') + "\n"
+	+ "Endpoint host:................." + config.get('endpoint.hostname') + "\n"
+	+ "Public app host:..............." + config.get('app.public.hostname') + "\n"
+	);
 
 });
   
