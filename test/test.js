@@ -6,7 +6,6 @@ var fs = require('fs');
 
 console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.NODE_ENV + ".json)");
 
-
 describe('Basic tests', function() {
 
 	it('App runs and / returns 200', function(done) {
