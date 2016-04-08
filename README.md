@@ -6,6 +6,16 @@
 | ------------- | ------------- |
 | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)  |
 
+
+<!-- |   |  |
+| ------------- | ------------- |
+| [Description](#description)  |  [Test](#test) |
+| [Features](#features)| [Start it](#start-it) |
+| [Demo](#demo)]  | [Use it](#use-it)  |
+| [Requirements](#requirements) | [Similar software](#similar-software) |
+| [Installation](#installation)| [Change log](#change-log) |
+| [Configuration](#configuration)| [License](#license)| -->
+
 ## Description
 
 [SPARQL](https://en.wikipedia.org/wiki/SPARQL) is the query language to retrieve data from RDF triple stores. I often had the issue that fellow developers or data fanatics asked for data that was in a triple store, but they don't know SPARQL.
@@ -119,6 +129,12 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 
 ## Change log
 
+##### 0.2.1
+
+- Improved installation instructions
+- Added pictures to explain how this thing works
+- Improved information about the demo
+
 #### 0.2.0
 
 - Support for SPARQL Update queries (requires authentication)
@@ -145,4 +161,4 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 
 MIT license
 
-If you use it, I really appreciate public statements such as [a tweet](https://twitter.com/intent/tweet?text=Wow%2C%20thanks%20%40CMaudry%20for%20making%20SPARQL%20router!%20https%3A%2F%2Fgithub.com%2FColinMaudry%2Fsparql-router%20%23SPARQL)!
+If you use it, I'd really appreciate a public statements such as [a tweet](https://twitter.com/intent/tweet?text=Wow%2C%20thanks%20%40CMaudry%20for%20making%20SPARQL%20router!%20https%3A%2F%2Fgithub.com%2FColinMaudry%2Fsparql-router%20%23SPARQL)!
