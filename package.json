@@ -1,6 +1,6 @@
 {
   "name": "sparql-router",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "An API layer in front of a SPARQL endpoint in order to serve canned queries, and more.",
   "keywords": [
     "sparql",
@@ -14,7 +14,8 @@
     "email": "colin@maudry.com"
   },
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "mocha test/test.js",
+    "start" : "node bin/www"
   },
   "author": {
     "name": "Colin Maudry",
