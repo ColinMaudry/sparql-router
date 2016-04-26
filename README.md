@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ColinMaudry/sparql-router.png?label=ready&title=Ready)](https://waffle.io/ColinMaudry/sparql-router)
 # SPARQL router 0.2.1
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
