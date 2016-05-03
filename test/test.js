@@ -14,24 +14,24 @@ describe('Basic tests', function() {
 			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
-	
+
 	it('The configured endpoint returns 200 and JSON SPARQL results', function(done) {
 		request(app)
-			.get('/tables/test') 
+			.get('/tables/test')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
 	it('The configured endpoint returns 200 and CSV results', function(done) {
 		request(app)
-			.get('/tables/test') 
+			.get('/tables/test')
 			.set('Accept', 'text/csv')
 			.expect(200)
 			.expect('Content-Type', /csv/, done);
 	});
 	it('The configured endpoint has data loaded', function(done) {
 		request(app)
-			.get('/tables/test') 
+			.get('/tables/test')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect(function(response) {
@@ -52,47 +52,47 @@ describe('Basic tests', function() {
 			.set('Content-Type','application/coffee-pot-command')
 			.expect(418, done)
 	});
-}); 
+});
 describe('GET results from canned queries', function() {
 	it('/random/random returns 404', function(done) {
 		request(app)
-			.get('/random/random') 
+			.get('/random/random')
 			.expect(404, done);
 	});
 	it('/tables/random returns 404', function(done) {
 		request(app)
-			.get('/tables/random') 
+			.get('/tables/random')
 			.expect(404, done);
 	});
 	it('/tables/test.csv with Accept:application/json returns text/csv results', function(done) {
 		request(app)
 			.get('/tables/test.csv')
 			.set('Accept','application/json')
-			.expect('Content-Type', /text\/csv/) 
+			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
 	it('/tables/test.csv returns text/csv results', function(done) {
 		request(app)
 			.get('/tables/test.csv')
-			.expect('Content-Type', /text\/csv/) 
+			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
 	it('/graphs/test.rdf returns application/rdf+xml or XML results.', function(done) {
 		request(app)
 			.get('/graphs/test.rdf')
-			.expect('Content-Type', /(\/xml|rdf\+xml)/) 
+			.expect('Content-Type', /(\/xml|rdf\+xml)/)
 			.expect(200, done);
 	});
 	it('/tables/test with Accept:text/csv returns text/csv.', function(done) {
 		request(app)
 			.get('/tables/test')
 			.set('Accept', 'text/csv')
-			.expect('Content-Type', /text\/csv/) 
+			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
 	it('/tables/test with Accept:random/type returns error 406.', function(done) {
 		request(app)
-			.get('/tables/test')			
+			.get('/tables/test')
 			.set('Accept', 'random/type')
 			.expect(406, done);
 	});
@@ -101,7 +101,7 @@ describe('GET results from canned queries', function() {
 			.get('/tables/test.xxx')
 			.expect(406, done);
 	});
-}); 
+});
 
 describe('GET results from canned queries, populating query variables', function() {
 	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
@@ -164,7 +164,21 @@ describe('GET results from canned queries, populating query variables', function
 			})
 			.expect(200, done);
 	});
-}); 
+	it('Variables can also populate a URI.).', function(done) {
+		request(app)
+			.get('/tables/test5?$namespace=<http://colin.maudry.com/ontologies/dgfr%23>&$property=<http://purl.org/vocab/vann/preferredNamespaceUri>')
+			.expect(function(response) {
+				if (response.body.results.bindings.length == 1 &&
+					response.body.results.bindings[0].ontology.value == "http://colin.maudry.com/ontologies/dgfr#") {
+					return "Variables successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
+});
 
 describe('GET results from UPDATE canned queries, with basic auth', function() {
 	it('/update/test returns 200', function(done) {
@@ -184,14 +198,14 @@ describe('GET results from UPDATE canned queries, with basic auth', function() {
 			.get('/update/test')
 			.expect(401, done);
 	});
-}); 
+});
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
 	it('POST a query update via data', function(done) {
 		request(app)
 			.post('/tables/test')
-			.auth('user','password')			
+			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200, done);
 	});
@@ -234,7 +248,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
 		while (bigQuery.length < config.get('app.maxQueryLength')) {
 			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
-		} 
+		}
 		request(app)
 			.post('/tables/new')
 			.auth('user','password')
@@ -259,7 +273,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.expect(404, done);
 	});
 
-}); 
+});
 
 //Only test authentication if it's on
 describe('Authentication', function() {
@@ -330,6 +344,3 @@ describe('POST and GET queries in passthrough mode', function() {
 			.expect(400, done);
 	});
 });
-
-
-
