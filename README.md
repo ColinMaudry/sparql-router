@@ -6,6 +6,16 @@
 | ------------- | ------------- |
 | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)  |
 
+
+<!-- |   |  |
+| ------------- | ------------- |
+| [Description](#description)  |  [Test](#test) |
+| [Features](#features)| [Start it](#start-it) |
+| [Demo](#demo)]  | [Use it](#use-it)  |
+| [Requirements](#requirements) | [Similar software](#similar-software) |
+| [Installation](#installation)| [Change log](#change-log) |
+| [Configuration](#configuration)| [License](#license)| -->
+
 ## Description
 
 [SPARQL](https://en.wikipedia.org/wiki/SPARQL) is the query language to retrieve data from RDF triple stores. I often had the issue that fellow developers or data fanatics asked for data that was in a triple store, but they don't know SPARQL.
@@ -87,7 +97,7 @@ npm test
 
 [Overview of the tests](test/tests.png).
 
-Tests rely on [mocha](http://mochajs.org/) and 
+Tests rely on [mocha](http://mochajs.org/) and
 [supertest](https://www.npmjs.com/package/supertest).
 
 ## Start it
@@ -110,7 +120,27 @@ The actions that are not read-only on the canned queries or the data require [ba
 - HTTP DELETE to delete a query
 - HTTP GET  on the `/update` endpoint (because it affects the data)
 
+## Similar software
+
+If SPARQL router doesn't match your requirements, you can have a look at these solutions:
+
+- [The Datatank](https://github.com/tdt/) (PHP5) "The DataTank is open source software, which you can use to transform any dataset into an HTTP API."
+- [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."
+
 ## Change log
+
+##### 0.2.2
+
+- Added extra info upon app startup (used config, endpoint, app URL, etc.)
+- App authentication can be disabled in configuration
+- README mentions the Datatank and BASIL alternatives
+- Added an `npm start` command for commodity
+
+##### 0.2.1
+
+- Improved installation instructions
+- Added pictures to explain how this thing works
+- Improved information about the demo
 
 #### 0.2.0
 
@@ -138,4 +168,4 @@ The actions that are not read-only on the canned queries or the data require [ba
 
 MIT license
 
-If you use it, I really appreciate public statements such as [a tweet](https://twitter.com/intent/tweet?text=Wow%2C%20thanks%20%40CMaudry%20for%20making%20SPARQL%20router!%20https%3A%2F%2Fgithub.com%2FColinMaudry%2Fsparql-router%20%23SPARQL)!
+If you use it, I'd really appreciate a public statements such as [a tweet](https://twitter.com/intent/tweet?text=Wow%2C%20thanks%20%40CMaudry%20for%20making%20SPARQL%20router!%20https%3A%2F%2Fgithub.com%2FColinMaudry%2Fsparql-router%20%23SPARQL)!

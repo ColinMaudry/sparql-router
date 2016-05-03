@@ -13,6 +13,7 @@
 		"headers": {}
 	},
 	"app" : {
+		"authentication" : true,
 		"user" : "user",
 		"password": "password",
 		"defaultAccept" : {

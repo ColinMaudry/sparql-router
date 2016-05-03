@@ -59,7 +59,13 @@ routes(app);
 //Authenticate user
 passport.use(new Strategy(
   function(username, password, cb) {
-    if (username === config.get("app.user")	&& password === config.get("app.password") && process.env.authentication === undefined) {
+    if (
+      config.get("app.authentication") === false ||
+      (config.get("app.authentication") === true &&
+      username === config.get("app.user") &&
+      password === config.get("app.password"))
+      )      
+       {      
     	return cb(null, username);
     } else {
     	return cb(null, false);
