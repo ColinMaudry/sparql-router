@@ -1,0 +1,6 @@
+PREFIX vann: <http://purl.org/vocab/vann/>
+
+SELECT ?ontology WHERE {
+	?ontology ?property ?namespace
+}
+LIMIT 10
