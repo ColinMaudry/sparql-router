@@ -97,7 +97,7 @@ npm test
 
 [Overview of the tests](test/tests.png).
 
-Tests rely on [mocha](http://mochajs.org/) and 
+Tests rely on [mocha](http://mochajs.org/) and
 [supertest](https://www.npmjs.com/package/supertest).
 
 ## Start it
@@ -125,9 +125,16 @@ The actions that are not read-only on the canned queries or the data require [ba
 If SPARQL router doesn't match your requirements, you can have a look at these solutions:
 
 - [The Datatank](https://github.com/tdt/) (PHP5) "The DataTank is open source software, which you can use to transform any dataset into an HTTP API."
-- [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."	
+- [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."
 
 ## Change log
+
+##### 0.2.2
+
+- Added extra info upon app startup (used config, endpoint, app URL, etc.)
+- App authentication can be disabled in configuration
+- README mentions the Datatank and BASIL alternatives
+- Added an `npm start` command for commodity
 
 ##### 0.2.1
 
