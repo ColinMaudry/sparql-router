@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha  test/test.js --check-leaks",
-    "start" : "node bin/www"
+    "start": "node bin/www"
   },
   "author": {
     "name": "Colin Maudry",
@@ -39,7 +39,9 @@
     "sparqljs": "^1.1.4"
   },
   "devDependencies": {
+    "codeclimate-test-reporter": "^0.3.1",
     "env-test": "^1.0.0",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "supertest": "^1.1.0"
   }

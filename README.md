@@ -1,4 +1,4 @@
-# SPARQL router 0.2.1
+# SPARQL router 0.3.0
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
@@ -65,7 +65,7 @@ http://sparql-router.herokuapp.com/#!/canned_query/post_queryType_name
 
 ## Requirements
 
-[NodeJS (4.x or 5.x) and NPM](https://nodejs.org/en/download/stable/) must be installed.
+[NodeJS (4.x, 5.x, 6.x) and NPM](https://nodejs.org/en/download/stable/) must be installed.
 
 They are also available in most Linux package managers as `nodejs` and `npm`.
 
