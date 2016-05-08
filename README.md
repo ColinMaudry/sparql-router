@@ -1,4 +1,4 @@
-# SPARQL router 0.3.0
+# SPARQL router [0.3.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.3.0+)
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
