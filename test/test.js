@@ -238,13 +238,6 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.send('describe ?s where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
-	it('PUT a update query update via data', function(done) {
-		request(app)
-			.put('/update/test')
-			.auth('user','password')
-			.send('INSERT DATA {graph <uri:test:graph> {<http://colin.maudry.com/me/rdf> <http://colin.maudry.com/vos#test> <http://queery.link>}')
-			.expect(200, done);
-	});
 	it('PUT a new tables query via data', function(done) {
 		request(app)
 			.put('/tables/new')
