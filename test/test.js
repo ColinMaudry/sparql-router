@@ -6,6 +6,10 @@ var fs = require('fs');
 
 console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.NODE_ENV + ".json)");
 
+//
+// Basic testing
+//
+
 describe('Basic tests', function() {
 
 	it('App runs and / returns 200', function(done) {
@@ -53,6 +57,11 @@ describe('Basic tests', function() {
 			.expect(418, done)
 	});
 });
+
+//
+// GET query results
+//
+
 describe('GET results from canned queries', function() {
 	it('/random/random returns 404', function(done) {
 		request(app)
@@ -102,6 +111,10 @@ describe('GET results from canned queries', function() {
 			.expect(406, done);
 	});
 });
+
+//
+// GET results and populating variables
+//
 
 describe('GET results from canned queries, populating query variables', function() {
 	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
@@ -180,6 +193,11 @@ describe('GET results from canned queries, populating query variables', function
 	});
 });
 
+
+//
+// GET UPDATE queries
+//
+
 describe('GET results from UPDATE canned queries, with basic auth', function() {
 	it('/update/test returns 200', function(done) {
 		request(app)
@@ -200,23 +218,41 @@ describe('GET results from UPDATE canned queries, with basic auth', function() {
 	});
 });
 
+//
+// PUT new queries or query updates
+//
+
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-	it('POST a query update via data', function(done) {
+	it('PUT a tables query update via data', function(done) {
 		request(app)
-			.post('/tables/test')
+			.put('/tables/test')
 			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200, done);
 	});
-	it('POST a new query via data', function(done) {
+	it('PUT a new graph query via data', function(done) {
 		request(app)
-			.post('/tables/new')
+			.put('/graphs/test-to-delete')
+			.auth('user','password')
+			.send('describe ?s where {?s ?p ?o} limit 1')
+			.expect(201, done);
+	});
+	it('PUT a update query update via data', function(done) {
+		request(app)
+			.put('/update/test')
+			.auth('user','password')
+			.send('INSERT DATA {graph <uri:test:graph> {<http://colin.maudry.com/me/rdf> <http://colin.maudry.com/vos#test> <http://queery.link>}')
+			.expect(200, done);
+	});
+	it('PUT a new tables query via data', function(done) {
+		request(app)
+			.put('/tables/new')
 			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
-	it('...and the POSTed query works', function(done) {
+	it('...and the POSTed tables query works', function(done) {
 		request(app)
 			.get('/tables/new')
 			.set('Accept', 'application/sparql-results+json')
@@ -225,7 +261,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	});
 	it('An invalid query is rejected and not created.', function(done) {
 		request(app)
-			.post('/tables/new')
+			.put('/tables/new')
 			.auth('user','password')
 			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
@@ -239,29 +275,42 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	});
 	it('An empty query is rejected and not created.', function(done) {
 		request(app)
-			.post('/tables/new-with-error')
+			.put('/tables/new-with-error')
 			.auth('user','password')
 			.send('')
 			.expect(400, done);
 	});
-	it('POSTing a too big query returns a 413 Request too large.', function(done) {
+	it('PUTing a too big query returns a 413 Request too large.', function(done) {
 		var bigQuery = "{select * where {?s ?p ?o} limit 1'}";
 		while (bigQuery.length < config.get('app.maxQueryLength')) {
 			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
 		}
 		request(app)
-			.post('/tables/new')
+			.put('/tables/new')
 			.auth('user','password')
 			.send(bigQuery)
 			.expect(413, done);
 	});
-	it('DELETE the new query, with credentials.', function(done) {
+	it('POSTing a query update is not the right method (405)', function(done) {
+		request(app)
+			.post('/tables/method')
+			.auth('user','password')
+			.send('select * where {?s ?p ?o} limit 10')
+			.expect(405, done);
+	});
+	it('DELETE the new tables query, with credentials.', function(done) {
 		request(app)
 			.delete('/tables/new')
 			.auth('user','password')
 			.expect(200, done);
 	});
-	it('The DELETEd new query is gone.', function(done) {
+	it('DELETE the new graphs query, with credentials.', function(done) {
+		request(app)
+			.delete('/graphs/test-to-delete')
+			.auth('user','password')
+			.expect(200, done);
+	});
+	it('The DELETEd new tables query is gone.', function(done) {
 		request(app)
 			.get('/tables/new')
 			.expect(404, done);
@@ -272,10 +321,12 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.auth('user','password')
 			.expect(404, done);
 	});
-
 });
 
-//Only test authentication if it's on
+//
+// Authentication
+//
+
 describe('Authentication', function() {
 	it('DELETE a query with no credentials returns 401.', function(done) {
 		request(app)
@@ -296,12 +347,16 @@ describe('Authentication', function() {
 	});
 	it('POST a new query with no credentials returns 401.', function(done) {
 		request(app)
-			.post('/tables/new')
+			.put('/tables/new')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(401, done);
 	});
 
 });
+
+//
+// POST and GET queries in passthrough mode
+//
 
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
