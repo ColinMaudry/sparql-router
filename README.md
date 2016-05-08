@@ -4,7 +4,7 @@
 
 | [master](https://github.com/ColinMaudry/sparql-router)  |  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) |
 | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router) [![Test Coverage](https://codeclimate.com/github/ColinMaudry/sparql-router/badges/coverage.svg)](https://codeclimate.com/github/ColinMaudry/sparql-router/coverage) | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)  |
+| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=master)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=master)| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)   [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=develop)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=develop) |
 
 
 <!-- |   |  |
