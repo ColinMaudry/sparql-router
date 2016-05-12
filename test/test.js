@@ -113,6 +113,38 @@ describe('GET results from canned queries', function() {
 });
 
 //
+// Hydra API vocabulary
+//
+describe('Describing API resources with Hydra vocabulary', function() {
+	it('The API documentation is available and with the right @id.', function(done) {
+		request(app)
+			.get('/hydra.jsonld')
+			.expect(function(response) {
+				if (response.body["@id"].indexOf(config.get('app.public.hostname'))) {
+					return "The context @id is good."; }
+				else {
+					throw new Error("No queries listed.");
+				}
+			})
+			.expect('Content-Type',/application\/ld\+json/)
+			.expect(200, done);
+	});
+	it('Get the list of /tables in JSON-LD format.', function(done) {
+		request(app)
+			.get('/tables/')
+			.expect(function(response) {
+				if (response.body.members.length > 0) {
+					return "The query collection has members."; }
+				else {
+					throw new Error("No queries listed.");
+				}
+			})
+			.expect('Content-Type',/application\/ld\+json/)
+			.expect(200, done)
+	});
+});
+
+//
 // GET results and populating variables
 //
 
@@ -360,6 +392,11 @@ describe('POST and GET queries in passthrough mode', function() {
 			.expect('Content-Type', /xml|json|csv/, done)
 
 	});
+	it('GET empty queries to /sparql returns 400', function(done) {
+		request(app)
+			.get('/sparql')
+			.expect(400, done);
+	});
 	it('GET queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)
 			.get('/query?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
@@ -377,6 +414,11 @@ describe('POST and GET queries in passthrough mode', function() {
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done);
+	});
+	it('POST empty queries to /sparql returns 400', function(done) {
+		request(app)
+			.post('/sparql')
+			.expect(400, done);
 	});
 	it('POST queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)
