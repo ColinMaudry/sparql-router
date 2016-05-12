@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.12% </span>
+        <span class="strong">91.49% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>32/34</span>
+        <span class='fraction'>43/47</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">37.5% </span>
+        <span class="strong">41.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/8</span>
+        <span class='fraction'>5/12</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.97% </span>
+        <span class="strong">97.73% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>32/33</span>
+        <span class='fraction'>43/44</span>
       </div>
     </div>
   </div>
@@ -122,7 +122,26 @@
 77
 78
 79
-80</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -167,15 +186,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">48×</span>
-<span class="cline-any cline-yes">48×</span>
-<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-yes">51×</span>
+<span class="cline-any cline-yes">51×</span>
+<span class="cline-any cline-yes">51×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -198,10 +237,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var Strategy = require('passport-http').BasicStrategy
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var Strategy = require('passport-http').BasicStrategy;
 var passport = require('passport');
 var cors = require('express-cors');
 var express = require('express');
@@ -243,9 +281,29 @@ fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
   debug('Writing API configuration to ' + apiConfigFile);
 });
 &nbsp;
+//Update Hydra context with actual URL
+var hydraContextFile = "./public/hydra.jsonld";
+var siteRootUrl = functions.getSiteRootUrl();
+fs.readFile(hydraContextFile,'utf8', function (err, data) {
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {<span class="cstat-no" title="statement not covered" >throw err}</span> else {
+    var hydraContext = JSON.parse(data);
+    hydraContext["@base"] = siteRootUrl + "/hydra.jsonld#";
+    hydraContext["@id"] = siteRootUrl + "/hydra.jsonld";
+    fs.writeFile(hydraContextFile, JSON.stringify(hydraContext, null, 4), function (err) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) <span class="cstat-no" title="statement not covered" >return console.log(err);</span>
+      debug('Writing Hydra context to ' + hydraContextFile);
+    });
+  };
+});
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
 //Mapping content-types with file extensions
 express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
+express.static.mime.define({'application/ld+json': ['jsonld']});
+&nbsp;
 &nbsp;
 //Security
 app.use(helmet());
@@ -267,8 +325,8 @@ passport.use(new Strategy(
       (<span class="branch-1 cbranch-no" title="branch not covered" >config.get("app.authentication") === true </span>&amp;&amp;
 <span class="branch-2 cbranch-no" title="branch not covered" >      username === config.get("app.user") </span>&amp;&amp;
 <span class="branch-3 cbranch-no" title="branch not covered" >      password === config.get("app.password"))</span>
-      )      
-       {      
+      )
+       {
     	return cb(null, username);
     } else {
 <span class="cstat-no" title="statement not covered" >    	return cb(null, false);</span>
@@ -277,16 +335,15 @@ passport.use(new Strategy(
   );
 &nbsp;
 &nbsp;
+&nbsp;
 module.exports = app;
-&nbsp;
-&nbsp;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 08 2016 18:52:11 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 12 2016 21:04:51 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../prettify.js"></script>
