@@ -1,4 +1,4 @@
-var Strategy = require('passport-http').BasicStrategy
+var Strategy = require('passport-http').BasicStrategy;
 var passport = require('passport');
 var cors = require('express-cors');
 var express = require('express');
@@ -40,9 +40,29 @@ fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
   debug('Writing API configuration to ' + apiConfigFile);
 });
 
+//Update Hydra context with actual URL
+var hydraContextFile = "./public/hydra.jsonld";
+var siteRootUrl = functions.getSiteRootUrl();
+fs.readFile(hydraContextFile,'utf8', function (err, data) {
+  if (err) {throw err} else {
+    var hydraContext = JSON.parse(data);
+    hydraContext["@base"] = siteRootUrl + "/hydra.jsonld#";
+    hydraContext["@id"] = siteRootUrl + "/hydra.jsonld";
+    fs.writeFile(hydraContextFile, JSON.stringify(hydraContext, null, 4), function (err) {
+      if (err) return console.log(err);
+      debug('Writing Hydra context to ' + hydraContextFile);
+    });
+  };
+});
+
+
+
+
 //Mapping content-types with file extensions
 express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
+express.static.mime.define({'application/ld+json': ['jsonld']});
+
 
 //Security
 app.use(helmet());
@@ -64,8 +84,8 @@ passport.use(new Strategy(
       (config.get("app.authentication") === true &&
       username === config.get("app.user") &&
       password === config.get("app.password"))
-      )      
-       {      
+      )
+       {
     	return cb(null, username);
     } else {
     	return cb(null, false);
@@ -74,6 +94,5 @@ passport.use(new Strategy(
   );
 
 
+
 module.exports = app;
-
-
