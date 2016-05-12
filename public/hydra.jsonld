@@ -3,26 +3,25 @@
         "http://www.w3.org/ns/hydra/context.jsonld",
         {}
     ],
-    "@base": "https://sparql-router.heroku.com/hydra.jsonld#",
+    "router": "https://sparql-router.heroku.com/hydra.jsonld#",
     "@id": "https://sparql-router.heroku.com/hydra.jsonld",
     "@type": "ApiDocumentation",
     "supportedClass": [
         {
-            "@id": "SparqlQuery",
+            "@id": "router:SparqlQuery",
             "@type": "Class",
             "subClassOf": "Resource",
-            "label": "Query",
+            "label": "router:Query",
             "description": "A SPARQL query that was saved on the server and that can be triggered with a GET call.",
             "supportedOperation": [
                 {
-                    "@id": "getQueryResults",
+                    "@id": "router:getQueryResults",
                     "@type": "Operation",
                     "method": "GET",
                     "label": "Triggers the canned query and returns the query results.",
-                    "returns": "QueryResults"
                 },
                 {
-                    "@id": "createOrUpdateQuery",
+                    "@id": "router:createOrUpdateQuery",
                     "@type": "Operation",
                     "method": "PUT",
                     "label": "Receives a SPARQL query as text and creates or updates a query.",
@@ -38,7 +37,7 @@
                     ]
                 },
                 {
-                    "@id": "deleteQuery",
+                    "@id": "router:deleteQuery",
                     "@type": "Operation",
                     "method": "DELETE",
                     "label": "Deletes an existing query.",
