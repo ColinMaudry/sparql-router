@@ -20,9 +20,9 @@ module.exports = {
         }
     },
 		files : [
-			"/public/dist/main.css",
-			"/public/dist/build.js",
-			"/public/index.html"
+			"./public/dist/main.css",
+			"./public/dist/build.js",
+			"./public/index.html"
 		],
     "watchOptions": {},
     "server": "public",
