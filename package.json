@@ -22,7 +22,7 @@
     "build-css": "node-sass ./src/main.scss | cleancss -d -o ./public/dist/main.css",
     "watch-js": "watchify -vd -p browserify -e src/main.js -o ./public/dist/build.js",
     "browser-sync": "browser-sync start --config 'bs-config.js'",
-		"nodemon" : "nodemon --watch lib --watch app.js --debug bin/www",
+		"nodemon" : "nodemon --watch ./lib --watch app.js --watch ./lib/views --debug bin/www",
     "dev": "npm-run-all --parallel watch-js watch-scss nodemon browser-sync",
     "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > ./public/dist/build.js & npm run build-css",
     "lint": "eslint --ext .js,.vue src test/unit"

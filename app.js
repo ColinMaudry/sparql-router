@@ -65,7 +65,6 @@ express.static.mime.define({'application/sparql-query': ['rq']});
 express.static.mime.define({'application/sparql-update': ['ru']});
 express.static.mime.define({'application/ld+json': ['jsonld']});
 
-
 //Security
 app.use(helmet());
 
@@ -100,7 +99,5 @@ passport.use(new Strategy(
     }
     })
   );
-
-
 
 module.exports = app;
