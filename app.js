@@ -1,4 +1,5 @@
 var Strategy = require('passport-http').BasicStrategy;
+var expose = require('express-expose');
 var passport = require('passport');
 var cors = require('express-cors');
 var express = require('express');
@@ -55,8 +56,9 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
   };
 });
 
-
-
+app.set('views','./lib/views');
+app.set('view engine', 'pug');
+app = expose(app);
 
 //Mapping content-types with file extensions
 express.static.mime.define({'application/sparql-query': ['rq']});
@@ -67,7 +69,13 @@ express.static.mime.define({'application/ld+json': ['jsonld']});
 //Security
 app.use(helmet());
 
+app.get('/', function(request,response) {
+	response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+	response.render('index', { layout: false });
+});
+
 app.use(express.static('public'));
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
