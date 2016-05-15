@@ -1,5 +1,4 @@
 <template>
-  <div class="col-md-7 col-md-offset-1">
     <form class="form-horizontal">
       <fieldset>
         <div class="form-group">
@@ -17,7 +16,6 @@
         </div>
       </fieldset>
     </form>
-  </div>
 </template>
 
 <style>

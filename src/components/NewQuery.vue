@@ -1,7 +1,11 @@
 <template>
   <div class="row">
-    <query-options></query-options>
-    <query-text></query-text>
+		<div id="left" class="col-md-4">
+    	<query-options></query-options>
+		</div>
+		<div id="right" class="col-md-7 col-md-offset-1">
+	    <query-text></query-text>
+		</div>
   </div>
 </template>
 
@@ -10,7 +14,10 @@ import QueryOptions from './QueryOptions.vue'
 import QueryText from './QueryText.vue'
 
 export default {
-  components : {
+	el () {
+    return "#right"
+	},
+	components : {
     QueryOptions,
     QueryText
   },
