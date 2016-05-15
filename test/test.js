@@ -52,7 +52,7 @@ describe('Basic tests', function() {
 	});
 	it('POST typically designed to brew coffee is ineffective.', function(done) {
 		request(app)
-			.post('/')
+			.post('/api/')
 			.set('Content-Type','application/coffee-pot-command')
 			.expect(418, done)
 	});
@@ -65,7 +65,7 @@ describe('Basic tests', function() {
 describe('GET results from canned queries', function() {
 	it('/random/random returns 404', function(done) {
 		request(app)
-			.get('/random/random')
+			.get('/api/random/random')
 			.expect(404, done);
 	});
 	it('/api/tables/random returns 404', function(done) {
@@ -118,7 +118,7 @@ describe('GET results from canned queries', function() {
 describe('Describing API resources with Hydra vocabulary', function() {
 	it('The API documentation is available and with the right @id.', function(done) {
 		request(app)
-			.get('/hydra.jsonld')
+			.get('/api/hydra.jsonld')
 			.expect(function(response) {
 				if (response.body["@id"].indexOf(config.get('app.public.hostname'))) {
 					return "The context @id is good."; }
@@ -131,7 +131,7 @@ describe('Describing API resources with Hydra vocabulary', function() {
 	});
 	it('The Hydra entry point returns JSON-LD.', function(done) {
 		request(app)
-			.get('/hydra/')
+			.get('/api/hydra/')
 			.expect(function(response) {
 				if (response.body["@type"] = "EntryPoint") {
 					return "The entry point has the right type."; }
@@ -400,49 +400,49 @@ describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
 	it('GET queries to /sparql are passed through', function(done) {
 		request(app)
-			.get('/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.get('/api/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done)
 
 	});
 	it('GET empty queries to /sparql returns 400', function(done) {
 		request(app)
-			.get('/sparql')
+			.get('/api/sparql')
 			.expect(400, done);
 	});
 	it('GET queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)
-			.get('/query?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.get('/api/query?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect('Location', '/sparql?query=select * where {?s ?p ?o} limit 1')
 			.expect(301, done)
 	});
 	it('GET malformed queries to /sparql returns 400', function(done) {
 		request(app)
-			.get('/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
+			.get('/api/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
 	it('POST queries to /sparql are passed through to the endpoint.', function(done) {
 		request(app)
-			.post('/sparql')
+			.post('/api/sparql')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done);
 	});
 	it('POST empty queries to /sparql returns 400', function(done) {
 		request(app)
-			.post('/sparql')
+			.post('/api/sparql')
 			.expect(400, done);
 	});
 	it('POST queries to /query are 301 redirected to /sparql', function(done) {
 		request(app)
-			.post('/query')
+			.post('/api/query')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect('Location', '/sparql')
 			.expect(301, done)
 	});
 	it('POST malformed queries to /sparql returns 400', function(done) {
 		request(app)
-			.post('/sparql')
+			.post('/api/sparql')
 			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
 	});
