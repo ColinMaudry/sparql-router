@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div id="new" class="container">
       <new-query></new-query>
     </div>
   </div>
