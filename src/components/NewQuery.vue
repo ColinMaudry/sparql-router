@@ -1,11 +1,13 @@
 <template>
   <div class="row">
+		<form class="form-horizontal" name="query">
 		<div id="left" class="col-md-4">
     	<query-options></query-options>
 		</div>
 		<div id="right" class="col-md-7 col-md-offset-1">
 	    <query-text></query-text>
 		</div>
+	</form>
   </div>
 </template>
 
@@ -15,7 +17,7 @@ import QueryText from './QueryText.vue'
 
 export default {
 	el () {
-    return "#right"
+    return "#new"
 	},
 	components : {
     QueryOptions,

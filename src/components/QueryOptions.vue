@@ -44,7 +44,7 @@ export default {
   },
 	data () {
     return {
-			url: "test"
+			url: siteRootUrl
 		}
   }
 }

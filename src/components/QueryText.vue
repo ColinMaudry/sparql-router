@@ -1,12 +1,8 @@
 <template>
-    <form class="form-horizontal">
       <fieldset>
         <div class="form-group">
-          <label for="queryText" class="control-label">Query</label>
-          <textarea class="form-control input-sm" rows="20" id="text">
-# These values may be used later to make proper metadata. No line break, please.
-# author:
-# description:
+          <label for="text" class="control-label">Query</label>
+          <textarea v-model="text" class="form-control input-sm" rows="20" id="text">
 
 </textarea>
         </div>
@@ -15,7 +11,6 @@
           <button type="submit" class="btn btn-default navbar-right">Test</button>
         </div>
       </fieldset>
-    </form>
 </template>
 
 <style>
@@ -23,3 +18,25 @@
     font-family: monospace;
   }
 </style>
+
+<script>
+export default {
+	el () {
+    return "#right"
+	},
+	components : {
+  },
+  data () {
+    return {
+			text: "# These values may be used later to make proper metadata. No line break, please.\n\
+# author:\n\
+# description:\n\
+select ?s ?p ?o where {\n\
+	?s ?p ?o\n\
+}\n\
+limit 5"
+	}
+    }
+  }
+
+</script>
