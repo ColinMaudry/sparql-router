@@ -30,7 +30,7 @@ copies or substantial portions of the Software.
 */
 
 //Update API documentation configuration
-var apiConfigFile = "./public/swagger.json";
+var apiConfigFile = "./public/api/swagger.json";
 var apiConfig = require(apiConfigFile);
 apiConfig.host = config.get('app.public.hostname') + functions.getPublicPort();
 apiConfig.schemes = [];
@@ -41,13 +41,13 @@ fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
 });
 
 //Update Hydra context with actual URL
-var hydraContextFile = "./public/hydra.jsonld";
+var hydraContextFile = "./public/api/hydra.jsonld";
 var siteRootUrl = functions.getSiteRootUrl();
 fs.readFile(hydraContextFile,'utf8', function (err, data) {
   if (err) {throw err} else {
     var hydraContext = JSON.parse(data);
-    hydraContext["@base"] = siteRootUrl + "/hydra.jsonld#";
-    hydraContext["@id"] = siteRootUrl + "/hydra.jsonld";
+    hydraContext["@base"] = siteRootUrl + "/api/hydra.jsonld#";
+    hydraContext["@id"] = siteRootUrl + "/api/hydra.jsonld";
     fs.writeFile(hydraContextFile, JSON.stringify(hydraContext, null, 4), function (err) {
       if (err) return console.log(err);
       debug('Writing Hydra context to ' + hydraContextFile);
