@@ -1,0 +1,27 @@
+@import "vendor/variables";
+@import "vendor/bootstrap";
+@import "vendor/bootswatch";
+@import "vendor/sticky-footer";
+
+body {
+	margin-bottom: 40px;
+}
+
+footer.footer {
+	font-size: 10px;
+	height: 30px;
+	background-color: $gray-light;
+	.container {
+		max-width: none;
+		width: auto;
+	}
+	p.text-muted {
+		color: rgb(235, 235, 235);
+		text-align: center;
+		margin: 7.5px;
+		a {
+			font-weight: bold;
+			color: inherit;
+		}
+	}
+}
