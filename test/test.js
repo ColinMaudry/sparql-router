@@ -12,30 +12,30 @@ console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.N
 
 describe('Basic tests', function() {
 
-	it('App runs and / returns 200', function(done) {
+	it('API home page runs and /api returns 200', function(done) {
 		request(app)
-			.get('/')
+			.get('/api/')
 			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
 
 	it('The configured endpoint returns 200 and JSON SPARQL results', function(done) {
 		request(app)
-			.get('/tables/test')
+			.get('/api/tables/test')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
 	it('The configured endpoint returns 200 and CSV results', function(done) {
 		request(app)
-			.get('/tables/test')
+			.get('/api/tables/test')
 			.set('Accept', 'text/csv')
 			.expect(200)
 			.expect('Content-Type', /csv/, done);
 	});
 	it('The configured endpoint has data loaded', function(done) {
 		request(app)
-			.get('/tables/test')
+			.get('/api/tables/test')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect(function(response) {
@@ -68,46 +68,46 @@ describe('GET results from canned queries', function() {
 			.get('/random/random')
 			.expect(404, done);
 	});
-	it('/tables/random returns 404', function(done) {
+	it('/api/tables/random returns 404', function(done) {
 		request(app)
-			.get('/tables/random')
+			.get('/api/tables/random')
 			.expect(404, done);
 	});
-	it('/tables/test.csv with Accept:application/json returns text/csv results', function(done) {
+	it('/api/tables/test.csv with Accept:application/json returns text/csv results', function(done) {
 		request(app)
-			.get('/tables/test.csv')
+			.get('/api/tables/test.csv')
 			.set('Accept','application/json')
 			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
-	it('/tables/test.csv returns text/csv results', function(done) {
+	it('/api/tables/test.csv returns text/csv results', function(done) {
 		request(app)
-			.get('/tables/test.csv')
+			.get('/api/tables/test.csv')
 			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
-	it('/graphs/test.rdf returns application/rdf+xml or XML results.', function(done) {
+	it('/api/graphs/test.rdf returns application/rdf+xml or XML results.', function(done) {
 		request(app)
-			.get('/graphs/test.rdf')
+			.get('/api/graphs/test.rdf')
 			.expect('Content-Type', /(\/xml|rdf\+xml)/)
 			.expect(200, done);
 	});
-	it('/tables/test with Accept:text/csv returns text/csv.', function(done) {
+	it('/api/tables/test with Accept:text/csv returns text/csv.', function(done) {
 		request(app)
-			.get('/tables/test')
+			.get('/api/tables/test')
 			.set('Accept', 'text/csv')
 			.expect('Content-Type', /text\/csv/)
 			.expect(200, done);
 	});
-	it('/tables/test with Accept:random/type returns error 406.', function(done) {
+	it('/api/tables/test with Accept:random/type returns error 406.', function(done) {
 		request(app)
-			.get('/tables/test')
+			.get('/api/tables/test')
 			.set('Accept', 'random/type')
 			.expect(406, done);
 	});
-	it('/tables/test.xxx returns error 406', function(done) {
+	it('/api/tables/test.xxx returns error 406', function(done) {
 		request(app)
-			.get('/tables/test.xxx')
+			.get('/api/tables/test.xxx')
 			.expect(406, done);
 	});
 });
@@ -142,9 +142,9 @@ describe('Describing API resources with Hydra vocabulary', function() {
 			.expect('Content-Type',/application\/ld\+json/)
 			.expect(200, done)
 	});
-	it('Get the list of /tables in JSON-LD format.', function(done) {
+	it('Get the list of /api/tables in JSON-LD format.', function(done) {
 		request(app)
-			.get('/tables/')
+			.get('/api/tables/')
 			.expect(function(response) {
 				if (response.body.members.length > 0) {
 					return "The query collection has members."; }
@@ -162,9 +162,9 @@ describe('Describing API resources with Hydra vocabulary', function() {
 //
 
 describe('GET results from canned queries, populating query variables', function() {
-	it('/tables/test?$o="dgfr" returns 200 and single result', function(done) {
+	it('/api/tables/test?$o="dgfr" returns 200 and single result', function(done) {
 		request(app)
-			.get('/tables/test?$o="dgfr"')
+			.get('/api/tables/test?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
@@ -176,9 +176,9 @@ describe('GET results from canned queries, populating query variables', function
 			})
 			.expect(200, done);
 	});
-	it('/tables/test2?$under_score="dgfr" returns 200 and single result', function(done) {
+	it('/api/tables/test2?$under_score="dgfr" returns 200 and single result', function(done) {
 		request(app)
-			.get('/tables/test2?$under_score="dgfr"')
+			.get('/api/tables/test2?$under_score="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
@@ -192,7 +192,7 @@ describe('GET results from canned queries, populating query variables', function
 	});
 	it('Longer variable names are not replaced (?o replaced, not ?obelix)', function(done) {
 		request(app)
-			.get('/tables/test3?$o="dgfr"')
+			.get('/api/tables/test3?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].obelix.value == "http://colin.maudry.com/ontologies/dgfr#" &&
@@ -208,7 +208,7 @@ describe('GET results from canned queries, populating query variables', function
 	});
 	it('Populated variables that are present in the SELECT clause are removed (no subquery support).', function(done) {
 		request(app)
-			.get('/tables/test4?$o="dgfr"')
+			.get('/api/tables/test4?$o="dgfr"')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].o == undefined &&
@@ -224,7 +224,7 @@ describe('GET results from canned queries, populating query variables', function
 	});
 	it('Variables can also populate a URI.).', function(done) {
 		request(app)
-			.get('/tables/test5?$namespace=<http://colin.maudry.com/ontologies/dgfr%23>&$property=<http://purl.org/vocab/vann/preferredNamespaceUri>')
+			.get('/api/tables/test5?$namespace=<http://colin.maudry.com/ontologies/dgfr%23>&$property=<http://purl.org/vocab/vann/preferredNamespaceUri>')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].ontology.value == "http://colin.maudry.com/ontologies/dgfr#") {
@@ -244,21 +244,21 @@ describe('GET results from canned queries, populating query variables', function
 //
 
 describe('GET results from UPDATE canned queries, with basic auth', function() {
-	it('/update/test returns 200', function(done) {
+	it('/api/update/test returns 200', function(done) {
 		request(app)
-			.get('/update/test')
+			.get('/api/update/test')
 			.auth('user','password')
 			.expect(200, done);
 	});
-	it('/update/toast returns 404', function(done) {
+	it('/api/update/toast returns 404', function(done) {
 		request(app)
-			.get('/update/toast')
+			.get('/api/update/toast')
 			.auth('user','password')
 			.expect(404, done);
 	});
-	it('/update/test without crendentials returns 401', function(done) {
+	it('/api/update/test without crendentials returns 401', function(done) {
 		request(app)
-			.get('/update/test')
+			.get('/api/update/test')
 			.expect(401, done);
 	});
 });
@@ -271,49 +271,49 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	this.timeout(4000);
 	it('PUT a tables query update via data', function(done) {
 		request(app)
-			.put('/tables/test')
+			.put('/api/tables/test')
 			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(200, done);
 	});
 	it('PUT a new graph query via data', function(done) {
 		request(app)
-			.put('/graphs/test-to-delete')
+			.put('/api/graphs/test-to-delete')
 			.auth('user','password')
 			.send('describe ?s where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
 	it('PUT a new tables query via data', function(done) {
 		request(app)
-			.put('/tables/new')
+			.put('/api/tables/new')
 			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
 	it('...and the POSTed tables query works', function(done) {
 		request(app)
-			.get('/tables/new')
+			.get('/api/tables/new')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
 	it('An invalid query is rejected and not created.', function(done) {
 		request(app)
-			.put('/tables/new')
+			.put('/api/tables/new')
 			.auth('user','password')
 			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
 	});
 	it('The working query wasn\'t overriden by the bad one, and still works.', function(done) {
 		request(app)
-			.get('/tables/new')
+			.get('/api/tables/new')
 			.set('Accept', 'application/sparql-results+json')
 			.expect(200)
 			.expect('Content-Type', /json/, done);
 	});
 	it('An empty query is rejected and not created.', function(done) {
 		request(app)
-			.put('/tables/new-with-error')
+			.put('/api/tables/new-with-error')
 			.auth('user','password')
 			.send('')
 			.expect(400, done);
@@ -324,38 +324,38 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
 		}
 		request(app)
-			.put('/tables/new')
+			.put('/api/tables/new')
 			.auth('user','password')
 			.send(bigQuery)
 			.expect(413, done);
 	});
 	it('POSTing a query update is not the right method (405)', function(done) {
 		request(app)
-			.post('/tables/method')
+			.post('/api/tables/method')
 			.auth('user','password')
 			.send('select * where {?s ?p ?o} limit 10')
 			.expect(405, done);
 	});
 	it('DELETE the new tables query, with credentials.', function(done) {
 		request(app)
-			.delete('/tables/new')
+			.delete('/api/tables/new')
 			.auth('user','password')
 			.expect(200, done);
 	});
 	it('DELETE the new graphs query, with credentials.', function(done) {
 		request(app)
-			.delete('/graphs/test-to-delete')
+			.delete('/api/graphs/test-to-delete')
 			.auth('user','password')
 			.expect(200, done);
 	});
 	it('The DELETEd new tables query is gone.', function(done) {
 		request(app)
-			.get('/tables/new')
+			.get('/api/tables/new')
 			.expect(404, done);
 	});
 	it('DELETE an inexistent query returns 404.', function(done) {
 		request(app)
-			.delete('/tables/random')
+			.delete('/api/tables/random')
 			.auth('user','password')
 			.expect(404, done);
 	});
@@ -368,24 +368,24 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 describe('Authentication', function() {
 	it('DELETE a query with no credentials returns 401.', function(done) {
 		request(app)
-			.delete('/tables/test')
+			.delete('/api/tables/test')
 			.expect(401, done);
 	});
 	it('DELETE a query with good username but no password returns 401.', function(done) {
 		request(app)
-			.delete('/tables/test')
+			.delete('/api/tables/test')
 			.auth('user','')
 			.expect(401, done);
 	});
 	it('DELETE a query with no username and good password returns 401.', function(done) {
 		request(app)
-			.delete('/tables/test')
+			.delete('/api/tables/test')
 			.auth('','password')
 			.expect(401, done);
 	});
 	it('POST a new query with no credentials returns 401.', function(done) {
 		request(app)
-			.put('/tables/new')
+			.put('/api/tables/new')
 			.send('select * where {?s ?p ?o} limit 1')
 			.expect(401, done);
 	});
