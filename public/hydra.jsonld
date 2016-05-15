@@ -3,7 +3,7 @@
         "http://www.w3.org/ns/hydra/context.jsonld",
         {}
     ],
-    "router": "https://sparql-router.heroku.com/hydra.jsonld#",
+    "router": "/hydra.jsonld#",
     "@id": "https://sparql-router.heroku.com/hydra.jsonld",
     "@type": "ApiDocumentation",
     "supportedClass": [
@@ -11,14 +11,14 @@
             "@id": "router:SparqlQuery",
             "@type": "Class",
             "subClassOf": "Resource",
-            "label": "router:Query",
+            "label": "SPARQL query",
             "description": "A SPARQL query that was saved on the server and that can be triggered with a GET call.",
             "supportedOperation": [
                 {
                     "@id": "router:getQueryResults",
                     "@type": "Operation",
                     "method": "GET",
-                    "label": "Triggers the canned query and returns the query results.",
+                    "label": "Triggers the canned query and returns the query results."
                 },
                 {
                     "@id": "router:createOrUpdateQuery",
@@ -49,6 +49,58 @@
                     ]
                 }
             ]
+        },
+        {
+            "@id": "router:EntryPoint",
+            "@type": "Class",
+            "label": "API entry point",
+            "description": "The API entry point, where one can find API documentation.",
+            "supportedOperation": [
+                {
+                    "@id": "router:getEntryPoint",
+                    "@type": "Operation",
+                    "method": "GET",
+                    "label": "Returns the API entry point.",
+                    "returns": "router:EntryPoint"
+                }
+            ],
+            "supportedProperty": [
+                {
+                    "property": {
+                        "@id": "router:EntryPoint/tableQueries",
+                        "@type": "Link",
+                        "label": "Table queries label",
+                        "domain": "router:EntryPoint",
+                        "range": "Collection",
+                        "supportedOperation": [
+                            {
+                                "@id": "router:getQueryList",
+                                "@type": "Operation",
+                                "method": "GET",
+                                "label": "Retrieves all the queries.",
+                                "returns": "Collection"
+                            }
+                        ]
+                    },
+                    "description": "The collection of all the queries that return data tables.",
+                    "title": "Table queries title"
+                },
+                {
+                    "property": {
+                        "@id": "router:EntryPoint/graphQueries",
+                        "@type": "Link",
+                        "label": "Graph queries",
+                        "domain": "router:EntryPoint",
+                        "range": "Collection",
+                        "supportedOperation": [
+                            "router:getQueryList"
+                        ]
+                    },
+                    "description": "The collection of all the queries that return data graphs.",
+                    "title": "Graph queries"
+                }
+            ]
         }
-    ]
+    ],
+    "@base": "https://sparql-router.heroku.com/hydra.jsonld#"
 }

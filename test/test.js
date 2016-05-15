@@ -129,6 +129,19 @@ describe('Describing API resources with Hydra vocabulary', function() {
 			.expect('Content-Type',/application\/ld\+json/)
 			.expect(200, done);
 	});
+	it('The Hydra entry point returns JSON-LD.', function(done) {
+		request(app)
+			.get('/hydra/')
+			.expect(function(response) {
+				if (response.body["@type"] = "EntryPoint") {
+					return "The entry point has the right type."; }
+				else {
+					throw new Error("Not an entry point.");
+				}
+			})
+			.expect('Content-Type',/application\/ld\+json/)
+			.expect(200, done)
+	});
 	it('Get the list of /tables in JSON-LD format.', function(done) {
 		request(app)
 			.get('/tables/')

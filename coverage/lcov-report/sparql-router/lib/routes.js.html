@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.13% </span>
+        <span class="strong">92.81% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>122/131</span>
+        <span class='fraction'>129/139</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80.95% </span>
+        <span class="strong">78.57% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>34/42</span>
+        <span class='fraction'>33/42</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>22/22</span>
+        <span class='fraction'>23/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.8% </span>
+        <span class="strong">93.43% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>121/129</span>
+        <span class='fraction'>128/137</span>
       </div>
     </div>
   </div>
@@ -299,7 +299,18 @@
 254
 255
 256
-257</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -327,6 +338,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -457,22 +479,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5×</span>
 <span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">5×</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
@@ -585,6 +607,17 @@ copies or substantial portions of the Software.
 &nbsp;
 module.exports = function(app) {
 &nbsp;
+app.get('/hydra',function(request,response) {
+	var result = functions.getHydraTemplate("EntryPoint",request.path);
+	result["@context"] = "/hydra/entry.jsonld";
+	result["tableQueries"] = "/tables";
+	result["graphQueries"] = "/graphs";
+&nbsp;
+	result = JSON.stringify(result,null,'\t');
+&nbsp;
+	response.set('Content-Type','application/ld+json');
+	response.send(result);
+	});
 &nbsp;
 app.get('/query',function(request,response) {
 	var query = request.query.query;
@@ -727,8 +760,8 @@ function(request,response) {
 								publicPort = functions.getPublicPort();
 								queryUrl = config.get('app.public.scheme') + "://" + config.get('app.public.hostname')
 								+ publicPort + "/" + request.params.type + "/" + name;
-								if (fileExists === true) {
-									response.status(200)
+								<span class="missing-if-branch" title="if path not taken" >I</span>if (fileExists === true) {
+<span class="cstat-no" title="statement not covered" >									response.status(200)</span>
 									.send(queryUrl + "\nwas successfully tested and updated.\n\n" + query)
 								} else {
 									response.status(201)
@@ -817,7 +850,7 @@ app.post('/', function(request,response) {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 12 2016 21:04:51 GMT+0200 (CEST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 15 2016 13:23:49 GMT+0200 (CEST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
