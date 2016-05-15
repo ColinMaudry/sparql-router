@@ -4,7 +4,7 @@
         {}
     ],
     "router": "/hydra.jsonld#",
-    "@id": "https://sparql-router.heroku.com/hydra.jsonld",
+    "@id": "https://sparql-router.heroku.com/api/hydra.jsonld",
     "@type": "ApiDocumentation",
     "supportedClass": [
         {
@@ -102,5 +102,5 @@
             ]
         }
     ],
-    "@base": "https://sparql-router.heroku.com/hydra.jsonld#"
+    "@base": "https://sparql-router.heroku.com/api/hydra.jsonld#"
 }
