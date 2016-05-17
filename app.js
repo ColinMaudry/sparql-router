@@ -1,4 +1,3 @@
-var Strategy = require('passport-http').BasicStrategy;
 var expose = require('express-expose');
 var passport = require('passport');
 var cors = require('express-cors');
@@ -10,6 +9,7 @@ var fs = require('fs');
 var app = express();
 
 var routes = require("./lib/routes");
+var tablesGraphs = require('./lib/routes/tablesGraphs');
 
 //My functions
 var functions = require('./lib/functions');
@@ -81,23 +81,12 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.param('type', function (req, res, next, type) {
+	req.savedparams = {};
+  req.savedparams.type = type;
+  next();
+});
+app.use('/api/:type(tables|graphs|update)', tablesGraphs);
 routes(app);
-
-//Authenticate user
-passport.use(new Strategy(
-  function(username, password, cb) {
-    if (
-      config.get("app.authentication") === false ||
-      (config.get("app.authentication") === true &&
-      username === config.get("app.user") &&
-      password === config.get("app.password"))
-      )
-       {
-    	return cb(null, username);
-    } else {
-    	return cb(null, false);
-    }
-    })
-  );
 
 module.exports = app;
