@@ -6,6 +6,7 @@
     "sparql",
     "endpoint",
     "rdf",
+		"express",
     "vuejs",
     "vue"
   ],
