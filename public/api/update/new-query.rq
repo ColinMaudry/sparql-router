@@ -1,0 +1,9 @@
+with <uri:graphs:queries>
+insert data {
+		?query dct:identifier ?slug ;
+			a ?queryType ;
+			dct:author ?author ;
+			rdfs:label ?name ;
+			dct:modificationDate ?date ;
+			router:endpoint ?endpoint.
+}
