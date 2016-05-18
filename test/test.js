@@ -18,6 +18,12 @@ describe('Basic tests', function() {
 			.expect('Content-Type',/json/)
 			.expect(200, done)
 	});
+	it('Web app home page is served and returns 200 and HTML', function(done) {
+		request(app)
+			.get('/')
+			.expect('Content-Type',/html/)
+			.expect(200, done)
+	});
 	it('API home page runs and /api returns 200 and HTML to a browser', function(done) {
 		request(app)
 			.get('/api/')
