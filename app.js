@@ -8,7 +8,6 @@ var debug = require('debug');
 var fs = require('fs');
 var app = express();
 
-var routes = require("./lib/routes");
 var apiDoc = require('./lib/routes/apiDoc');
 var sparql = require('./lib/routes/sparql');
 var tablesGraphs = require('./lib/routes/tablesGraphs');
@@ -94,10 +93,10 @@ app.param('type', function (req, res, next, type) {
   next();
 });
 
+
 app.use('/api', apiDoc);
-app.use('/api/:type(tables|graphs|update)', tablesGraphs);
+app.use('/api/:type(tables|graphs)', tablesGraphs);
 app.use('/api/:sparql(sparql|query)', sparql);
-routes(app);
 app.use(express.static('public'));
 
 module.exports = app;
