@@ -9,6 +9,7 @@ var fs = require('fs');
 var app = express();
 
 var routes = require("./lib/routes");
+var apiDoc = require('./lib/routes/apiDoc');
 var tablesGraphs = require('./lib/routes/tablesGraphs');
 
 //My functions
@@ -56,7 +57,9 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
   };
 });
 
-app.set('views','./lib/views');
+app.set('case sensitive routing', false);
+app.set('strict routing', false);
+app.set('views', './lib/views');
 app.set('view engine', 'pug');
 app = expose(app);
 
@@ -73,11 +76,20 @@ app.get('/', function(request,response) {
 	response.render('index', { layout: false });
 });
 
-app.use(express.static('public'));
-
 app.use(function(req, res, next) {
+	//CORS support
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+	//Set app root directory
+	req.appRoot = __dirname;
+
+	//If path finishes with a trailing slash, remove it.
+	// var url = req.url;
+	// var length = url.length;
+	// if (url[length - 1] === "/") {
+	// 		req.url = url.substring(0, length - 1);
+	// }
   next();
 });
 
@@ -86,7 +98,10 @@ app.param('type', function (req, res, next, type) {
   req.savedparams.type = type;
   next();
 });
+
+app.use('/api', apiDoc);
 app.use('/api/:type(tables|graphs|update)', tablesGraphs);
 routes(app);
+app.use(express.static('public'));
 
 module.exports = app;

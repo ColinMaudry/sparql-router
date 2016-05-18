@@ -12,13 +12,19 @@ console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.N
 
 describe('Basic tests', function() {
 
-	it('API home page runs and /api returns 200', function(done) {
+	it('API home page runs and /api returns 200 and JSON', function(done) {
+		request(app)
+			.get('/api')
+			.expect('Content-Type',/json/)
+			.expect(200, done)
+	});
+	it('API home page runs and /api returns 200 and HTML to a browser', function(done) {
 		request(app)
 			.get('/api/')
+			.set('Accept', 'text/html')
 			.expect('Content-Type',/html/)
 			.expect(200, done)
 	});
-
 	it('The configured endpoint returns 200 and JSON SPARQL results', function(done) {
 		request(app)
 			.get('/api/tables/test')
@@ -52,7 +58,7 @@ describe('Basic tests', function() {
 	});
 	it('POST typically designed to brew coffee is ineffective.', function(done) {
 		request(app)
-			.post('/api/')
+			.post('/api')
 			.set('Content-Type','application/coffee-pot-command')
 			.expect(418, done)
 	});
@@ -131,7 +137,8 @@ describe('Describing API resources with Hydra vocabulary', function() {
 	});
 	it('The Hydra entry point returns JSON-LD.', function(done) {
 		request(app)
-			.get('/api/hydra/')
+			.get('/api')
+			.accept('application/ld+json')
 			.expect(function(response) {
 				if (response.body["@type"] = "EntryPoint") {
 					return "The entry point has the right type."; }
@@ -144,7 +151,7 @@ describe('Describing API resources with Hydra vocabulary', function() {
 	});
 	it('Get the list of /api/tables in JSON-LD format.', function(done) {
 		request(app)
-			.get('/api/tables/')
+			.get('/api/tables')
 			.expect(function(response) {
 				if (response.body.members.length > 0) {
 					return "The query collection has members."; }
@@ -273,7 +280,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 		request(app)
 			.put('/api/tables/test')
 			.auth('user','password')
-			.send('select * where {?s ?p ?o} limit 1')
+			.send("select * where {?s ?p ?o} limit 1")
 			.expect(200, done);
 	});
 	it('PUT a new graph query via data', function(done) {
