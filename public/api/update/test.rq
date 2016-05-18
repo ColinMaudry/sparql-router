@@ -1,0 +1,3 @@
+insert data {
+		<http://colin.maudry.com/me/rdf> <http://purl.org/vocab/vann/preferredNamespacePrefix> ?prefix .
+}

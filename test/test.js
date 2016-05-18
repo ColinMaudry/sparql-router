@@ -65,10 +65,10 @@ describe('Basic tests', function() {
 });
 
 //
-// GET query results
+// Canned query results
 //
 
-describe('GET results from canned queries', function() {
+describe('Using canned queries', function() {
 	it('/random/random returns 404', function(done) {
 		request(app)
 			.get('/api/random/random')
@@ -115,6 +115,16 @@ describe('GET results from canned queries', function() {
 		request(app)
 			.get('/api/tables/test.xxx')
 			.expect(406, done);
+	});
+	it('POST /api/update/test3 returns 200', function(done) {
+		request(app)
+			.post('/api/update/test3')
+			.expect(200, done);
+	});
+	it('GET /api/update/test4 returns 200', function(done) {
+		request(app)
+			.get('/api/update/test4')
+			.expect(200, done);
 	});
 });
 
@@ -183,6 +193,18 @@ describe('GET results from canned queries, populating query variables', function
 			})
 			.expect(200, done);
 	});
+	it(' POST /api/update/test with variable (JSON) returns 200', function(done) {
+		request(app)
+			.post('/api/update/test')
+			.set('Content-Type','application/json')
+			.send({"$prefix" : '"datafr"'})
+			.expect(200, done);
+	});
+	it(' POST /api/update/test2 with variable (URL) returns 200', function(done) {
+		request(app)
+			.post('/api/update/test2?$prefix="datafr"')
+			.expect(200, done);
+	});
 	it('/api/tables/test2?$under_score="dgfr" returns 200 and single result', function(done) {
 		request(app)
 			.get('/api/tables/test2?$under_score="dgfr"')
@@ -229,7 +251,7 @@ describe('GET results from canned queries, populating query variables', function
 			})
 			.expect(200, done);
 	});
-	it('Variables can also populate a URI.).', function(done) {
+	it('Variables can also populate a URI.', function(done) {
 		request(app)
 			.get('/api/tables/test5?$namespace=<http://colin.maudry.com/ontologies/dgfr%23>&$property=<http://purl.org/vocab/vann/preferredNamespaceUri>')
 			.expect(function(response) {
