@@ -12,6 +12,7 @@ var apiDoc = require('./lib/routes/apiDoc');
 var sparql = require('./lib/routes/sparql');
 var tablesGraphs = require('./lib/routes/tablesGraphs');
 
+
 //My functions
 var functions = require('./lib/functions');
 
@@ -57,6 +58,7 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
   };
 });
 
+
 app.set('case sensitive routing', false);
 app.set('strict routing', false);
 app.set('views', './lib/views');
@@ -96,7 +98,7 @@ app.param('type', function (req, res, next, type) {
 
 app.use('/api', apiDoc);
 app.use('/api/:type(tables|graphs)', tablesGraphs);
-app.use('/api/:sparql(sparql|query)', sparql);
+app.use('/api/:sparql(sparql|query|update)', sparql);
 app.use(express.static('public'));
 
 module.exports = app;
