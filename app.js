@@ -10,6 +10,7 @@ var app = express();
 
 var routes = require("./lib/routes");
 var apiDoc = require('./lib/routes/apiDoc');
+var sparql = require('./lib/routes/sparql');
 var tablesGraphs = require('./lib/routes/tablesGraphs');
 
 //My functions
@@ -84,12 +85,6 @@ app.use(function(req, res, next) {
 	//Set app root directory
 	req.appRoot = __dirname;
 
-	//If path finishes with a trailing slash, remove it.
-	// var url = req.url;
-	// var length = url.length;
-	// if (url[length - 1] === "/") {
-	// 		req.url = url.substring(0, length - 1);
-	// }
   next();
 });
 
@@ -101,6 +96,7 @@ app.param('type', function (req, res, next, type) {
 
 app.use('/api', apiDoc);
 app.use('/api/:type(tables|graphs|update)', tablesGraphs);
+app.use('/api/:sparql(sparql|query)', sparql);
 routes(app);
 app.use(express.static('public'));
 
