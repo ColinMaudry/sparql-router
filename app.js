@@ -10,7 +10,7 @@ var app = express();
 
 var apiDoc = require('./lib/routes/apiDoc');
 var sparql = require('./lib/routes/sparql');
-var tablesGraphs = require('./lib/routes/tablesGraphs');
+var cannedQueries = require('./lib/routes/cannedQueries');
 
 
 //My functions
@@ -97,7 +97,7 @@ app.param('type', function (req, res, next, type) {
 
 
 app.use('/api', apiDoc);
-app.use('/api/:type(tables|graphs)', tablesGraphs);
+app.use('/api/:type(tables|graphs)', cannedQueries);
 app.use('/api/:sparql(sparql|query|update)', sparql);
 app.use(express.static('public'));
 
