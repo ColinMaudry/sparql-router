@@ -245,31 +245,6 @@ describe('GET results from canned queries, populating query variables', function
 	});
 });
 
-
-//
-// GET UPDATE queries
-//
-
-describe('GET results from UPDATE canned queries, with basic auth', function() {
-	it('/api/update/test returns 200', function(done) {
-		request(app)
-			.get('/api/update/test')
-			.auth('user','password')
-			.expect(200, done);
-	});
-	it('/api/update/toast returns 404', function(done) {
-		request(app)
-			.get('/api/update/toast')
-			.auth('user','password')
-			.expect(404, done);
-	});
-	it('/api/update/test without crendentials returns 401', function(done) {
-		request(app)
-			.get('/api/update/test')
-			.expect(401, done);
-	});
-});
-
 //
 // PUT new queries or query updates
 //
