@@ -311,13 +311,6 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.send(bigQuery)
 			.expect(413, done);
 	});
-	it('POSTing a query update is not the right method (405)', function(done) {
-		request(app)
-			.post('/api/tables/method')
-			.auth('user','password')
-			.send('select * where {?s ?p ?o} limit 10')
-			.expect(405, done);
-	});
 	it('DELETE the new tables query, with credentials.', function(done) {
 		request(app)
 			.delete('/api/tables/new')
