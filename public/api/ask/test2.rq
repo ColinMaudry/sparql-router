@@ -1,2 +1,4 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
 ask
-{<http://colin.maudry.com/me/rdf> <http://colin.maudry.com/vos#test> "I don't exist" .}
+{<https://sparql-router.heroku.com/api/tables/test#id> rdfs:label "Test table update" .}

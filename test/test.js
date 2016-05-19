@@ -141,9 +141,9 @@ describe('Using canned queries', function() {
 			})
 			.expect(200, done);
 	});
-	it('GET /api/ask/test2 returns 200 and false', function(done) {
+	it('GET /api/ask/test3 returns 200 and false', function(done) {
 		request(app)
-			.get('/api/ask/test2')
+			.get('/api/ask/test3')
 			.expect(function(response) {
 				if (response.body.boolean === false) {return "Query worked."	}
 				else {throw new Error("Query didn't return false.");}
@@ -316,9 +316,30 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.put('/api/tables/test')
 			.set('Content-Type','application/json')
 			.auth('user','password')
-			.send(
-						{query: "select * where {?s ?p ?o} limit 1","$name": "Test table update"})
+			.send({"query": "select * where {?s ?p ?o} limit 1","$name": "Test table update"})
 			.expect(200, done);
+	});
+	it('...and the metadata is there!', function(done) {
+		request(app)
+			.get('/api/ask/test2')
+			.accept('application/sparql-results+json')
+			.expect(function(response) {
+				if (response.body.boolean === true) {
+					return "Variable successfully replaced."; }
+				else {
+					console.log(JSON.stringify(response.body));
+					throw new Error("Longer variable was affected.");
+				}
+			})
+			.expect(200, done);
+	});
+	it('PUT a tables query update with JSON (with no body.query), so 400', function(done) {
+		request(app)
+			.put('/api/tables/test')
+			.set('Content-Type','application/json')
+			.auth('user','password')
+			.send({"$name": "Test table update"})
+			.expect(400, done);
 	});
 	it('PUT a new tables query via data', function(done) {
 		request(app)
