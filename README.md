@@ -65,9 +65,8 @@ http://sparql-router.herokuapp.com/#!/canned_query/post_queryType_name
 
 ## Requirements
 
-[NodeJS (4.x, 5.x, 6.x) and NPM](https://nodejs.org/en/download/stable/) must be installed.
-
-They are also available in most Linux package managers as `nodejs` and `npm`.
+- [NodeJS (4.x, 5.x, 6.x) and NPM](https://nodejs.org/en/download/stable/) must be installed. They are also available in most Linux package managers as `nodejs` and `npm`.
+- An RDF triple store that supports SPARQL 1.1 and JSON-LD output.
 
 ## Installation
 

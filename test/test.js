@@ -311,6 +311,15 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.send('describe ?s where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
+	it('PUT a tables query update with JSON (and some metadata fields)', function(done) {
+		request(app)
+			.put('/api/tables/test')
+			.set('Content-Type','application/json')
+			.auth('user','password')
+			.send(
+						{query: "select * where {?s ?p ?o} limit 1","$name": "Test table update"})
+			.expect(200, done);
+	});
 	it('PUT a new tables query via data', function(done) {
 		request(app)
 			.put('/api/tables/new')
