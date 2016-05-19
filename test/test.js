@@ -132,6 +132,24 @@ describe('Using canned queries', function() {
 			.get('/api/update/test4')
 			.expect(200, done);
 	});
+	it('GET /api/ask/test returns 200 and true', function(done) {
+		request(app)
+			.get('/api/ask/test')
+			.expect(function(response) {
+				if (response.body.boolean === true) {return "Query worked."	}
+				else {throw new Error("Query didn't return true.");}
+			})
+			.expect(200, done);
+	});
+	it('GET /api/ask/test2 returns 200 and false', function(done) {
+		request(app)
+			.get('/api/ask/test2')
+			.expect(function(response) {
+				if (response.body.boolean === false) {return "Query worked."	}
+				else {throw new Error("Query didn't return false.");}
+			})
+			.expect(200, done);
+	});
 });
 
 //

@@ -97,7 +97,7 @@ app.param('type', function (req, res, next, type) {
 
 
 app.use('/api', apiDoc);
-app.use('/api/:type(tables|graphs|update)', cannedQueries);
+app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
 

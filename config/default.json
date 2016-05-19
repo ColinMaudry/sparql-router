@@ -19,6 +19,7 @@
 		"defaultAccept" : {
 			"tables" : "application/sparql-results+json",
 			"graphs" : "text/turtle",
+			"ask" : "application/sparql-results+json",
 			"update" : "text/html"
 		},
 		"port" : 3000,
@@ -48,12 +49,17 @@
 			"nt" : "application/n-triples",
 			"json" : "application/ld+json"
 		},
+		"ask" : {
+			"xml" : "application/sparql-results+xml",
+			"srx" : "application/sparql-results+xml",
+			"json" : "application/sparql-results+json",
+			"srj" : "application/sparql-results+json",
+			"csv" : "text/csv"
+		},
 		"update" : {
 			"json" : "application/json",
 			"txt" : "text/plain"
-
-		}		
+		}
 
 	}
 }
-
