@@ -45,7 +45,7 @@ fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
 
 //Update Hydra context with actual URL
 var hydraContextFile = "./public/api/hydra.jsonld";
-var siteRootUrl = functions.getSiteRootUrl();
+siteRootUrl = functions.getSiteRootUrl();
 fs.readFile(hydraContextFile,'utf8', function (err, data) {
   if (err) {throw err} else {
     var hydraContext = JSON.parse(data);
