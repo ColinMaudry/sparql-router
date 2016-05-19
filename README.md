@@ -1,5 +1,7 @@
 # SPARQL router 0.2.1
 
+[![Join the chat at https://gitter.im/ColinMaudry/sparql-router](https://badges.gitter.im/ColinMaudry/sparql-router.svg)](https://gitter.im/ColinMaudry/sparql-router?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
 | [master](https://github.com/ColinMaudry/sparql-router)  |  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) |
