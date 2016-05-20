@@ -100,5 +100,9 @@ app.use('/api', apiDoc);
 app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
+app.use(function(err, req, res, next) {
+  console(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 module.exports = app;
