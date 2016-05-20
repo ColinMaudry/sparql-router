@@ -297,18 +297,20 @@ describe('GET results from canned queries, populating query variables', function
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-	it('PUT a tables query update via data', function(done) {
+  var testEndpoint = "http://queery.link:3030/test/sparql";
+
+	it('PUT a table query update via URL encoded parameters', function(done) {
 		request(app)
-			.put('/api/tables/test')
+			.put('/api/tables/test?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 1')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send("select * where {?s ?p ?o} limit 1")
-			.expect(200, done);
+      .expect(200, done);
 	});
-	it('PUT a new graph query via data', function(done) {
+	it('PUT a new graph query via URL encoded parameters', function(done) {
 		request(app)
-			.put('/api/graphs/test-to-delete')
+			.put('/api/graphs/test-to-delete?query=' + encodeURIComponent('describe ?s where {?s ?p ?o} limit 1')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send('describe ?s where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
 	it('PUT a tables query update with JSON (and some metadata fields)', function(done) {
@@ -316,7 +318,8 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.put('/api/tables/test')
 			.set('Content-Type','application/json')
 			.auth('user','password')
-			.send({"query": "select * where {?s ?p ?o} limit 1","$name": "Test table update"})
+			.send({"query": "select * where {?s ?p ?o} limit 1","name": "Test table update",
+      "endpoint":testEndpoint})
 			.expect(200, done);
 	});
 	it('...and the metadata is there!', function(done) {
@@ -338,14 +341,14 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.put('/api/tables/test')
 			.set('Content-Type','application/json')
 			.auth('user','password')
-			.send({"$name": "Test table update"})
+			.send({"name": "Test table update","endpoint":testEndpoint})
 			.expect(400, done);
 	});
-	it('PUT a new tables query via data', function(done) {
+	it('PUT a new tables query via URL encoded parameters', function(done) {
 		request(app)
-			.put('/api/tables/new')
+      .put('/api/tables/new?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 25')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send('select * where {?s ?p ?o} limit 1')
 			.expect(201, done);
 	});
 	it('...and the POSTed tables query works', function(done) {
@@ -357,12 +360,12 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	});
 	it('An invalid query is rejected and not created.', function(done) {
 		request(app)
-			.put('/api/tables/new')
+      .put('/api/tables/test?query=' + encodeURIComponent('Zelect * where {?s ?p ?o} limit 1')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
 	});
-	it('The working query wasn\'t overriden by the bad one, and still works.', function(done) {
+	it('...the working query wasn\'t overriden by the bad one, and still works.', function(done) {
 		request(app)
 			.get('/api/tables/new')
 			.set('Accept', 'application/sparql-results+json')
@@ -371,9 +374,9 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 	});
 	it('An empty query is rejected and not created.', function(done) {
 		request(app)
-			.put('/api/tables/new-with-error')
+      .put('/api/tables/test?query='
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send('')
 			.expect(400, done);
 	});
 	it('PUTing a too big query returns a 413 Request too large.', function(done) {
@@ -382,9 +385,9 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			bigQuery += ",{select * where {?s ?p ?o} limit 1'}";
 		}
 		request(app)
-			.put('/api/tables/new')
+      .put('/api/tables/test?query=' + encodeURIComponent(bigQuery)
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.auth('user','password')
-			.send(bigQuery)
 			.expect(413, done);
 	});
 	it('DELETE the new tables query, with credentials.', function(done) {
