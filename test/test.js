@@ -122,12 +122,12 @@ describe('Using canned queries', function() {
 			.get('/api/tables/test.xxx')
 			.expect(406, done);
 	});
-	it('POST /api/update/test3 returns 200', function(done) {
+	it('POST /api/update/test3 (insert data) returns 200', function(done) {
 		request(app)
 			.post('/api/update/test3')
 			.expect(200, done);
 	});
-	it('GET /api/update/test4 returns 200', function(done) {
+	it('GET /api/update/test4  (delete data) returns 200', function(done) {
 		request(app)
 			.get('/api/update/test4')
 			.expect(200, done);

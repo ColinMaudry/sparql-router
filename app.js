@@ -35,9 +35,10 @@ copies or substantial portions of the Software.
 //Update API documentation configuration
 var apiConfigFile = "./public/api/swagger.json";
 var apiConfig = require(apiConfigFile);
-apiConfig.host = config.get('app.public.hostname') + functions.getPublicPort();
+var publicAppConfig = config.get('app.public');
+apiConfig.host = publicAppConfig.hostname + functions.getPort(publicAppConfig);
 apiConfig.schemes = [];
-apiConfig.schemes.push(config.get('app.public.scheme'));
+apiConfig.schemes.push(publicAppConfig.scheme);
 fs.writeFile(apiConfigFile, JSON.stringify(apiConfig, null, 4), function (err) {
   if (err) return console.log(err);
   debug('Writing API configuration to ' + apiConfigFile);
@@ -57,6 +58,12 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
     });
   };
 });
+
+// System endpoint
+var endpointConfig = config.get('endpoint');
+var endpointPort = functions.getPort(endpointConfig);
+systemEndpointUpdate = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.updatePath;
+systemEndpointQuery = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.queryPath,
 
 
 app.set('case sensitive routing', false);
@@ -101,7 +108,7 @@ app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
 app.use(function(err, req, res, next) {
-  console(err.stack);
+  console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
