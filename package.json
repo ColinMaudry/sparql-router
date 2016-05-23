@@ -17,6 +17,7 @@
     "email": "colin@maudry.com"
   },
   "scripts": {
+    "initialize": "node bin/init",
     "test": "istanbul cover ./node_modules/.bin/_mocha test/test.js --check-leaks",
     "start": "node bin/www",
     "watch-scss": "node-sass -w ./src/main.scss ./public/dist/main.css",
