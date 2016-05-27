@@ -297,7 +297,7 @@ describe('GET results from canned queries, populating query variables', function
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-  var testEndpoint = "http://queery.link:3030/test/sparql";
+  var testEndpoint = "http://localhost:3030/test/sparql";
 
 	it('PUT a table query update via URL encoded parameters', function(done) {
 		request(app)
@@ -322,20 +322,6 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
       "endpoint":testEndpoint})
 			.expect(200, done);
 	});
-	it('...and the metadata is there!', function(done) {
-		request(app)
-			.get('/api/ask/test2')
-			.accept('application/sparql-results+json')
-			.expect(function(response) {
-				if (response.body.boolean === true) {
-					return "Variable successfully replaced."; }
-				else {
-					console.log(JSON.stringify(response.body));
-					throw new Error("Longer variable was affected.");
-				}
-			})
-			.expect(200, done);
-	});
 	it('PUT a tables query update with JSON (with no body.query), so 400', function(done) {
 		request(app)
 			.put('/api/tables/test')
@@ -351,7 +337,7 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.auth('user','password')
 			.expect(201, done);
 	});
-	it('...and the POSTed tables query works', function(done) {
+	it('...and the new tables query works', function(done) {
 		request(app)
 			.get('/api/tables/new')
 			.set('Accept', 'application/sparql-results+json')
