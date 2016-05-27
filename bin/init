@@ -6,7 +6,7 @@ var https = require('https');
 var functions = require('./../lib/functions');
 var fs = require('fs');
 
-var endpointConfig = config.get('endpoint');
+var endpointConfig = config.get('endpoints.system');
 var endpointPort = functions.getPort(endpointConfig);
 
 var endpointUpdateUrl = endpointConfig.scheme
@@ -48,7 +48,7 @@ fs.readFile(filepath,'utf8', function (err, data) {
 
 
     var options = functions.getHttpOptions(request);
-    if (config.get('endpoint.scheme') == 'https') {scheme = https} else {scheme = http};
+    if (endpointConfig.scheme) == 'https') {scheme = https} else {scheme = http};
 
     var req = scheme.request(options,(res) =>  {
       var result = "";

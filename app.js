@@ -60,7 +60,7 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
 });
 
 // System endpoint
-var endpointConfig = config.get('endpoint');
+var endpointConfig = config.get('endpoints.system');
 var endpointPort = functions.getPort(endpointConfig);
 systemEndpointUpdate = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.updatePath;
 systemEndpointQuery = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.queryPath,

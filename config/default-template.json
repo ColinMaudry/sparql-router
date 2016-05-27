@@ -1,17 +1,31 @@
 
 {
-	"endpoint" : {
-		"scheme" : "http",
-		"hostname": "queery.link",
-		"port":"3030",
-		"user" : "user",
-		"password" : "password",
-		"queryPath": "/queery-test/query",
-		"updatePath": "/queery-test/update",
-		"queryParameterName": "query",
-		"updateParameterName": "update",
-		"headers": {}
-	},
+	"endpoints" : {
+    "system" : {
+  		"scheme" : "http",
+  		"hostname": "queery.link",
+  		"port":"3030",
+  		"user" : "user",
+  		"password" : "password",
+  		"queryPath": "/queery-test/query",
+  		"updatePath": "/queery-test/update",
+  		"queryParameterName": "query",
+  		"updateParameterName": "update",
+  		"headers": {}
+	   },
+     "default" : {
+   		"scheme" : "http",
+   		"hostname": "queery.link",
+   		"port":"3030",
+   		"user" : "user",
+   		"password" : "password",
+   		"queryPath": "/queery-test/query",
+   		"updatePath": "/queery-test/update",
+   		"queryParameterName": "query",
+   		"updateParameterName": "update",
+   		"headers": {}
+      }
+  },    
 	"app" : {
 		"authentication" : true,
 		"user" : "user",
