@@ -44,6 +44,7 @@ fs.readFile(filepath,'utf8', function (err, data) {
     request.sparqlQuery.query = data;
 
     request = functions.populateCustomQueryVariables(request);
+    var scheme = {};
 
 
     var options = functions.getHttpOptions(request);
