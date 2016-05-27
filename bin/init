@@ -22,7 +22,8 @@ var request = {
   savedparams : {
     type : "update"
   },
-  queryText : "",
+  sparqlQuery :{
+    query : ""},
   queryVariables : {
     "?systemEndpointUpdate" : endpointUpdate,
     "?systemEndpointQuery" : endpointQuery,
@@ -40,7 +41,7 @@ console.log("Setting up initial query metadata...");
 
 fs.readFile(filepath,'utf8', function (err, data) {
   if (err) {throw err} else {
-    request.queryText = data;
+    request.sparqlQuery.query = data;
 
     request = functions.populateCustomQueryVariables(request);
 
@@ -66,7 +67,7 @@ fs.readFile(filepath,'utf8', function (err, data) {
   		console.log('Error: problem with request: ' + e.message);
   		response.status(500).send('problem with request: ' + e.message + '\n');
   	});
-  	req.write(request.queryText);
+  	req.write(request.sparqlQuery.query);
   	req.end();
 
   }

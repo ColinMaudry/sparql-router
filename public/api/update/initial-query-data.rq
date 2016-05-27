@@ -123,7 +123,7 @@ insert data {
       	router:endpoint <http://localhost:3030/test/update> .
 
 #System queries
-<uri:sparql-router:system:ask:initial-query-data> dct:identifier "initial-query-data" ;
+<uri:sparql-router:system:update:initial-query-data> dct:identifier "initial-query-data" ;
       	a router:UpdateQuery ;
         a router:SystemQuery ;
       	dct:author "Colin Maudry" ;
@@ -136,11 +136,23 @@ insert data {
       	dct:author "Colin Maudry" ;
       	rdfs:label "Updates a query" ;
       	router:endpoint ?systemEndpointUpdate .
-<uri:sparql-router:system:ask:new-query> dct:identifier "new-query" ;
+<uri:sparql-router:system:update:new-query> dct:identifier "new-query" ;
       	a router:UpdateQuery ;
         a router:SystemQuery ;
       	dct:author "Colin Maudry" ;
       	rdfs:label "Creates a query" ;
       	router:endpoint ?systemEndpointUpdate .
-  }
+<uri:sparql-router:system:update:delete-query> dct:identifier "delete-query" ;
+      	a router:UpdateQuery ;
+        a router:SystemQuery ;
+      	dct:author "Colin Maudry" ;
+      	rdfs:label "Deletes a query" ;
+      	router:endpoint ?systemEndpointUpdate .
+<uri:sparql-router:system:graphs:query-metadata> dct:identifier "query-metadata" ;
+      	a router:GraphsQuery ;
+        a router:SystemQuery ;
+      	dct:author "Colin Maudry" ;
+      	rdfs:label "Fetches the metadata of a query" ;
+      	router:endpoint ?systemEndpointQuery .
+}
 }

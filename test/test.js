@@ -376,23 +376,37 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.auth('user','password')
 			.expect(413, done);
 	});
+  it('DELETE the new graphs query, with credentials.', function(done) {
+    request(app)
+      .delete('/api/graphs/test-to-delete')
+      .auth('user','password')
+      .expect(200, done);
+  });
 	it('DELETE the new tables query, with credentials.', function(done) {
 		request(app)
 			.delete('/api/tables/new')
 			.auth('user','password')
 			.expect(200, done);
 	});
-	it('DELETE the new graphs query, with credentials.', function(done) {
-		request(app)
-			.delete('/api/graphs/test-to-delete')
-			.auth('user','password')
-			.expect(200, done);
-	});
-	it('The DELETEd new tables query is gone.', function(done) {
+	it('...the DELETEd new tables query is gone.', function(done) {
 		request(app)
 			.get('/api/tables/new')
 			.expect(404, done);
 	});
+  it('...the DELETEd new tables query metadata is also gone.', function(done) {
+    request(app)
+      .get('/api/graphs/query-metadata.jsonld?$queryType=' + encodeURIComponent("router:TablesQuery")
+      + "&$name=" + encodeURIComponent('"new"'))
+      .expect(function(response) {
+        if (response.body["@id"] === undefined) {
+          return "Query metadata was successfully deleted."; }
+        else {
+          console.log(JSON.stringify(response.body));
+          throw new Error("Query metadata was not deleted.");
+        }
+      })
+      .expect(200, done);
+  });
 	it('DELETE an inexistent query returns 404.', function(done) {
 		request(app)
 			.delete('/api/tables/random')
