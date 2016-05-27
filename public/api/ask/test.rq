@@ -1,2 +1,2 @@
 ask
-{<http://colin.maudry.com/me/rdf> <http://colin.maudry.com/vos#test>  <http://queery.link> .}
+{<http://colin.maudry.com/ontologies/dgfr#> <http://purl.org/dc/terms/creator> <http://colin.maudry/rdf/colin-maudry#me> .}
