@@ -448,8 +448,8 @@ describe('Authentication', function() {
 
 //
 // POST and GET queries in passthrough mode
+//
 
-/*
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
 	it('GET queries to /sparql are passed through', function(done) {
@@ -500,4 +500,4 @@ describe('POST and GET queries in passthrough mode', function() {
 			.send('zelect * where {?s ?p ?o} limit 1')
 			.expect(400, done);
 	});
-});*/
+});

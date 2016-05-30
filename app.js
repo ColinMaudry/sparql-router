@@ -60,11 +60,15 @@ fs.readFile(hydraContextFile,'utf8', function (err, data) {
 });
 
 // System endpoint
-var endpointConfig = config.get('endpoints.system');
-var endpointPort = functions.getPort(endpointConfig);
-systemEndpointUpdate = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.updatePath;
-systemEndpointQuery = endpointConfig.scheme + "://" + endpointConfig.hostname + endpointPort + endpointConfig.queryPath,
+var systemEndpointConfig = config.get('endpoints.system');
+var defaultEndpointConfig = config.get('endpoints.default');
+var systemEndpointPort = functions.getPort(systemEndpointConfig);
+var defaultEndpointPort = functions.getPort(defaultEndpointConfig);
 
+systemEndpointUpdate = systemEndpointConfig.scheme + "://" + systemEndpointConfig.hostname + systemEndpointPort + systemEndpointConfig.updatePath;
+systemEndpointQuery = systemEndpointConfig.scheme + "://" + systemEndpointConfig.hostname + systemEndpointPort + systemEndpointConfig.queryPath ;
+defaultEndpointUpdate = defaultEndpointConfig.scheme + "://" + defaultEndpointConfig.hostname + defaultEndpointPort + defaultEndpointConfig.updatePath ;
+defaultEndpointQuery = defaultEndpointConfig.scheme + "://" + defaultEndpointConfig.hostname + defaultEndpointPort + defaultEndpointConfig.queryPath ;
 
 app.set('case sensitive routing', false);
 app.set('strict routing', false);
