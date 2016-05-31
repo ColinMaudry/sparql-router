@@ -330,6 +330,21 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
 			.send({"name": "Test table update","endpoint":testEndpoint})
 			.expect(400, done);
 	});
+  it('PUT a new table query with JSON (relying on default endpoint)', function(done) {
+    request(app)
+      .put('/api/tables/test6')
+      .set('Content-Type','application/json')
+      .auth('user','password')
+      .send({"query": "select * where {?s ?p ?o} limit 1","name": "Test table with default endpoint 6"})
+      .expect(201, done);
+  });
+  it('...and the new tables query works', function(done) {
+		request(app)
+			.get('/api/tables/test6')
+			.set('Accept', 'application/sparql-results+json')
+			.expect(200)
+			.expect('Content-Type', /json/, done);
+	});
 	it('PUT a new tables query via URL encoded parameters', function(done) {
 		request(app)
       .put('/api/tables/new?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 25')
@@ -407,6 +422,12 @@ describe('Create, modify or delete canned queries, with basic auth', function() 
       })
       .expect(200, done);
   });
+  it('DELETE the new tables query, with credentials.', function(done) {
+    request(app)
+      .delete('/api/tables/test6')
+      .auth('user','password')
+      .expect(200, done);
+  });
 	it('DELETE an inexistent query returns 404.', function(done) {
 		request(app)
 			.delete('/api/tables/random')
@@ -467,6 +488,15 @@ describe('POST and GET queries in passthrough mode', function() {
       .expect('Content-Type', /xml|json|csv/, done)
 
   });
+  it('GET queries to /sparql are passed through for provided endpoint and return accepted content type', function(done) {
+    request(app)
+      .get('/api/sparql?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 5')
+      + "&endpoint=" + encodeURIComponent('http://dydra.com/colin-maudry/dgfr/sparql'))
+      .set("Accept","text/csv")
+      .expect(200)
+      .expect('Content-Type', /csv/, done)
+
+  });
 	it('GET empty queries to /sparql returns 400', function(done) {
 		request(app)
 			.get('/api/sparql')
@@ -483,29 +513,31 @@ describe('POST and GET queries in passthrough mode', function() {
 			.get('/api/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
-	it('POST queries to /sparql are passed through to the endpoint.', function(done) {
+	it('POST queries to /sparql are passed through to the default endpoint.', function(done) {
 		request(app)
 			.post('/api/sparql')
-			.send('select * where {?s ?p ?o} limit 1')
+      .set('Content-Type','application/json')
+      .send({"query": "select * where {?s ?p ?o} limit 1"})
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done);
 	});
 	it('POST empty queries to /sparql returns 400', function(done) {
 		request(app)
 			.post('/api/sparql')
+      .set('Content-Type','application/json')
 			.expect(400, done);
 	});
-	it('POST queries to /query are 301 redirected to /sparql', function(done) {
+	it('POST queries to /query work as well.', function(done) {
 		request(app)
 			.post('/api/query')
-			.send('select * where {?s ?p ?o} limit 1')
+      .send({"query": "select * where {?s ?p ?o} limit 1"})
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done);
 	});
 	it('POST malformed queries to /sparql returns 400', function(done) {
 		request(app)
 			.post('/api/sparql')
-			.send('zelect * where {?s ?p ?o} limit 1')
+      .send({"query": "zelect * where {?s ?p ?o} limit 1"})
 			.expect(400, done);
 	});
 });
