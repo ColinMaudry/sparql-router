@@ -452,13 +452,21 @@ describe('Authentication', function() {
 
 describe('POST and GET queries in passthrough mode', function() {
 	this.timeout(4000);
-	it('GET queries to /sparql are passed through', function(done) {
+	it('GET queries to /sparql are passed through for default endpoint', function(done) {
 		request(app)
 			.get('/api/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done)
 
 	});
+  it('GET queries to /sparql are passed through for provided endpoint (URL parameters)', function(done) {
+    request(app)
+      .get('/api/sparql?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 5')
+      + "&endpoint=" + encodeURIComponent('http://dydra.com/colin-maudry/dgfr/sparql'))
+      .expect(200)
+      .expect('Content-Type', /xml|json|csv/, done)
+
+  });
 	it('GET empty queries to /sparql returns 400', function(done) {
 		request(app)
 			.get('/api/sparql')
