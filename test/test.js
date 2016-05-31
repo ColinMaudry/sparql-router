@@ -297,7 +297,7 @@ describe('GET results from canned queries, populating query variables', function
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-  var testEndpoint = "http://localhost:3030/test/sparql";
+  var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
 
 	it('PUT a table query update via URL encoded parameters', function(done) {
 		request(app)
