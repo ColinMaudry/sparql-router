@@ -4,7 +4,7 @@ var cors = require('express-cors');
 var express = require('express');
 var config = require('config');
 var helmet = require('helmet');
-var debug = require('debug');
+var debug = require('debug')('routes');
 var fs = require('fs');
 var app = express();
 
@@ -112,8 +112,9 @@ app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
 app.use(function(err, req, res, next) {
+  debug(request.url + " Mayday!")
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Something broke! Please contact the developer.');
 });
 
 module.exports = app;
