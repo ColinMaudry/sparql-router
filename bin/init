@@ -48,7 +48,7 @@ fs.readFile(filepath,'utf8', function (err, data) {
 
 
     var options = functions.getHttpOptions(request);
-    if (endpointConfig.scheme) == 'https') {scheme = https} else {scheme = http};
+    if (endpointConfig.scheme == 'https') {scheme = https} else {scheme = http};
 
     var req = scheme.request(options,(res) =>  {
       var result = "";
