@@ -1,76 +1,77 @@
-
 {
-  "endpoints" : {
-    "system" : {
-  		"scheme" : "http",
-  		"hostname": "queery.link",
-  		"port":"3030",
-  		"user" : "user",
-  		"password" : "password",
-  		"queryPath": "/queery-test/query",
-  		"updatePath": "/queery-test/update",
-  		"queryParameterName": "query",
-  		"updateParameterName": "update"
-	   },
-     "default" : {
-   		"scheme" : "http",
-   		"hostname": "queery.link",
-   		"port":"3030",
-   		"user" : "user",
-   		"password" : "password",
-   		"queryPath": "/queery-test/query",
-   		"updatePath": "/queery-test/update",
-   		"queryParameterName": "query",
-   		"updateParameterName": "update"
-      }
-  },
-	"app" : {
-		"authentication" : true,
-		"user" : "user",
-		"password": "password",
-		"defaultAccept" : {
-			"tables" : "application/sparql-results+json",
-			"graphs" : "text/turtle",
-			"ask" : "application/sparql-results+json",
-			"update" : "text/html"
+	"endpoints": {
+		"system": {
+			"scheme": "http",
+			"hostname": "queery.link",
+			"port": "3030",
+			"user": "user",
+			"password": "password",
+			"queryPath": "/queery-test/query",
+			"updatePath": "/queery-test/update",
+			"queryParameterName": "query",
+			"updateParameterName": "update",
+			"headers": {}
 		},
-		"port" : 3000,
-		"public" : {
-			"scheme" : "https",
-			"hostname" : "sparql-router.heroku.com",
-			"port" : ""
-			},
-		"maxQueryLength" : 4000
+		"default": {
+			"scheme": "http",
+			"hostname": "queery.link",
+			"port": "3030",
+			"user": "user",
+			"password": "password",
+			"queryPath": "/test/query",
+			"updatePath": "/test/update",
+			"queryParameterName": "query",
+			"updateParameterName": "update",
+			"headers": {}
+		}
+	},
+	"app": {
+		"authentication": true,
+		"user": "user",
+		"password": "password",
+		"defaultAccept": {
+			"tables": "application/sparql-results+json",
+			"graphs": "text/turtle",
+			"ask": "application/sparql-results+json",
+			"update": "text/html"
+		},
+		"port": 3000,
+		"public": {
+			"scheme": "https",
+			"hostname": "sparql-router.heroku.com",
+			"port": ""
+		},
+		"maxQueryLength": 4000
 	},
 
 
 
-	"typeByExtension" : {
-		"tables" : {
-			"csv" : "text/csv",
-			"json" : "application/sparql-results+json",
-			"srj" : "application/sparql-results+json",
-			"srx" : "application/sparql-results+xml",
-			"xml" : "application/sparql-results+xml"
+	"typeByExtension": {
+		"tables": {
+			"csv": "text/csv",
+			"json": "application/sparql-results+json",
+			"srj": "application/sparql-results+json",
+			"srx": "application/sparql-results+xml",
+			"xml": "application/sparql-results+xml"
 		},
-		"graphs" : {
-			"xml" : "application/rdf+xml",
-			"rdf" : "application/rdf+xml",
-			"ttl" : "text/turtle",
-			"jsonld" : "application/ld+json",
-			"nt" : "application/n-triples",
-			"json" : "application/ld+json"
+		"graphs": {
+			"xml": "application/rdf+xml",
+			"rdf": "application/rdf+xml",
+			"ttl": "text/turtle",
+			"jsonld": "application/ld+json",
+			"nt": "application/n-triples",
+			"json": "application/ld+json"
 		},
-		"ask" : {
-			"xml" : "application/sparql-results+xml",
-			"srx" : "application/sparql-results+xml",
-			"json" : "application/sparql-results+json",
-			"srj" : "application/sparql-results+json",
-			"csv" : "text/csv"
+		"ask": {
+			"xml": "application/sparql-results+xml",
+			"srx": "application/sparql-results+xml",
+			"json": "application/sparql-results+json",
+			"srj": "application/sparql-results+json",
+			"csv": "text/csv"
 		},
-		"update" : {
-			"json" : "application/json",
-			"txt" : "text/plain"
+		"update": {
+			"json": "application/json",
+			"txt": "text/plain"
 		}
 
 	}
