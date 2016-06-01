@@ -3,16 +3,16 @@
 var config = require('config');
 
 var app = require('./../app');
-var port = process.env.PORT || config.get('app.port'); 
+var port = process.env.PORT || config.get('app.port');
 var usedConfig = process.env.NODE_ENV || "default";
 app.listen(port,function() {
 console.log(
 	'Listening on port ' + port + "\n"
-	+ 'Configuration: /config/' + usedConfig + ".json, which sets:\n\n" 
-	+ "Authentication enabled:........" + config.get('app.authentication') + "\n"
-	+ "Endpoint host:................." + config.get('endpoint.hostname') + "\n"
+	+ 'Configuration: /config/' + usedConfig + ".json, which sets:\n\n"
+	+ "Authentication enabled........" + config.get('app.authentication') + "\n"
+	+ "Endpoint host (system)........." + config.get('endpoints.system.hostname') + "\n"
+  + "Endpoint host (default)........." + config.get('endpoints.default.hostname') + "\n"
 	+ "Public app host:..............." + config.get('app.public.hostname') + "\n"
 	);
 
 });
-  

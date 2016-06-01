@@ -540,4 +540,10 @@ describe('POST and GET queries in passthrough mode', function() {
       .send({"query": "zelect * where {?s ?p ?o} limit 1"})
 			.expect(400, done);
 	});
+  it('PUT returns a 405 error.', function(done) {
+    request(app)
+      .put('/api/sparql')
+      .send({"query": "select * where {?s ?p ?o} limit 1"})
+      .expect(405, done);
+  });
 });
