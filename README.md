@@ -7,27 +7,18 @@
 | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=master)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=master)| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)   [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=develop)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=develop) |
 
 
-<!-- |   |  |
-| ------------- | ------------- |
-| [Description](#description)  |  [Test](#test) |
-| [Features](#features)| [Start it](#start-it) |
-| [Demo](#demo)]  | [Use it](#use-it)  |
-| [Requirements](#requirements) | [Similar software](#similar-software) |
-| [Installation](#installation)| [Change log](#change-log) |
-| [Configuration](#configuration)| [License](#license)| -->
-
 ## Description
 
 [SPARQL](https://en.wikipedia.org/wiki/SPARQL) is the query language to retrieve data from RDF triple stores. I often had the issue that fellow developers or data fanatics asked for data that was in a triple store, but they don't know SPARQL.
 
-This module solves the issue:
+This server application solves the issue:
 
 1. You write the query and gives it a name (e.g. `biggest-asian-cities`)
 2. You save it under /tables, /graphs or /update, depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
 3. You give the URL to your fellow developer, picking the right format for their usage:
-	- `http:/yourhost/tables/biggest-asian-cities.csv` for manipulations as a spreadsheet
-	- `http:/yourhost/tables/biggest-asian-cities.json` as input for a Web app
-	- `http:/yourhost/tables/biggest-asian-cities.xml` if they are into XML
+	- `http:/yourhost/api/tables/biggest-asian-cities.csv` for manipulations as a spreadsheet
+	- `http:/yourhost/api/tables/biggest-asian-cities.json` as input for a Web app
+	- `http:/yourhost/api/tables/biggest-asian-cities.xml` if they are into XML
 4. They get fresh updated results from the store every time they hit the URL!
 
 ![Create a query](https://www.lucidchart.com/publicSegments/view/0ea72916-0669-4b70-b388-dae7973c51b6/image.png)
@@ -37,11 +28,11 @@ This module solves the issue:
 ## Features
 
 - Exposes SPARQL queries as simple URLs, with choice of result format
-- A canned query is a simple file located in `/public/tables`, `/public/graphs` or `/public/update` depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
-- Beside using FTP and SSH, you can POST a new canned query to `/tables/{query-name}`, `/graphs/{query-name}` or `/update/{query-name}`
+- A canned query is a simple file located in `/public/api/tables`, `/public/api/graphs` or `/public/api/ask` depending on the query type (SELECT, CONSTRUCT, DESCRIBE, SPARQL Update)
+- Beside using FTP and SSH, you can POST a new canned query to `/api/tables/{query-name}`, `/api/graphs/{query-name}` or `/api/ask/{query-name}`
 - For more query reuse, possibility to populate variable values in the query by passing parameters
 - Supports content negotiation (via the `Accept` HTTP header)
-- Possibility to GET or POST a SPARQL query on `/sparql` and get the results, without saving it
+- Possibility to GET or POST a SPARQL query on `/api/sparql` and get the results, without saving it
 
 [A screenshot of the tests as overview of the features](test/tests.png).
 
@@ -57,11 +48,11 @@ Now it's still jut a useful middleman between your RDF data and your data consum
 
 An instance, with [the develop branch](https://github.com/ColinMaudry/sparql-router/tree/develop), is deployed on Heroku, with API documentation:
 
-https://sparql-router.herokuapp.com
+https://sparql-router.herokuapp.com/api
 
 You can create new queries through this form and have fun. Authentication is disabled in the demo:
 
-http://sparql-router.herokuapp.com/#!/canned_query/post_queryType_name
+http://sparql-router.herokuapp.com/api/#!/canned_query/post_queryType_name
 
 ## Requirements
 
@@ -86,7 +77,7 @@ SPARQL router is also available as an [NPM package](https://www.npmjs.com/packag
 
 I haven't found a proper way to mock a triple store for testing purposes. I consequently use a remote triple store. That means the tests only work if the machine has Internet access.
 
-The configuration used for the tests is stored in `[app folder]/config/test.json`.
+The configuration used for the tests is stored in `config/test.json`.
 
 To run the tests:
 
@@ -101,8 +92,22 @@ Tests rely on [mocha](http://mochajs.org/) and
 
 ## Start it
 
+Using `config/default.json` configuration file:
+
 ```
-node bin/www
+npm start
+```
+
+Using `config/myconfig.json` configuration file:
+
+```
+NODE_ENV=myconfig npm start
+```
+
+Start in debug mode:
+
+```
+DEBUG=functions,routes npm start
 ```
 
 ## Use it
@@ -117,7 +122,6 @@ The actions that are not read-only on the canned queries or the data require [ba
 
 - HTTP POST to create or update a query
 - HTTP DELETE to delete a query
-- HTTP GET  on the `/update` endpoint (because it affects the data)
 
 ## Similar software
 
@@ -127,6 +131,16 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 - [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."
 
 ## Change log
+
+#### 0.3.0
+
+- Aribitrary endpoint can be passed with canned queries (upon creation or update) and with passthrough queries
+- Metadata (name, author) can be passed with canned queries (new and updates) and with passthrough queries. Creation and modification dates are added automatically
+- The system endpoint stores the canned queries metadata
+- The default endpoint is the endpoint that is used if no endpoint is provided by the client
+- Added support for ASK queries on `/api/ask`
+- Started work on UI, using VueJS (just wireframes for now)
+- Updated the [API documentation](https://sparql-router.herokuapp.com/api) accordingly
 
 ##### 0.2.2
 
