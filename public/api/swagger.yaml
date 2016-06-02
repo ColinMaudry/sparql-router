@@ -13,7 +13,7 @@ info:
 
     [YAML](swagger.yaml) and [JSON](swagger.json) sources for this API spec,
     written with [Swagger Editor](http://editor.swagger.io/).
-  version: 0.1.0
+  version: 0.3.0
 securityDefinitions:
   basicAuth:
     type: basic
@@ -29,30 +29,43 @@ produces:
   - application/ld+json
   - application/n-triples
 paths:
-  '/{queryType}/{name}{extension}':
+  '/api/{queryType}/{name}{extension}':
     get:
       tags:
         - canned query
-      summary: Query that returns the results of a SPARQL query. The extension determines the requested format.
+      summary: >-
+        Query that returns the results of a SPARQL query. The extension
+        determines the requested format.
       description: >
-        The queries in `/tables` return tabular data, that is data in columns,
-        with column headers. These results are typically returned as JSON, CSV or
-        XML.
+        ##### Query variables
+
+        You can replace query variables (`?variable`) by passing value as parameters. See examples below.
 
 
+        ##### Returned data
 
-        The queries in `/graphs` return graph data, or [RDF
+
+        The queries in `/api/tables/` return tabular data, that is data in
+        columns, with column headers. These results are typically returned as
+        JSON, CSV or XML.
+
+
+        The queries in `/api/graphs/` return graph data, or [RDF
         triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
         form of `subject predicate object` statements. These results are
         typically returned as
-        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/)
-        or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
+        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),
+        [JSON-LD](http://json-ld.org/) or
+        [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
+
+
+        The queries in `/api/ask/` return a boolean value.
 
 
 
         **The returned format depends on the chosen extension**. See valid
         extensions
-        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
+        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
 
 
 
@@ -60,13 +73,17 @@ paths:
 
 
 
-        - [/tables/test.csv](/tables/test.csv)
+        - [/api/tables/test.csv](/api/tables/test.csv)
 
-        - [/graphs/test.ttl](/tables/test.csv)
+        - [/api/graphs/test.ttl](/api/tables/test.csv)
+
+        - [/api/ask/test.json](/api/tables/test.json)
+
+        - [/api/tables/test.csv?$o="dgfr"](/api/tables/test.csv?$o="dgfr")
       parameters:
         - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
           type: string
           required: true
         - name: name
@@ -76,7 +93,114 @@ paths:
           type: string
         - name: extension
           in: path
-          description: 'A valid extension to determine the format of the results. See [the supported extensions](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).'
+          description: >-
+            A valid extension to determine the format of the results. See [the
+            supported
+            extensions](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
+          required: true
+          type: string
+        - name: variable
+          type: string
+          in: query
+          required: false
+          description: >-
+            `$variableName="variable value"`
+      produces:
+        - application/sparql-results+json
+        - application/sparql-results+xml
+        - text/csv
+        - application/rdf+xml
+        - text/turtle
+        - application/ld+json
+        - application/n-triples
+        - application/json
+      responses:
+        '200':
+          description: The result of the SPARQL query.
+          schema:
+            type: string
+        '400':
+          description: Extension not valid.
+        '404':
+          description: The query doesn't exist.
+    post:
+      tags:
+        - canned query
+      summary: >-
+        Query that returns the results of a SPARQL query. The extension
+        determines the requested format.
+      description: >
+
+        ##### Query variables
+
+        You can replace query variables (`?variable`) by passing value as parameters. See examples below.
+
+
+        ##### Returned data
+
+
+        The queries in `/api/tables/` return tabular data, that is data in
+        columns, with column headers. These results are typically returned as
+        JSON, CSV or XML.
+
+
+        The queries in `/api/graphs/` return graph data, or [RDF
+        triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
+        form of `subject predicate object` statements. These results are
+        typically returned as
+        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),
+        [JSON-LD](http://json-ld.org/) or
+        [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
+
+
+        The queries in `/api/ask/` return a boolean value.
+
+
+
+        **The returned format depends on the chosen extension**. See valid
+        extensions
+        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
+
+
+
+        Examples:
+
+
+
+        - [/api/tables/test.csv](/api/tables/test.csv)
+
+        - [/api/graphs/test.ttl](/api/tables/test.csv)
+
+        - [/api/ask/test.json](/api/tables/test.json)
+
+        - [/api/tables/test.csv?$o="dgfr"](/api/tables/test.csv?$o="dgfr")
+      parameters:
+        - name: queryType
+          in: path
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
+          type: string
+          required: true
+        - name: name
+          in: path
+          description: The name of the query to trigger.
+          required: true
+          type: string
+        - name: variables
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/Variables'
+        - name: Content-Type
+          type: string
+          in: header
+          required: false
+          description: If you provide variable values, you must set Content-Type header to `application/json`
+        - name: extension
+          in: path
+          description: >-
+            A valid extension to determine the format of the results. See [the
+            supported
+            extensions](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
           required: true
           type: string
       produces:
@@ -87,6 +211,7 @@ paths:
         - text/turtle
         - application/ld+json
         - application/n-triples
+        - application/json
       responses:
         '200':
           description: The result of the SPARQL query.
@@ -95,34 +220,62 @@ paths:
         '400':
           description: Extension not valid.
         '404':
-          description: "The query doesn't exist."
-  '/{queryType}/{name}':
+          description: The query doesn't exist.
+  '/api/{queryType}/{name}':
     get:
-      summary: Query that returns the results of a SPARQL query. The Accept header determines the requested format.
+      tags:
+        - canned query
+      summary: >-
+        Query that returns the results of a SPARQL query. The extension
+        determines the requested format.
       description: >
-        The queries in `/tables` return tabular data, that is data in columns,
-        with column headers. These results are typically returned as JSON, CSV or
-        XML.
+        ##### Query variables
+
+        You can replace query variables (`?variable`) by passing value as parameters. See examples below.
 
 
+        ##### Returned data
 
-        The queries in `/graphs` return graph data, or [RDF
+
+        The queries in `/api/tables/` return tabular data, that is data in
+        columns, with column headers. These results are typically returned as
+        JSON, CSV or XML.
+
+
+        The queries in `/api/graphs/` return graph data, or [RDF
         triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
         form of `subject predicate object` statements. These results are
         typically returned as
-        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/)
-        or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
+        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),
+        [JSON-LD](http://json-ld.org/) or
+        [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
 
-        **The returned format depends on the chosen content-type**. See possible
-        content-types
-        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
-        
-      tags:
-        - canned query
+
+        The queries in `/api/ask/` return a boolean value.
+
+
+
+        **The returned format depends on the content-type provided in the Accept header**. See valid
+        content-type
+        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
+
+
+
+        Examples:
+
+
+
+        - [/api/tables/test](/api/tables/test)
+
+        - [/api/graphs/test](/api/tables/test)
+
+        - [/api/ask/test](/api/tables/test)
+
+        - [/api/tables/test?$o="dgfr"](/api/tables/test?$o="dgfr")
       parameters:
         - name: queryType
           in: path
-          description: Either `tables` or `graphs` depending on the type of query.
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
           type: string
           required: true
         - name: name
@@ -130,46 +283,147 @@ paths:
           description: The name of the query to trigger.
           required: true
           type: string
-        - name: Accept
-          description: >
-            One of the [supported
-            content-types](https://github.com/ColinMaudry/sparql-router/blob/master/config/default.json).
-            If `null` it will be the default content-type of the endpoint.
-          in: header
-          required: false
+        - name: variable
           type: string
+          in: query
+          required: false
+          description: >-
+            `$variableName="variable value"`
+      produces:
+        - application/sparql-results+json
+        - application/sparql-results+xml
+        - text/csv
+        - application/rdf+xml
+        - text/turtle
+        - application/ld+json
+        - application/n-triples
+        - application/json
       responses:
         '200':
-          description: The results of the SPARQL query (schema only applies to `application/sparql-results+json`).
-          schema:
-            $ref: '#/definitions/JsonResults'
+          description: The result of the SPARQL query.
+        '400':
+          description: Extension not valid.
         '404':
-          description: "The query doesn't exist."
-        '406':
-          description: The provided content-type is not valid for this type of query.
+          description: The query doesn't exist.
     post:
+      tags:
+        - canned query
+      summary: >-
+        Query that returns the results of a SPARQL query. The `Accept` header
+        determines the requested format.
+      description: >
+
+        ##### Query variables
+
+        You can replace query variables (`?variable`) by passing value as parameters. See examples below.
+
+
+        ##### Returned data
+
+
+        The queries in `/api/tables/` return tabular data, that is data in
+        columns, with column headers. These results are typically returned as
+        JSON, CSV or XML.
+
+
+        The queries in `/api/graphs/` return graph data, or [RDF
+        triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the
+        form of `subject predicate object` statements. These results are
+        typically returned as
+        [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),
+        [JSON-LD](http://json-ld.org/) or
+        [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).
+
+
+        The queries in `/api/ask/` return a boolean value.
+
+
+        **The returned format depends on the content-type provided in the Accept header**. See valid
+        content-type
+        [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).
+
+
+
+        Examples:
+
+
+
+        - [/api/tables/test](/api/tables/test)
+
+        - [/api/graphs/test](/api/tables/test)
+
+        - [/api/ask/test](/api/tables/test)
+
+        - [/api/tables/test?$o="dgfr"](/api/tables/test?$o="dgfr")
+      parameters:
+        - name: queryType
+          in: path
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
+          type: string
+          required: true
+        - name: name
+          in: path
+          description: The name of the query to trigger.
+          required: true
+          type: string
+        - name: variables
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/Variables'
+        - name: Content-Type
+          type: string
+          in: header
+          required: false
+          description: If you provide variable values, you must set Content-Type header to `application/json`
+      consumes:
+        - application/json
+      produces:
+        - application/sparql-results+json
+        - application/sparql-results+xml
+        - text/csv
+        - application/rdf+xml
+        - text/turtle
+        - application/ld+json
+        - application/n-triples
+        - application/json
+      responses:
+        '200':
+          description: The result of the SPARQL query.
+          schema:
+            type: string
+        '400':
+          description: Extension not valid.
+        '404':
+          description: The query doesn't exist.
+    put:
       summary: Creates a new query or updates an existing one.
       description: >-
-        The new query must be passed in the body of the request.
+        The new can either be passed in the body of the request as a JSON object or as URL-encoded parameters.
 
 
 
-        If you `POST` to `/tables`, the query must be
-        a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and
+        If you `PUT` to `/api/tables/`, the query must be a
+        [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and
         consequently return tabular data.
 
 
 
-        If you `POST` to `/graphs`, the query must be
-        a [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or
+        If you `PUT` to `/api/graphs/`, the query must be a
+        [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or
         [DESCRIBE](https://www.w3.org/TR/sparql11-query/#describe) query and
         return a graph.
+
+
+        If you `PUT` to `/api/ask/`, the query must be a
+        [ASK](https://www.w3.org/TR/sparql11-query/#ask) and return a boolean
+        value.
       tags:
         - canned query
       parameters:
         - name: queryType
           in: path
-          description: Either `tables`, `graphs` or `update` depending on the type of query.
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
           type: string
           required: true
         - name: name
@@ -179,19 +433,45 @@ paths:
           type: string
         - name: query
           in: body
-          description: The text of the query.
+          description: The query and optional metadata.
           required: true
           schema:
             $ref: '#/definitions/Query'
+        - name: Content-Type
+          type: string
+          in: header
+          description: If you send the query details as JSON, you must set Content-Type header to `application/json`
+        - name: query
+          in: query
+          description: The query text.
+          required: true
+          type: string
+        - name: endpoint
+          in: query
+          description: The endpoint to query.
+          required: false
+          type: string
+        - name: name
+          in: query
+          description: The name of the query.
+          required: false
+          type: string
+        - name: author
+          in: query
+          description: The author of the query.
+          required: false
+          type: string
       consumes:
-        - application/sparql-query
+        - application/json
       responses:
         '200':
-          description: 'The query was successfully **updated**.'
+          description: The query was successfully **updated**.
         '201':
-          description: 'The query was successfully **created**.'
+          description: The query was successfully **created**.
         '400':
-          description: The `POST` request body is empty or the syntax of the submitted query is invalid.
+          description: >-
+            The `POST` request body is empty or the syntax of the submitted
+            query is invalid.
         '401':
           description: The provided credientials are not valid.
         '413':
@@ -207,7 +487,7 @@ paths:
       parameters:
         - name: queryType
           in: path
-          description: Either `tables`, `graphs` or `update` depending on the type of query.
+          description: 'Either `tables`, `graphs` or `ask` depending on the type of query.'
           type: string
           required: true
         - name: name
@@ -219,110 +499,103 @@ paths:
         '200':
           description: The query was successfully deleted.
         '404':
-          description: "The specified query doesn't exist."
+          description: The specified query doesn't exist.
         '500':
           description: There was an error deleting the query.
       security:
         - basicAuth: []
-  '/update/{name}':
+  '/api/sparql':
     get:
-      summary: Query that executes a SPARQL Update query.
-      description: >
-        The queries in `/update` execute a SPARQL Update query on the configured SPARQL endpoint. A SPARQL Update query does not return data.
-        
-        The HTTP status code of the response determines whether the update was successful or not.
-      tags:
-        - canned query
-      parameters:
-        - name: name
-          in: path
-          description: The name of the query to trigger.
-          required: true
-          type: string
-      responses:
-        '200':
-          description: The update was successfully performed. The code can vary as it depends on the SPARQL endpoint configuration.
-          schema:
-            $ref: '#/definitions/JsonResults'
-        '400':
-          description: "There was an error with the executed SPARQL Update query."
-      security:
-        - basicAuth: []
-  /sparql:
-    get:
-      summary: 'Sends a query directly to the configured endpoint, without using a canned query.'
-      description: 'Example: [/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201](/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201), which is the URL encoded version of `select * where {?s ?p ?o} limit 1`.'
+      summary: >-
+        Sends a query directly without using a canned query.
+      description: >-
+        If you want to use an endpoint of your choice, provide an `endpoint` query parameter. Otherwise the default one will be used.
+        Example:
+        [/api/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201](/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201),
+        which is the URL encoded version of `select * where {?s ?p ?o} limit 1`.
       tags:
         - passthrough query
       parameters:
         - name: query
           in: query
-          description: 'The text of the query, URL encoded. SPARQL Update queries may not work depending on endpoint configuration.'
+          description: >-
+            The text of the query, URL encoded.
           required: true
           type: string
+        - name: endpoint
+          in: query
+          type: string
+          required: false
+          description: >-
+            The endpoint to query.
         - name: Accept
           in: header
-          description: The content-type you want for the returned results. If `null` it will be the default content-type of the endpoint.
+          description: >-
+            The content-type you want for the returned results. If `undefined` it
+            will be the default content-type of the endpoint.
           type: string
           required: false
       responses:
         '200':
           description: The results of the SPARQL query.
         '400':
-          description: Something is wrong with the query.
+          description: Something is wrong with the query (usually a SPARQL syntax error).
     post:
-      summary: 'Sends a query directly to the configured endpoint, without using a canned query.'
+      summary: >-
+           Sends a query directly without using a canned query.
+      description: >-
+          If you want to use an endpoint of your choice, provide an `endpoint` parameter. Otherwise the default one will be used.
       tags:
         - passthrough query
       parameters:
         - name: query
           in: body
-          description: The text of the query. SPARQL Update queries may not work depending on endpoint configuration.
+          description: >-
+            The query text and optional endpoint.
           required: true
           schema:
             $ref: '#/definitions/Query'
+        - name: Content-Type
+          description: The Content-Type header must be set to `application/json`
+          type: string
+          in: header
+          required: true
         - name: Accept
           in: header
-          description: The content-type you want for the returned results. If `null` it will be the default content-type of the endpoint.
+          description: >-
+            The content-type you want for the returned results. If `null` it
+            will be the default content-type of the endpoint.
           type: string
           required: false
       consumes:
-        - application/sparql-query
+        - application/json
       responses:
         '200':
           description: The results of the SPARQL query.
         '400':
-          description: Something is wrong with the query.
+          description: Something is wrong with the query (usually a SPARQL syntax error).
 definitions:
   Query:
-    type: string
-  JsonResults:
     type: object
     properties:
-      head:
-        type: object
-        properties:
-          vars:
-            type: array
-            items:
-              $ref: '#/definitions/QueryVariable'
-      results:
-        type: object
-        properties:
-          bindings:
-            type: array
-            items:
-              $ref: '#/definitions/QueryBinding'
-  QueryVariable:
-    type: string
-  QueryBinding:
+      query:
+        type: string
+        description: The text of the query.
+      endpoint:
+        type: string
+        description: The SPARQL endpoint URL to use the query with (optional). If empty or undefined, the default endpoint is used.
+      name:
+        type: string
+        description: A human readable name for the query (optional)
+      author:
+        type: string
+        description: The author's name or email address or whatever (optional)
+  Variables:
     type: object
     properties:
-      variableBinding:
-        type: object
-        properties:
-          type:
-            type: string
-          value:
-            type: string
-add
+      '$variable':
+        type: string
+        description: A key value pair, where `$variable` determines the name of the variable to replace in the query.
+host: sparql-router.heroku.com
+schemes:
+  - https

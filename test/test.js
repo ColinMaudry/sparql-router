@@ -217,14 +217,14 @@ describe('GET results from canned queries, populating query variables', function
 			})
 			.expect(200, done);
 	});
-	it(' POST /api/update/test with variable (JSON) returns 200', function(done) {
+	it('POST /api/update/test with variable (JSON) returns 200', function(done) {
 		request(app)
 			.post('/api/update/test')
 			.set('Content-Type','application/json')
 			.send({"$prefix" : '"datafr"'})
 			.expect(200, done);
 	});
-	it(' POST /api/update/test2 with variable (URL) returns 200', function(done) {
+	it('POST /api/update/test2 with variable (URL) returns 200', function(done) {
 		request(app)
 			.post('/api/update/test2?$prefix="datafr"')
 			.expect(200, done);
