@@ -226,8 +226,7 @@ paths:
       tags:
         - canned query
       summary: >-
-        Query that returns the results of a SPARQL query. The extension
-        determines the requested format.
+        Query that returns the results of a SPARQL query. The `Accept` header determines the requested format.
       description: >
         ##### Query variables
 

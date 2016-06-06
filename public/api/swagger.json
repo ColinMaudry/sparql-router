@@ -160,7 +160,7 @@
                 "tags": [
                     "canned query"
                 ],
-                "summary": "Query that returns the results of a SPARQL query. The extension determines the requested format.",
+                "summary": "Query that returns the results of a SPARQL query. The `Accept` header determines the requested format.",
                 "description": "##### Query variables\nYou can replace query variables (`?variable`) by passing value as parameters. See examples below.\n\n  \n##### Returned data\n\nThe queries in `/api/tables/` return tabular data, that is data in columns, with column headers. These results are typically returned as JSON, CSV or XML.\n\nThe queries in `/api/graphs/` return graph data, or [RDF triples](https://www.w3.org/TR/rdf11-primer/#section-data-model), in the form of `subject predicate object` statements. These results are typically returned as [Turtle](https://www.w3.org/TeamSubmission/turtle/#sec-examples),  [JSON-LD](http://json-ld.org/) or [RDF/XML](https://www.w3.org/TR/rdf-syntax-grammar/#section-Syntax).\n\nThe queries in `/api/ask/` return a boolean value.\n\n\n**The returned format depends on the content-type provided in the Accept header**. See valid content-type  [here](https://github.com/ColinMaudry/sparql-router/blob/master/config/default-template.json).\n\n\nExamples:\n\n\n- [/api/tables/test](/api/tables/test)\n- [/api/graphs/test](/api/tables/test)\n- [/api/ask/test](/api/tables/test)\n- [/api/tables/test?$o=\"dgfr\"](/api/tables/test?$o=\"dgfr\")\n",
                 "parameters": [
                     {
