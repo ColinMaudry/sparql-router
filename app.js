@@ -112,7 +112,7 @@ app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
 app.use(function(err, req, res, next) {
-  debug(request.url + " Mayday!")
+  debug(req.url + " Mayday!")
   console.error(err.stack);
   res.status(500).send('Something broke! Please contact the developer.');
 });
