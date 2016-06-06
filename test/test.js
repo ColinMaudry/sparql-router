@@ -203,9 +203,10 @@ describe('Describing API resources with Hydra vocabulary', function() {
 //
 
 describe('GET results from canned queries, populating query variables', function() {
-	it('/api/tables/test?$o="dgfr" returns 200 and single result', function(done) {
+  it('/api/tables/test?$o="dgfr" returns 200 and single result', function(done) {
 		request(app)
 			.get('/api/tables/test?$o="dgfr"')
+      .set('Accept', 'application/sparql-results+json')
 			.expect(function(response) {
 				if (response.body.results.bindings.length == 1 &&
 					response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
@@ -216,6 +217,23 @@ describe('GET results from canned queries, populating query variables', function
 				}
 			})
 			.expect(200, done);
+	});
+	it('POST /api/tables/test with variable (JSON) returns 200', function(done) {
+		request(app)
+			.post('/api/tables/test')
+			.set('Content-Type','application/json')
+      .set('Accept', 'application/sparql-results+json')
+			.send({"$o" : '"dgfr"'})
+      .expect(function(response) {
+        if (response.body.results.bindings.length == 1 &&
+          response.body.results.bindings[0].s.value == "http://colin.maudry.com/ontologies/dgfr#" &&
+          response.body.results.bindings[0].p.value == "http://purl.org/vocab/vann/preferredNamespacePrefix") {
+          return "Variable successfully replaced."; }
+        else {
+          throw new Error("Variable not applied successfully.");
+        }
+      })
+      .expect(200, done);
 	});
 	it('POST /api/update/test with variable (JSON) returns 200', function(done) {
 		request(app)
