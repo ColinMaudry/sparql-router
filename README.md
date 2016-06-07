@@ -2,9 +2,9 @@
 
 #### A NodeJS/Express application to serve canned SPARQL queries to the world.
 
-| [master](https://github.com/ColinMaudry/sparql-router)  |  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) |
+| [master](https://github.com/ColinMaudry/sparql-router) ([**demo**](https://queery.link/api))|  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) ([**demo**](https://sparql-router.herokuapp.com/api))|
 | ------------- | ------------- |
-| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=master)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=master)| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)   [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=develop)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=develop) |
+| [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=master)](https://travis-ci.org/ColinMaudry/sparql-router)  [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=master)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=master) | [![Build Status](https://travis-ci.org/ColinMaudry/sparql-router.svg?branch=develop)](https://travis-ci.org/ColinMaudry/sparql-router)   [![Coverage Status](https://coveralls.io/repos/github/ColinMaudry/sparql-router/badge.svg?branch=develop)](https://coveralls.io/github/ColinMaudry/sparql-router?branch=develop) |
 
 
 ## Description
@@ -46,13 +46,8 @@ Now it's still jut a useful middleman between your RDF data and your data consum
 
 ## Demo
 
-An instance, with [the develop branch](https://github.com/ColinMaudry/sparql-router/tree/develop), is deployed on Heroku, with API documentation:
-
-https://sparql-router.herokuapp.com/api
-
-You can create new queries through this form and have fun. Authentication is disabled in the demo:
-
-http://sparql-router.herokuapp.com/api/#!/canned_query/post_queryType_name
+- Master/stable: http://queery.link/api
+- Develop/test: https://sparql-router.herokuapp.com/api
 
 ## Requirements
 
@@ -114,7 +109,7 @@ DEBUG=functions,routes npm start
 
 See this wiki page for detailed instructions: [Using SPARQL router](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
 
-The API documentation can be found [here](http://sparql-router.herokuapp.com/) (development version). If you're running the app, at the root URL (/).
+The API documentation can be found [here](https://sparql-router.herokuapp.com/) (development version). If you're running the app, at `/api`.
 
 ### Actions that require authentication
 
@@ -134,13 +129,13 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 
 #### 0.3.0
 
-- Aribitrary endpoint can be passed with canned queries (upon creation or update) and with passthrough queries
+- An arbitrary endpoint can be passed with canned queries (upon creation or update) and with passthrough queries
 - Metadata (name, author) can be passed with canned queries (new and updates) and with passthrough queries. Creation and modification dates are added automatically
 - The system endpoint stores the canned queries metadata
 - The default endpoint is the endpoint that is used if no endpoint is provided by the client
 - Added support for ASK queries on `/api/ask`
 - Started work on UI, using VueJS (just wireframes for now)
-- Updated the [API documentation](https://sparql-router.herokuapp.com/api) accordingly
+- Updated the [API documentation](http://queery.link/api) accordingly
 
 ##### 0.2.2
 
