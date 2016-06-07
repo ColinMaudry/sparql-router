@@ -398,7 +398,7 @@ paths:
     put:
       summary: Creates a new query or updates an existing one.
       description: >-
-        The new can either be passed in the body of the request as a JSON object or as URL-encoded parameters.
+        The new query can **either** be passed in the body of the request as a JSON object **or** as URL-encoded parameters.
 
 
 

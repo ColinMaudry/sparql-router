@@ -274,7 +274,7 @@
             },
             "put": {
                 "summary": "Creates a new query or updates an existing one.",
-                "description": "The new can either be passed in the body of the request as a JSON object or as URL-encoded parameters.\n\n\nIf you `PUT` to `/api/tables/`, the query must be a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and consequently return tabular data.\n\n\nIf you `PUT` to `/api/graphs/`, the query must be a [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or [DESCRIBE](https://www.w3.org/TR/sparql11-query/#describe) query and return a graph.\n\nIf you `PUT` to `/api/ask/`, the query must be a [ASK](https://www.w3.org/TR/sparql11-query/#ask) and return a boolean value.",
+                "description": "The new query can **either** be passed in the body of the request as a JSON object **or** as URL-encoded parameters.\n\n\nIf you `PUT` to `/api/tables/`, the query must be a [SELECT](https://www.w3.org/TR/sparql11-query/#select) query and consequently return tabular data.\n\n\nIf you `PUT` to `/api/graphs/`, the query must be a [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct) or [DESCRIBE](https://www.w3.org/TR/sparql11-query/#describe) query and return a graph.\n\nIf you `PUT` to `/api/ask/`, the query must be a [ASK](https://www.w3.org/TR/sparql11-query/#ask) and return a boolean value.",
                 "tags": [
                     "canned query"
                 ],
