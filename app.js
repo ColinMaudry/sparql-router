@@ -85,8 +85,10 @@ express.static.mime.define({'application/ld+json': ['jsonld']});
 app.use(helmet());
 
 app.get('/', function(request,response) {
-	response.expose('var siteRootUrl = "' + siteRootUrl + '";');
-	response.render('index', { layout: false });
+  debug(request.url + " .get");
+	// response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+	// response.render('index', { layout: false });
+  response.redirect(307,'/api');
 });
 
 app.use(function(req, res, next) {
@@ -105,7 +107,6 @@ app.param('type', function (req, res, next, type) {
   req.savedparams.type = type;
   next();
 });
-
 
 app.use('/api', apiDoc);
 app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
