@@ -105,11 +105,21 @@ Start in debug mode:
 DEBUG=functions,routes npm start
 ```
 
+### Resilient deployment
+
+If you want the app to restart automatically after fatal errors, I suggest you use [forever](https://github.com/foreverjs/forever).
+
+When forever is installed globally, run the following command in the `sparql-router` folder:
+
+```bash
+forever bin/www
+```
+
 ## Use it
 
 See this wiki page for detailed instructions: [Using SPARQL router](https://github.com/ColinMaudry/sparql-router/wiki/Using-SPARQL-router)
 
-The API documentation can be found [here](https://sparql-router.herokuapp.com/) (development version). If you're running the app, at `/api`.
+The API documentation can be found [here](https://sparql-router.herokuapp.com/api) (development version). If you're running the app, at `/api`.
 
 ### Actions that require authentication
 
