@@ -1,0 +1,11 @@
+PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+describe ?query where {
+  graph <uri:graph:sparql-router:queries> {
+  ?query dct:identifier ?name ;
+    a ?queryType .
+
+}
+  }
+  limit 1

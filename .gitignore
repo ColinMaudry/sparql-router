@@ -1,4 +1,6 @@
 node_modules
 config.js
 config/*.json
-!config/default.json
+!config/default-template.json
+!config/test.json
+coverage

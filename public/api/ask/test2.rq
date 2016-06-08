@@ -1,0 +1,4 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+ask
+{<https://sparql-router.heroku.com/api/tables/test#id> rdfs:label "Test table update" .}

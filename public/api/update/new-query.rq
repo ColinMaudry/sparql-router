@@ -1,0 +1,16 @@
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
+
+insert data {
+  graph <uri:graph:sparql-router:queries> {
+		?query dct:identifier ?slug ;
+			a ?queryType ;
+			dct:author ?author ;
+			rdfs:label ?name ;
+			dct:modificationDate ?modificationDate ;
+			dct:creationDate ?creationDate ;
+      router:endpoint ?endpoint .
+    }
+}

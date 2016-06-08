@@ -1,0 +1,1 @@
+describe ?s where {?s ?p ?o} limit 1

@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+var config = require('config');
+var http = require('http');
+var https = require('https');
+var functions = require('./../lib/functions');
+var fs = require('fs');
+
+var endpointConfig = config.get('endpoints.system');
+var endpointPort = functions.getPort(endpointConfig);
+
+var endpointUpdateUrl = endpointConfig.scheme
+                    + "://" + endpointConfig.hostname
+                    + endpointPort + endpointConfig.updatePath ;
+var endpointQuery = "<" + endpointConfig.scheme
+                    + "://" + endpointConfig.hostname
+                    + endpointPort + endpointConfig.queryPath + ">" ;
+var endpointUpdate = "<" + endpointUpdateUrl + ">" ;
+
+var request = {
+  sparqlFilePath : "./public/api/update/initial-query-data.rq",
+  savedparams : {
+    type : "update"
+  },
+  sparqlQuery :{
+    query : ""},
+  queryVariables : {
+    "?systemEndpointUpdate" : endpointUpdate,
+    "?systemEndpointQuery" : endpointQuery,
+},
+  queryMetadata : {
+  "@id": "uri:sparql-router:system:update:init-query-metadata",
+  "dct:identifier" : "init-query-metadata",
+  "@type" : [ "router:UpdateQuery", "router:SystemQuery" ],
+  "endpoint" : endpointUpdateUrl
+},
+  headers: {}
+};
+var filepath = request.sparqlFilePath;
+console.log("Setting up initial query metadata...");
+
+fs.readFile(filepath,'utf8', function (err, data) {
+  if (err) {throw err} else {
+    request.sparqlQuery.query = data;
+
+    request = functions.populateCustomQueryVariables(request);
+    var scheme = {};
+
+
+    var options = functions.getHttpOptions(request);
+    if (endpointConfig.scheme == 'https') {scheme = https} else {scheme = http};
+
+    var req = scheme.request(options,(res) =>  {
+      var result = "";
+      res.setEncoding('utf8');
+      res.on('data', (data) => {
+  			result += data;
+  		});
+  		res.on('end', () => {
+  			if (res.statusCode < 400) {
+          console.log("Initial query metadata set up in " + options.hostname + "!");
+        } else {
+          throw new Error(res.statusCode + " " + result + "\n\n");
+        }
+  		})
+  	});
+  	req.on('error', (e) => {
+  		console.log('Error: problem with request: ' + e.message);
+  		response.status(500).send('problem with request: ' + e.message + '\n');
+  	});
+  	req.write(request.sparqlQuery.query);
+  	req.end();
+
+  }
+}
+);
