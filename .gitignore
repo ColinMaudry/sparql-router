@@ -4,3 +4,4 @@ config/*.json
 !config/default-template.json
 !config/test.json
 coverage
+*.sh
