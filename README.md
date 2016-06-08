@@ -57,9 +57,9 @@ Now it's still jut a useful middleman between your RDF data and your data consum
 ## Installation
 
 ```bash
-git clone https://github.com/ColinMaudry/sparql-router.git
+git clone https://github.com/ColinMaudry/sparql-router.git --depth=1
 cd sparql-router
-npm install
+npm install --production
 ```
 
 SPARQL router is also available as an [NPM package](https://www.npmjs.com/package/sparql-router).
