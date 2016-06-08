@@ -86,9 +86,8 @@ app.use(helmet());
 
 app.get('/', function(request,response) {
   debug(request.url + " .get");
-	// response.expose('var siteRootUrl = "' + siteRootUrl + '";');
-	// response.render('index', { layout: false });
-  response.redirect(307,'/api');
+	response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+	response.render('index', { layout: false });
 });
 
 app.use(function(req, res, next) {
