@@ -18,10 +18,11 @@ describe('Basic tests', function() {
 			.expect('Content-Type',/json/)
 			.expect(200, done)
 	});
-	it('Root path (/) redirects to /api.', function(done) {
+	it('Root path (/) returns HTML Web app.', function(done) {
 		request(app)
 			.get('/')
-			.expect(307, done)
+      .expect('Content-Type',/html/)
+			.expect(200, done)
 	});
 	it('API home page runs and /api returns 200 and HTML to a browser', function(done) {
 		request(app)

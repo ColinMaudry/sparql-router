@@ -6,7 +6,7 @@
     "sparql",
     "endpoint",
     "rdf",
-		"express",
+    "express",
     "vuejs",
     "vue"
   ],
@@ -57,6 +57,7 @@
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
     "pug": "^2.0.0-alpha7",
+    "slugify": "^0.1.1",
     "sparqljs": "^1.1.4",
     "vue": "^1.0.24"
   },
