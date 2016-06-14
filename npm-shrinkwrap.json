@@ -1102,9 +1102,9 @@
       }
     },
     "config": {
-      "version": "1.19.0",
-      "from": "config@latest",
-      "resolved": "https://registry.npmjs.org/config/-/config-1.19.0.tgz"
+      "version": "1.21.0",
+      "from": "config@>=1.19.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/config/-/config-1.21.0.tgz"
     },
     "configstore": {
       "version": "1.4.0",
@@ -2136,11 +2136,6 @@
       "version": "1.0.2",
       "from": "flatten@1.0.2",
       "resolved": "https://registry.npmjs.org/flatten/-/flatten-1.0.2.tgz"
-    },
-    "follow-redirects": {
-      "version": "0.0.7",
-      "from": "follow-redirects@latest",
-      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-0.0.7.tgz"
     },
     "for-in": {
       "version": "0.1.5",
@@ -5544,11 +5539,6 @@
           "from": "readable-stream@>=2.0.2 <3.0.0"
         }
       }
-    },
-    "stream-consume": {
-      "version": "0.1.0",
-      "from": "stream-consume@>=0.1.0 <0.2.0",
-      "resolved": "https://registry.npmjs.org/stream-consume/-/stream-consume-0.1.0.tgz"
     },
     "stream-http": {
       "version": "2.3.0",

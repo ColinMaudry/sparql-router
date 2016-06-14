@@ -1,4 +1,3 @@
-var http = require('follow-redirects').http;
 var request = require('supertest');
 var config = require('config');
 var app = require('./../app');
