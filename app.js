@@ -86,7 +86,14 @@ app.use(helmet());
 
 app.get('/', function(request,response) {
   debug(request.url + " .get");
-	response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+
+  var appConfig = JSON.parse(JSON.stringify(config.get('app')));
+  appConfig.user = "";
+  appConfig.password = "";
+  appConfig.port = request.socket.localPort;
+
+  response.expose(appConfig);
+  response.expose('var siteRootUrl = "' + siteRootUrl + '";');
 	response.render('index', { layout: false });
 });
 
@@ -94,12 +101,18 @@ app.use(function(req, res, next) {
 	//CORS support
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
 
 	//Set app root directory
 	req.appRoot = __dirname;
 
   next();
 });
+
+app.options('*',function(request,response){
+  response.sendStatus(200)
+});
+
 
 app.param('type', function (req, res, next, type) {
 	req.savedparams = {};
