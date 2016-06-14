@@ -22,7 +22,7 @@
     "start": "node bin/www",
     "watch-scss": "node-sass -w ./src/main.scss ./public/dist/main.css",
     "build-css": "node-sass ./src/main.scss | cleancss -d -o ./public/dist/main.css",
-    "watch-js": "watchify -vd -p browserify -e src/main.js -o ./public/dist/build.js",
+    "watch-js": "watchify -vd -p browserify --ignore unicode/category/So -e src/main.js -o ./public/dist/build.js",
     "browser-sync": "browser-sync start --config 'bs-config.js'",
     "nodemon": "nodemon --watch ./lib --watch app.js --watch ./lib/views --debug bin/www",
     "dev": "npm-run-all --parallel watch-js watch-scss nodemon browser-sync",
