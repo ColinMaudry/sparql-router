@@ -33,27 +33,24 @@
 
         </fieldset>
       </form>
-  		<div id="terminal">
-  			<terminal>{{ message }}</terminal>
-  		</div>
+			<div class="well well-sm" v-bind:class="{ 'error': parentMessage.error}" id="terminal">
+        {{{ parentMessage.text }}}
+      </div>
     </div>
 </template>
 
 <script>
-import Terminal from './Terminal.vue'
-import slugify from 'slugify'
+import slug from 'slug'
+import sanitize from 'sanitize-filename'
 
 export default {
 	el () {
     return "#left"
 	},
-  components : {
-    Terminal
-  },
-  props: ['parentForm'],
+  props: ['parentForm','parentMessage'],
   methods: {
     updateSlug: function() {
-      this.parentForm.slug = slugify(this.parentForm.query.name).toLowerCase();
+      this.parentForm.slug = sanitize(slug(this.parentForm.query.name).toLowerCase());
     }
   },
   computed : {
@@ -68,3 +65,16 @@ export default {
 
 }
 </script>
+
+
+<style lang="scss">
+	#terminal {
+		font-size: 0.8em;
+		margin-left: -15px;
+		margin-right: -15px;
+		font-family: monospace;
+		&.error {
+			border: solid rgb(217, 83, 79) 4px;
+		}
+	}
+</style>

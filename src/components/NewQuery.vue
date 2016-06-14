@@ -2,7 +2,7 @@
   <div class="row">
 		<form class="form-horizontal" name="query-form" >
 		<div id="left" class="col-md-4">
-    	<query-options :parent-form.sync="form"></query-options>
+    	<query-options :parent-form.sync="form" :parent-message.sync="message"></query-options>
 		</div>
 		<div id="right" class="col-md-7 col-md-offset-1">
 	    <query-text :parent-form.sync="form"></query-text>
@@ -39,6 +39,10 @@ export default {
           author: "",
           endpoint: ""
         }
+      },
+      message: {
+        text: "...",
+        error: false
       }
     }
   },
@@ -63,9 +67,13 @@ export default {
     			});
     			res.on('end', () => {
     					if (res.statusCode < 300) {
-    						console.log(res.statusCode);
+                this.message.error = false;
+                result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+    						this.message.text = result;
     					} else {
-    						throw new Error ("There was an error (" + res.statusCode + ") sending the query:\n" + result + ".\n");
+                result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+                this.message.error = true;
+                this.message.text = result;
     					}
     			})
     		});
