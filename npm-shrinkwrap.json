@@ -813,6 +813,21 @@
       "from": "buffer-xor@>=1.0.2 <2.0.0",
       "resolved": "https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz"
     },
+    "bufferjs": {
+      "version": "3.0.1",
+      "from": "bufferjs@>=2.0.0",
+      "resolved": "https://registry.npmjs.org/bufferjs/-/bufferjs-3.0.1.tgz"
+    },
+    "bufferstream": {
+      "version": "0.6.2",
+      "from": "bufferstream@>=0.6.2",
+      "resolved": "https://registry.npmjs.org/bufferstream/-/bufferstream-0.6.2.tgz"
+    },
+    "buffertools": {
+      "version": "2.1.4",
+      "from": "buffertools@>=1.0.3",
+      "resolved": "https://registry.npmjs.org/buffertools/-/buffertools-2.1.4.tgz"
+    },
     "builtin-modules": {
       "version": "1.1.1",
       "from": "builtin-modules@>=1.0.0 <2.0.0",
@@ -5226,6 +5241,11 @@
       "from": "rx-lite@>=3.1.2 <4.0.0",
       "resolved": "https://registry.npmjs.org/rx-lite/-/rx-lite-3.1.2.tgz"
     },
+    "sanitize-filename": {
+      "version": "1.6.0",
+      "from": "sanitize-filename@latest",
+      "resolved": "https://registry.npmjs.org/sanitize-filename/-/sanitize-filename-1.6.0.tgz"
+    },
     "sass-graph": {
       "version": "2.1.1",
       "from": "sass-graph@>=2.1.1 <3.0.0",
@@ -5339,6 +5359,11 @@
       "version": "1.1.6",
       "from": "slide@>=1.1.5 <2.0.0",
       "resolved": "https://registry.npmjs.org/slide/-/slide-1.1.6.tgz"
+    },
+    "slug": {
+      "version": "0.9.1",
+      "from": "slug@latest",
+      "resolved": "https://registry.npmjs.org/slug/-/slug-0.9.1.tgz"
     },
     "slugify": {
       "version": "0.1.1",
@@ -5843,6 +5868,11 @@
       "from": "trim-right@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/trim-right/-/trim-right-1.0.1.tgz"
     },
+    "truncate-utf8-bytes": {
+      "version": "1.0.1",
+      "from": "truncate-utf8-bytes@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/truncate-utf8-bytes/-/truncate-utf8-bytes-1.0.1.tgz"
+    },
     "tryit": {
       "version": "1.0.2",
       "from": "tryit@>=1.0.1 <2.0.0",
@@ -5935,6 +5965,11 @@
       "from": "underscore.string@>=2.4.0 <2.5.0",
       "resolved": "https://registry.npmjs.org/underscore.string/-/underscore.string-2.4.0.tgz"
     },
+    "unicode": {
+      "version": "0.6.1",
+      "from": "unicode@>=0.3.1",
+      "resolved": "https://registry.npmjs.org/unicode/-/unicode-0.6.1.tgz"
+    },
     "union": {
       "version": "0.4.4",
       "from": "union@>=0.4.3 <0.5.0",
@@ -6020,6 +6055,11 @@
       "version": "2.1.0",
       "from": "utf8@2.1.0",
       "resolved": "https://registry.npmjs.org/utf8/-/utf8-2.1.0.tgz"
+    },
+    "utf8-byte-length": {
+      "version": "1.0.3",
+      "from": "utf8-byte-length@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/utf8-byte-length/-/utf8-byte-length-1.0.3.tgz"
     },
     "util": {
       "version": "0.10.3",
