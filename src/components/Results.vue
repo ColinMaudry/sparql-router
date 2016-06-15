@@ -1,5 +1,4 @@
 <template>
-  <p>Results</p>
   <table v-if="parentResults.type === 'application/sparql-results+json'" class="table" id="tableResults">
     <tr>
       <th v-for="variable in parentResults.data.head.vars">{{ variable }}</th>

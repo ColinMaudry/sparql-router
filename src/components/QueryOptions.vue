@@ -28,7 +28,7 @@
         </div>
   			<div class="form-group">
   				<label for="endpoint" class="control-label">Endpoint URL</label>
-  				<input v-model="parentForm.query.endpoint" class="form-control input-sm" id="endpoint" title="Your name or email or nothing." type="text" value="{{ endpoint }}"/>
+  				<input v-model="parentForm.query.endpoint" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
   			</div>
 
         </fieldset>
