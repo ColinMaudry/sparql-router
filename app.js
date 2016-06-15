@@ -115,6 +115,12 @@ app.param('type', function (req, res, next, type) {
   next();
 });
 
+app.use(function(request,response,next) {
+  //Set app root directory
+  request.appRoot = __dirname;
+  next();
+});
+
 app.use('/api', apiDoc);
 app.use(parseJson);
 app.use(queryMetadata);
