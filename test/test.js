@@ -61,6 +61,14 @@ describe('Basic tests', function() {
 			done();
 			});
 	});
+  it('OPTIONS returns CORS-friendly headers.', function(done) {
+		request(app)
+			.options('/')
+			.expect("Access-Control-Allow-Origin", "*")
+      .expect("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+      .expect("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT")
+			.expect(200, done)
+	});
 	it('POST typically designed to brew coffee is ineffective.', function(done) {
 		request(app)
 			.post('/api')
