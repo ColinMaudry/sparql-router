@@ -1,10 +1,11 @@
+var bodyParser = require('body-parser');
 var expose = require('express-expose');
+var debug = require('debug')('routes');
 var passport = require('passport');
 var cors = require('express-cors');
 var express = require('express');
 var config = require('config');
 var helmet = require('helmet');
-var debug = require('debug')('routes');
 var fs = require('fs');
 var app = express();
 
@@ -13,10 +14,14 @@ var sparql = require('./lib/routes/sparql');
 var cannedQueries = require('./lib/routes/cannedQueries');
 
 //My middlewares
+var queryMetadata = require('./lib/middlewares/queryMetadata');
 var cors = require('./lib/middlewares/cors');
 
 //My functions
 var functions = require('./lib/functions');
+
+var parseJson = bodyParser.json({ extended: false });
+
 
 /*
 MIT License (MIT)
@@ -100,22 +105,9 @@ app.get('/', function(request,response) {
 	response.render('index', { layout: false });
 });
 
-app.use(function(req, res, next) {
-	//CORS support
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
-
-	//Set app root directory
-	req.appRoot = __dirname;
-
-  next();
-});
-
 app.options('*',function(request,response){
   response.sendStatus(200)
 });
-
 
 app.param('type', function (req, res, next, type) {
 	req.savedparams = {};
@@ -124,6 +116,8 @@ app.param('type', function (req, res, next, type) {
 });
 
 app.use('/api', apiDoc);
+app.use(parseJson);
+app.use(queryMetadata);
 app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));

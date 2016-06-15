@@ -530,7 +530,7 @@ describe('POST and GET queries in passthrough mode', function() {
 			.get('/api/sparql?query=zelect%20*%20where%20%7B%3Fs%20%3Fp%20%3Fo%7D%20limit%201')
 			.expect(400, done);
 	});
-	it('POST queries to /sparql are passed through to the default endpoint.', function(done) {
+	it('POSTed queries to /sparql are passed through to the default endpoint.', function(done) {
 		request(app)
 			.post('/api/sparql')
       .set('Content-Type','application/json')
@@ -538,6 +538,37 @@ describe('POST and GET queries in passthrough mode', function() {
 			.expect(200)
 			.expect('Content-Type', /xml|json|csv/, done);
 	});
+  it('POSTed queries to /sparql can override the default endpoint.', function(done) {
+    request(app)
+      .post('/api/sparql')
+      .set('Content-Type','application/json')
+      .set('Accept','application/sparql-results+json')
+      .send({"query": "select * where {?s ?p 'dgfr'} limit 1", "endpoint" : "http://dydra.com/colin-maudry/datagouvfr/sparql"})
+      .expect(function(response) {
+        console.log(response.body.results.bindings);
+        if (response.body.results.bindings.length === 0) {
+          return "Endpoint successfully overriden."; }
+        else {
+          throw new Error("Endpoint not overriden.");
+        }
+      })
+      .expect(200)
+      .expect('Content-Type', /xml|json|csv/, done);
+  });
+  it('GET queries to /sparql can override the default endpoint.', function(done) {
+    request(app)
+      .get('/api/sparql?query=select%20*%20where%20%7B%3Fs%20%3Fp%20%22dgfr%22%7D%20limit%201&endpoint=http%3A%2F%2Fdydra.com%2Fcolin-maudry%2Fdatagouvfr%2Fsparql')
+      .set('Accept','application/sparql-results+json')
+      .expect(function(response) {
+        if (response.body.results.bindings.length === 0) {
+          return "Endpoint successfully overriden."; }
+        else {
+          throw new Error("Endpoint not overriden.");
+        }
+      })
+      .expect(200)
+      .expect('Content-Type', /xml|json|csv/, done);
+  });
 	it('POST empty queries to /sparql returns 400', function(done) {
 		request(app)
 			.post('/api/sparql')
