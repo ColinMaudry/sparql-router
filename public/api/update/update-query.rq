@@ -4,9 +4,9 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
 with <uri:graph:sparql-router:queries>
 delete {
-	?query dct:author ?author ;
-  router:endpoint ?endpoint ;
-		rdfs:label ?name  .
+	?query dct:author ?oldAuthor ;
+  router:endpoint ?oldEndpoint ;
+		rdfs:label ?oldName  .
   }
   insert {
   ?query dct:author ?author ;
@@ -16,5 +16,8 @@ delete {
   }
   where {
     ?query a ?queryType ;
+      dct:author ?oldAuthor ;
+      router:endpoint ?oldEndpoint ;
+      rdfs:label ?oldName ;
       dct:identifier ?slug .
   }
