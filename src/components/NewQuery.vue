@@ -43,7 +43,8 @@ export default {
         query : {
           query: "",
           name: "test",
-          author: "",undefined
+          author: "",
+          endpoint: ""
         }
       },
       results: {
@@ -84,8 +85,8 @@ export default {
       this.sendQuery(options);
     },
     sendQuery (options) {
-      console.log(JSON.stringify(options,null,2));
-      console.log(JSON.stringify(this.form.query,null,2));
+      // console.log(JSON.stringify(options,null,2));
+      // console.log(JSON.stringify(this.form.query,null,2));
       var result = "";
       var req = http.request(options, (res) => {
     			res.setEncoding('utf8');
@@ -97,11 +98,9 @@ export default {
                 this.results.type = this.stringBefore(res.headers["content-type"],';').replace(' ','');
                 this.message.error = false;
 
-                if (results.type = /json/) {
+                if (this.results.type == /json/) {
+                  //console.log(result);
                   this.results.data = JSON.parse(result);
-                  $(document).ready(function(){
-                    $('#tableResults').DataTable();
-                  });
                   console.log(JSON.stringify(this.results,null,2));
                 } else {
                   result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
