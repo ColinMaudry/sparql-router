@@ -11,12 +11,19 @@ console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.N
 
 describe('Basic tests', function() {
 
-	it('API home page runs and /api returns 200 and JSON', function(done) {
+	it('API documentation runs and /api returns 200 and JSON', function(done) {
 		request(app)
 			.get('/api')
 			.expect('Content-Type',/json/)
 			.expect(200, done)
 	});
+  it('API home page runs and /api + asking for HTML returns 200 and Swagger UI', function(done) {
+    request(app)
+      .get('/api/')
+      .set('accept','text/html')
+      .expect('Content-Type',/html/)
+      .expect(200, done)
+  });
 	it('Root path (/) returns HTML Web app.', function(done) {
 		request(app)
 			.get('/')
@@ -553,7 +560,6 @@ describe('POST and GET queries in passthrough mode', function() {
       .set('Accept','application/sparql-results+json')
       .send({"query": "select * where {?s ?p 'dgfr'} limit 1", "endpoint" : "http://dydra.com/colin-maudry/datagouvfr/sparql"})
       .expect(function(response) {
-        console.log(response.body.results.bindings);
         if (response.body.results.bindings.length === 0) {
           return "Endpoint successfully overriden."; }
         else {
