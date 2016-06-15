@@ -12,6 +12,8 @@ var apiDoc = require('./lib/routes/apiDoc');
 var sparql = require('./lib/routes/sparql');
 var cannedQueries = require('./lib/routes/cannedQueries');
 
+//My middlewares
+var cors = require('./lib/middlewares/cors');
 
 //My functions
 var functions = require('./lib/functions');
@@ -83,6 +85,7 @@ express.static.mime.define({'application/ld+json': ['jsonld']});
 
 //Security
 app.use(helmet());
+app.use(cors);
 
 app.get('/', function(request,response) {
   debug(request.url + " .get");
