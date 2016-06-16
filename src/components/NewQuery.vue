@@ -1,21 +1,23 @@
 <template>
-  <div class="row">
-		<form class="form-horizontal" name="query-form" >
-		<div id="left" class="col-md-4">
-    	<query-options :parent-form.sync="form" :parent-message.sync="message"></query-options>
-		</div>
-		<div id="right" class="col-md-7 col-md-offset-1">
-	    <query-text :parent-form.sync="form"></query-text>
-      <div class="form-group">
-        <button type="button" v-on:click="createQuery" class="btn btn-primary navbar-right">Create</button>
-        <button type="button" v-on:click="testQuery" class="btn btn-default navbar-right">Test</button>
+  <div class="container">
+    <div class="row">
+  		<form class="form-horizontal" name="query-form" >
+  		<div id="left" class="col-md-4">
+      	<query-options :parent-form.sync="form" :parent-message.sync="message"></query-options>
+  		</div>
+  		<div id="right" class="col-md-7 col-md-offset-1">
+  	    <query-text :parent-form.sync="form"></query-text>
+        <div class="form-group">
+          <button type="button" v-on:click="createQuery" class="btn btn-primary navbar-right">Create</button>
+          <button type="button" v-on:click="testQuery" class="btn btn-default navbar-right">Test</button>
+        </div>
+  		</div>
+  	</form>
+    </div>
+    <div class="row">
+      <div id="results">
+        <results :parent-results="results"></results>
       </div>
-		</div>
-	</form>
-  </div>
-  <div class="row">
-    <div id="results">
-      <results :parent-results="results"></results>
     </div>
   </div>
 </template>
