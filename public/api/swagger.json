@@ -521,7 +521,7 @@
             }
         }
     },
-    "host": "sparql-router.heroku.com",
+    "host": "sparql-router.herokuapp.com",
     "schemes": [
         "https"
     ]
