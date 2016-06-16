@@ -24,7 +24,6 @@
 import QueryOptions from './QueryOptions.vue'
 import QueryText from './QueryText.vue'
 import Results from './Results.vue'
-import http from 'http'
 
 export default {
 	el () {
@@ -69,7 +68,7 @@ export default {
           "accept" : "*/*"
         }
       };
-      this.sendQuery(options);
+      functions.sendQuery(options,this.form.query,this.results,this.message);
     },
     testQuery () {
       var accept = (this.form.type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
@@ -83,52 +82,7 @@ export default {
           "accept" : accept
         }
       };
-      this.sendQuery(options);
-    },
-    sendQuery (options) {
-      // console.log(JSON.stringify(options,null,2));
-      // console.log(JSON.stringify(this.form.query,null,2));
-      var result = "";
-      var req = http.request(options, (res) => {
-    			res.setEncoding('utf8');
-    			res.on('data', (data) => {
-    				result += data;
-    			});
-    			res.on('end', () => {
-    					if (res.statusCode < 300) {
-                this.results.type = this.stringBefore(res.headers["content-type"],';').replace(' ','');
-                this.message.error = false;
-
-                if (/json/.test(this.results.type)) {
-                  //console.log(result);
-                  this.results.data = JSON.parse(result);
-                } else {
-                  var now = new Date();
-                  now = now.toString();
-
-                  result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
-                  this.message.text = result;
-                }
-    					} else {
-                result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
-                this.message.error = true;
-                this.message.text = result;
-    					}
-    			})
-    		});
-    		req.on('error', (e) => {
-    				throw new Error ("There was an error sending the form data: " + e.message + ".\n");
-    		});
-    		req.write(JSON.stringify(this.form.query));
-    		req.end();
-    },
-    stringBefore (str, sep) {
-     var i = str.indexOf(sep);
-
-     if(i > 0)
-      return  str.slice(0, i);
-     else
-      return str;
+      functions.sendQuery(options,this.form,this.results,this.message);
     }
   }
 

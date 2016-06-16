@@ -1,84 +1,48 @@
+import http from 'http'
 
-//From https://gist.github.com/aymanfarhat/5608517
- 
-function urlObject(options) {
-    "use strict";
-    /*global window, document*/
+module.exports.sendQuery = function (options,data,results,message) {
+  // console.log(JSON.stringify(options,null,2));
+  // console.log(JSON.stringify(form.query,null,2));
+  var result = "";
+  var req = http.request(options, (res) => {
+      res.setEncoding('utf8');
+      res.on('data', (data) => {
+        result += data;
+      });
+      res.on('end', () => {
+          if (res.statusCode < 300) {
+            results.type = module.exports.stringBefore(res.headers["content-type"],';').replace(' ','');
+            message.error = false;
 
-    var url_search_arr,
-        option_key,
-        i,
-        urlObj,
-        get_param,
-        key,
-        val,
-        url_query,
-        url_get_params = {},
-        a = document.createElement('a'),
-        default_options = {
-            'url': window.location.href,
-            'unescape': true,
-            'convert_num': true
-        };
-
-    if (typeof options !== "object") {
-        options = default_options;
-    } else {
-        for (option_key in default_options) {
-            if (default_options.hasOwnProperty(option_key)) {
-                if (options[option_key] === undefined) {
-                    options[option_key] = default_options[option_key];
-                }
-            }
-        }
-    }
-
-    a.href = options.url;
-    url_query = a.search.substring(1);
-    url_search_arr = url_query.split('&');
-
-    if (url_search_arr[0].length > 1) {
-        for (i = 0; i < url_search_arr.length; i += 1) {
-            get_param = url_search_arr[i].split("=");
-
-            if (options.unescape) {
-                key = decodeURI(get_param[0]);
-                val = decodeURI(get_param[1]);
+            if (/json/.test(results.type)) {
+              //console.log(result);
+              results.data = JSON.parse(result);
             } else {
-                key = get_param[0];
-                val = get_param[1];
+              var now = new Date();
+              now = now.toString();
+
+              result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+              message.text = result;
             }
+          } else {
+            result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+            message.error = true;
+            message.text = result;
+          }
+      })
+    });
+    req.on('error', (e) => {
+        throw new Error ("There was an error sending the form data: " + e.message + ".\n");
+    });
+    req.write(JSON.stringify(data));
+    req.end();
+};
 
-            if (options.convert_num) {
-                if (val.match(/^\d+$/)) {
-                    val = parseInt(val, 10);
-                } else if (val.match(/^\d+\.\d+$/)) {
-                    val = parseFloat(val);
-                }
-            }
+module.exports.stringBefore = function (str, sep) {
+ var i = str.indexOf(sep);
 
-            if (url_get_params[key] === undefined) {
-                url_get_params[key] = val;
-            } else if (typeof url_get_params[key] === "string") {
-                url_get_params[key] = [url_get_params[key], val];
-            } else {
-                url_get_params[key].push(val);
-            }
-
-            get_param = [];
-        }
-    }
-
-    urlObj = {
-        protocol: a.protocol,
-        hostname: a.hostname,
-        host: a.host,
-        port: a.port,
-        hash: a.hash.substr(1),
-        pathname: a.pathname,
-        search: a.search,
-        parameters: url_get_params
-    };
-
-    return urlObj;
-}
+ if(i > 0)
+  return  str.slice(0, i);
+ else
+  return str;
+};
