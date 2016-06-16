@@ -9,10 +9,10 @@ app.listen(port,function() {
 console.log(
 	'Listening on port ' + port + "\n"
 	+ 'Configuration: /config/' + usedConfig + ".json, which sets:\n\n"
-	+ "Authentication enabled........" + config.get('app.authentication') + "\n"
-	+ "Endpoint host (system)........." + config.get('endpoints.system.hostname') + "\n"
+	+ "Authentication enabled.........." + config.get('app.authentication') + "\n"
+	+ "Endpoint host (system).........." + config.get('endpoints.system.hostname') + "\n"
   + "Endpoint host (default)........." + config.get('endpoints.default.hostname') + "\n"
-	+ "Public app host:..............." + config.get('app.public.hostname') + "\n"
+	+ "Public app host:................" + config.get('app.public.hostname') + "\n"
 	);
 
 });
