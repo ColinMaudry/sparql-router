@@ -10,12 +10,15 @@
     </tr>
   </table>
   <div v-if="parentResults.type === 'application/ld+json'">
-
+    <p class="col-md-4 col-md-offset-4">The query works! But no visualisation for graph results, yet.</p>
   </div>
 </template>
 
 <style>
-
+  #results p {
+    margin-top: 100px;
+    text-align: center;
+  }
 </style>
 
 <script>
