@@ -103,6 +103,10 @@ export default {
                   //console.log(result);
                   this.results.data = JSON.parse(result);
                 } else {
+                  var now = new Date();
+                  now = now.toString();
+
+                  result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
                   this.message.text = result;
                 }
     					} else {
