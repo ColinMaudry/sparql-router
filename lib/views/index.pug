@@ -15,16 +15,9 @@ body#app(style='padding-top: 60px;')
           span.icon-bar
       #navbar-main.navbar-collapse.collapse
         ul.nav.navbar-nav.navbar-right
-          li.dropdown
-            a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
-              | Source
-              span.caret
-            ul.dropdown-menu(aria-labelledby='source-code')
-              li
-                a(href='https://github.com/ColinMaudry/sparql-router', target='_blank') API engine
-              li
-                a(href='https://github.com/ColinMaudry/sparql-router-ui', target='_blank') Web app
-  #new.container
+          li
+            a(href='https://github.com/ColinMaudry/sparql-router', target='_blank') Source
+  #new
     router-view
     | &#x9;&#x9;
   footer.footer
