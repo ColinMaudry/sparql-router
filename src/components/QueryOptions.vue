@@ -33,7 +33,7 @@
 
         </fieldset>
       </form>
-			<div class="well well-sm" v-bind:class="{ 'error': parentMessage.error}" id="terminal">
+			<div class="well well-sm new" v-bind:class="{ 'error': parentMessage.error}" id="terminal">
         {{{ parentMessage.text }}}
       </div>
     </div>
@@ -70,11 +70,13 @@ export default {
 <style lang="scss">
 	#terminal {
 		font-size: 0.8em;
-		margin-left: -15px;
-		margin-right: -15px;
 		font-family: monospace;
 		&.error {
 			border: solid rgb(217, 83, 79) 4px;
 		}
+    &.new {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
 	}
 </style>
