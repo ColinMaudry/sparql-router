@@ -65,7 +65,8 @@ export default {
         path: "/api/" + this.form.type + "/" + this.form.slug,
         method: "PUT",
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
+          "accept" : "*/*"
         }
       };
       this.sendQuery(options);
@@ -98,12 +99,10 @@ export default {
                 this.results.type = this.stringBefore(res.headers["content-type"],';').replace(' ','');
                 this.message.error = false;
 
-                if (this.results.type == /json/) {
+                if (/json/.test(this.results.type)) {
                   //console.log(result);
                   this.results.data = JSON.parse(result);
-                  console.log(JSON.stringify(this.results,null,2));
                 } else {
-                  result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
                   this.message.text = result;
                 }
     					} else {

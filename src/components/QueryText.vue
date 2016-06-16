@@ -1,7 +1,7 @@
 <template>
       <fieldset>
         <div class="form-group">
-          <label for="text" class="control-label">Query</label>
+          <label for="text" class="control-label">Query *</label>
           <textarea v-model="parentForm.query.query" class="form-control input-sm" rows="20" id="text">
 select * where {
     ?s ?p ?o
