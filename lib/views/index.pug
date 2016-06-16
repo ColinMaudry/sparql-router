@@ -4,19 +4,39 @@ head
     title queery.link
     link(href='dist/main.css', rel='stylesheet')
     script!= javascript
-body
-    app
+body#app(style='padding-top: 60px;')
+  .navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        a.navbar-brand(href='/') queery.link
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-main')
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      #navbar-main.navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a#themes.dropdown-toggle(data-toggle='dropdown', href='#')
+              | Source
+              span.caret
+            ul.dropdown-menu(aria-labelledby='source-code')
+              li
+                a(href='https://github.com/ColinMaudry/sparql-router', target='_blank') API engine
+              li
+                a(href='https://github.com/ColinMaudry/sparql-router-ui', target='_blank') Web app
+  #new.container
+    router-view
     | &#x9;&#x9;
-    footer.footer
-      .container
-        p.text-muted
-          | Developed by&nbsp;
-          a(href='http://colin.maudry.com', target='_blank') Colin Maudry&nbsp;
-          |using&nbsp;
-          a(href='http://vuejs.org', target='_blank') Vue.js&nbsp;
-          | . The Superhero Bootstrap theme was created by&nbsp;
-          a(href='http://bootswatch.com', target='_blank') Bootswatch
-          | .
-        p
-    script(src='dist/jquery-2.2.3.min.js')
-    script(src='dist/build.js')
+  footer.footer
+    .container
+      p.text-muted
+        | Developed by&nbsp;
+        a(href='http://colin.maudry.com', target='_blank') Colin Maudry&nbsp;
+        |using&nbsp;
+        a(href='http://vuejs.org', target='_blank') Vue.js&nbsp;
+        | . The Superhero Bootstrap theme was created by&nbsp;
+        a(href='http://bootswatch.com', target='_blank') Bootswatch
+        | .
+      p
+  script(src='dist/jquery-2.2.3.min.js')
+  script(src='dist/build.js')
