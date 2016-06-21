@@ -26,9 +26,9 @@
     "browser-sync": "browser-sync start --config 'bs-config.js'",
     "nodemon": "nodemon --watch ./lib --watch app.js --watch ./lib/views --debug bin/www",
     "dev": "npm-run-all --parallel watch-js watch-scss nodemon browser-sync",
-    "build": "cross-env NODE_ENV=production browserify -e src/main.js | uglifyjs -c warnings=false -m > ./public/dist/build.js & npm run build-css",
+    "build": "NODE_ENV=production browserify --ignore unicode/category/So src/main.js | uglifyjs -c > ./public/dist/build.js & npm run build-css",
     "lint": "eslint --ext .js,.vue src test/unit"
-  },
+    },
   "browserify": {
     "transform": [
       "vueify",
