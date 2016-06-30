@@ -64,7 +64,7 @@ export default {
     createQuery () {
       var options = {
         hostname: "localhost",
-        port: app.port,
+        port: app.config.port,
         path: "/api/" + this.form.type + "/" + this.form.slug,
         method: "PUT",
         headers: {
@@ -83,7 +83,7 @@ export default {
       var accept = (this.form.type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
       var options = {
         hostname: "localhost",
-        port: app.port,
+        port: app.config.port,
         path: "/api/sparql",
         method: "POST",
         headers: {
@@ -91,7 +91,7 @@ export default {
           "accept" : accept
         }
       };
-      functions.sendQuery(options,this.form,this.results,this.message);
+      functions.sendQuery(options,this.form.query,this.results,this.message);
     }
   }
 

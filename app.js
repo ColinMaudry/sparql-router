@@ -94,13 +94,15 @@ app.use(cors);
 
 app.get('/', function(request,response) {
   debug(request.url + " .get");
+  var exposed = {};
 
-  var appConfig = JSON.parse(JSON.stringify(config.get('app')));
-  appConfig.user = "";
-  appConfig.password = "";
-  appConfig.port = request.socket.localPort;
+  exposed.config = JSON.parse(JSON.stringify(config.get('app')));
+  exposed.defaultEndpoint = defaultEndpointQuery;
+  exposed.config.user = "";
+  exposed.config.password = "";
+  exposed.config.port = request.socket.localPort;
 
-  response.expose(appConfig);
+  response.expose(exposed);
   response.expose('var siteRootUrl = "' + siteRootUrl + '";');
 	response.render('index', { layout: false });
 });
