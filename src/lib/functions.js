@@ -1,10 +1,13 @@
 import http from 'http'
+import https from 'https'
 
 module.exports.sendQuery = function (options,data,results,message) {
   // console.log(JSON.stringify(options,null,2));
   // console.log(JSON.stringify(form.query,null,2));
   var result = "";
-  var req = http.request(options, (res) => {
+  var scheme = {};
+  if (options.scheme === 'https') {scheme = https} else {scheme = http};
+  var req = scheme.request(options, (res) => {
       res.setEncoding('utf8');
       res.on('data', (data) => {
         result += data;

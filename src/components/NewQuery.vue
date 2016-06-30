@@ -63,7 +63,8 @@ export default {
   methods: {
     createQuery () {
       var options = {
-        hostname: "localhost",
+        scheme : app.config.public.scheme,
+        hostname: app.config.public.hostname,
         port: app.config.port,
         path: "/api/" + this.form.type + "/" + this.form.slug,
         method: "PUT",
@@ -73,17 +74,13 @@ export default {
         }
       };
       functions.sendQuery(options,this.form.query,this.results,this.message);
-      // this.$route.router.go({name: 'view', params : {
-      //   type: this.form.type,
-      //   slug: this.form.slug
-      //   }
-      // })
     },
     testQuery () {
       var accept = (this.form.type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
       var options = {
-        hostname: "localhost",
-        port: app.config.port,
+        scheme : app.config.public.scheme,
+        hostname: app.config.public.hostname,
+        port: app.config.public.port,
         path: "/api/sparql",
         method: "POST",
         headers: {
