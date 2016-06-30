@@ -29,7 +29,7 @@
           <div class="input-group">
             <input class="form-control input-sm" title="Go to Web URL." v-model="weburl" type="text" readonly>
             <span class="input-group-btn">
-             <button class="btn-sm btn-default" type="button" v-onclick="goTo('weburl')"><strong>⇨</strong></a>
+             <a class="btn-sm btn-default" type="button" href="{{ weburl }}" target="_blank">⇨</a>
            </span>
           </div>
         </div>
@@ -62,11 +62,13 @@ export default {
   methods: {
     updateSlug: function() {
       this.parentForm.slug = sanitize(slug(this.parentForm.query.name).toLowerCase());
-    }
-  },
-  methods: {
+    },
     goTo (type) {
-
+      this.$route.router.go({name: 'view', params : {
+        type: this.form.type,
+        slug: this.form.slug
+        }
+      })
     }
   },
   computed : {
@@ -87,10 +89,17 @@ export default {
 
 
 <style lang="scss">
-  .form-control::-webkit-input-placeholder { color: #888; }
-  .form-control:-moz-placeholder { color: #888; }
-  .form-control::-moz-placeholder { color: #888; }
-  .form-control:-ms-input-placeholder { color: #888; }
+  .form-control::-webkit-input-placeholder { color: #999; }
+  .form-control:-moz-placeholder { color: #999; }
+  .form-control::-moz-placeholder { color: #999; }
+  .form-control:-ms-input-placeholder { color: #999; }
+  a.btn-default {
+  font-size: 16px;
+  font-weight: bold;
+  &:hover,&:focus {
+    text-decoration: none;
+  }
+}
 	#terminal {
 		font-size: 0.8em;
 		font-family: monospace;
