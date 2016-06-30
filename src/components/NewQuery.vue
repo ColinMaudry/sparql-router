@@ -73,11 +73,11 @@ export default {
         }
       };
       functions.sendQuery(options,this.form.query,this.results,this.message);
-      this.router.go({name: 'view', params : {
-        type: this.form.type,
-        slug: this.form.slug
-        }
-      })
+      // this.$route.router.go({name: 'view', params : {
+      //   type: this.form.type,
+      //   slug: this.form.slug
+      //   }
+      // })
     },
     testQuery () {
       var accept = (this.form.type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";

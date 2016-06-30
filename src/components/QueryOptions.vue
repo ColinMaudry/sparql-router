@@ -22,12 +22,23 @@
               <input v-model="parentForm.type" id="graphs" value="graphs" type="radio">
               Graph query (DESCRIBE, CONSTRUCT or ASK )
             </label>
-            <span class="help-block">WEB URL: {{ weburl }}</span>
-            <span class="help-block">API URL: {{ url }}</span>
           </div>
         </div>
+        <div class="form-group">
+          <label for="weburl" class="control-label">Web URL</label>
+          <div class="input-group">
+            <input class="form-control input-sm" title="Go to Web URL." v-model="weburl" type="text" readonly>
+            <span class="input-group-btn">
+             <button class="btn-sm btn-default" type="button" v-onclick="goTo('weburl')"><strong>⇨</strong></a>
+           </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="apiurl" class="control-label">API URL</label>
+          <input class="form-control input-sm" title="Go to API URL." v-model="apiurl" type="text" readonly>
+        </div>
   			<div class="form-group">
-  				<label for="endpoint" class="control-label">Endpoint URL</label>
+  				<label for="endpoint" class="control-label">SPARQL endpoint URL</label>
   				<input v-model="parentForm.query.endpoint" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
   			</div>
 
@@ -53,12 +64,17 @@ export default {
       this.parentForm.slug = sanitize(slug(this.parentForm.query.name).toLowerCase());
     }
   },
+  methods: {
+    goTo (type) {
+
+    }
+  },
   computed : {
-    url : function () {
+    apiurl : function () {
       return siteRootUrl + "/api/" + this.parentForm.type + "/" + this.parentForm.slug
     },
     weburl : function () {
-      return siteRootUrl + "/" + this.parentForm.type + "/" + this.parentForm.slug
+      return siteRootUrl + "/#/view/" + this.parentForm.type + "/" + this.parentForm.slug
     },
 
   }
@@ -68,6 +84,13 @@ export default {
 
 
 <style lang="scss">
+  a.btn-default {
+    font-size: 16px;
+    font-weight: bold;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 	#terminal {
 		font-size: 0.8em;
 		font-family: monospace;
