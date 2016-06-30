@@ -39,7 +39,7 @@
         </div>
   			<div class="form-group">
   				<label for="endpoint" class="control-label">SPARQL endpoint URL</label>
-  				<input v-model="parentForm.query.endpoint" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
+  				<input v-model="parentForm.query.endpoint" placeholder="{{ defaultEndpointUrl }}" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
   			</div>
 
         </fieldset>
@@ -76,6 +76,9 @@ export default {
     weburl : function () {
       return siteRootUrl + "/#/view/" + this.parentForm.type + "/" + this.parentForm.slug
     },
+    defaultEndpointUrl : function () {
+      return app.defaultEndpoint.replace("/localhost",app.config.public.hostname);
+    }
 
   }
 
@@ -84,13 +87,10 @@ export default {
 
 
 <style lang="scss">
-  a.btn-default {
-    font-size: 16px;
-    font-weight: bold;
-    &:hover {
-      text-decoration: none;
-    }
-  }
+  .form-control::-webkit-input-placeholder { color: #888; }
+  .form-control:-moz-placeholder { color: #888; }
+  .form-control::-moz-placeholder { color: #888; }
+  .form-control:-ms-input-placeholder { color: #888; }
 	#terminal {
 		font-size: 0.8em;
 		font-family: monospace;
