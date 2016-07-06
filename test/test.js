@@ -164,6 +164,27 @@ describe('Using canned queries', function() {
 			})
 			.expect(200, done);
 	});
+  it('/api/tables/test.rq returns the query text.', function(done) {
+    request(app)
+      .get('/api/tables/test2.rq')
+      .expect('Content-Type', 'application/sparql-query')
+      .expect(function(response) {
+				if (response.body === "select * where {?s ?p ?under_score} limit 1") {return "Returned query text."	}
+				else {throw new Error("Didn't return query text: \n" + response.body);}
+			})
+      .expect(200, done);
+  });
+  it('/api/tables/test with Accept:application/sparql-query returns the query text.', function(done) {
+    request(app)
+      .get('/api/tables/test2')
+      .set('Accept', 'application/sparql-query')
+      .expect('Content-Type', 'application/sparql-query')
+      .expect(function(response) {
+        if (response.body === "select * where {?s ?p ?under_score} limit 1") {return "Returned query text."	}
+        else {throw new Error("Didn't return query text: \n" + response.body);}
+      })
+      .expect(200, done);
+  });
 });
 
 //
