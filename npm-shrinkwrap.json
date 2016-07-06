@@ -6111,6 +6111,11 @@
       "from": "vueify-insert-css@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/vueify-insert-css/-/vueify-insert-css-1.0.0.tgz"
     },
+    "vuex": {
+      "version": "1.0.0-rc.2",
+      "from": "vuex@latest",
+      "resolved": "https://registry.npmjs.org/vuex/-/vuex-1.0.0-rc.2.tgz"
+    },
     "watchify": {
       "version": "3.7.0",
       "from": "watchify@>=3.4.0 <4.0.0",

@@ -4,10 +4,13 @@ import Vue from 'vue'
 import NewQuery from './components/NewQuery.vue'
 import ViewQuery from './components/ViewQuery.vue'
 import EditQuery from './components/EditQuery.vue'
+import store from './lib/store.js'
 
 Vue.use(VueRouter);
 
-var App = Vue.extend({});
+const App = Vue.extend({
+  store: store
+});
 var router = new VueRouter({
   hashbang: false
 });
