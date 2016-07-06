@@ -93,7 +93,7 @@ export default {
   .form-control:-moz-placeholder { color: #999; }
   .form-control::-moz-placeholder { color: #999; }
   .form-control:-ms-input-placeholder { color: #999; }
-  a.btn-default {
+  .input-group a.btn-default {
   font-size: 16px;
   font-weight: bold;
   &:hover,&:focus {
