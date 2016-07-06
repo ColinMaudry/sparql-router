@@ -22,14 +22,17 @@ const state = {
     type: ""
   },
   message: {
-    text: "...",
+    text: "",
     error: false
   }
 }
 
 // Create an object storing various mutations. We will write the mutation
 const mutations = {
-  // TODO: set up our mutations
+  MESSAGE (state,message,error) {
+    state.message.text = message ;
+    state.message.error = error;
+  }
 }
 
 // Combine the initial state and the mutations to create a Vuex store.

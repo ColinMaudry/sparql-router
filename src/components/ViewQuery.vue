@@ -47,12 +47,24 @@
   div.btn-group > a.dropdown-toggle {
     padding: 16.72px;
   }
+  #terminal {
+    font-size: 0.8em;
+    font-family: monospace;
+    &.error {
+      border: solid rgb(217, 83, 79) 4px;
+    }
+    &.new {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+  }
 </style>
 
 <script>
 import functions from './../lib/functions.js'
 import Results from './Results.vue'
-
+import { getMessage } from '../lib/getters.js'
+import { getQueryMetadata } from '../lib/actions.js'
 
 export default {
 	el () {
@@ -66,10 +78,6 @@ export default {
       results: {
         data: {},
         type: ""
-      },
-      message: {
-        text : "",
-        error: false
       }
     }
   },
@@ -79,6 +87,15 @@ export default {
       var url = siteRootUrl + "/api/" + params.type + "/" + params.slug + ".";
       return url;
     }
+  },
+  vuex: {
+   getters: {
+     // note that you're passing the function itself, and not the value 'getCount()'
+     message: getMessage
+   },
+   actions: {
+     getQueryMetadata: getQueryMetadata
+   }
   },
   methods: {
   goTo: function (name) {
@@ -91,18 +108,19 @@ export default {
 },
   created: function () {
       var type = this.$route.params.type;
-      var slug = this.$route.params.slug;
+      var name = this.$route.params.slug;
       var accept = (type === "tables") ? "application/sparql-results+json" : "application/ld+json";
       var options = {
         scheme : app.config.public.scheme,
         hostname: app.config.public.hostname,
         port: app.config.public.port,
-        path: "/api/" + type + "/" + slug,
+        path: "/api/" + type + "/" + name,
         method: "GET",
         headers: {
           "accept" : accept
         }
       };
+      this.getQueryMetadata(type,name);
       functions.sendQuery(options,{},this.results,this.message);
     }
   }
