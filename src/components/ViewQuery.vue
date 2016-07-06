@@ -86,8 +86,9 @@ export default {
       var slug = this.$route.params.slug;
       var accept = (type === "tables") ? "application/sparql-results+json" : "application/ld+json";
       var options = {
-        hostname: "localhost",
-        port: app.port,
+        scheme : app.config.public.scheme,
+        hostname: app.config.public.hostname,
+        port: app.config.public.port, 
         path: "/api/" + type + "/" + slug,
         method: "GET",
         headers: {
