@@ -4,6 +4,7 @@ var app = require('./../app');
 var fs = require('fs');
 
 console.log("Environment: " + process.env.NODE_ENV + " (config/" + process.env.NODE_ENV + ".json)");
+var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
 
 //
 // Basic testing
@@ -350,7 +351,6 @@ describe('GET results from canned queries, populating query variables', function
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-  var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
 
 	it('PUT a table query update via URL encoded parameters', function(done) {
 		request(app)
@@ -511,10 +511,10 @@ describe('Authentication', function() {
 			.auth('','password')
 			.expect(401, done);
 	});
-	it('POST a new query with no credentials returns 401.', function(done) {
+	it('PUT a new query with no credentials returns 401.', function(done) {
 		request(app)
-			.put('/api/tables/new')
-			.send('select * where {?s ?p ?o} limit 1')
+      .put('/api/tables/new?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 25')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.expect(401, done);
 	});
 
