@@ -5,6 +5,7 @@ var fs = require('fs');
 
 var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
 
+
 //
 // PUT new queries or query updates
 //
