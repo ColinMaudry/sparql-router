@@ -3,13 +3,14 @@ var config = require('config');
 var app = require('./../app');
 var fs = require('fs');
 
+var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
+
 //
 // PUT new queries or query updates
 //
 
 describe('Create, modify or delete canned queries, with basic auth', function() {
 	this.timeout(4000);
-  var testEndpoint = "http://dydra.com/colin-maudry/dgfr/sparql" ;
 
 	it('PUT a table query update via URL encoded parameters', function(done) {
 		request(app)
@@ -170,10 +171,10 @@ describe('Authentication', function() {
 			.auth('','password')
 			.expect(401, done);
 	});
-	it('POST a new query with no credentials returns 401.', function(done) {
+  it('PUT a new query with no credentials returns 401.', function(done) {
 		request(app)
-			.put('/api/tables/new')
-			.send('select * where {?s ?p ?o} limit 1')
+      .put('/api/tables/new?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 25')
+      + '&endpoint=' + encodeURIComponent(testEndpoint))
 			.expect(401, done);
 	});
 
