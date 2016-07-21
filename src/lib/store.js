@@ -29,6 +29,9 @@ const state = {
 
 // Create an object storing various mutations. We will write the mutation
 const mutations = {
+  QUERY (state,query) {
+    state.form.query = query;
+  },
   MESSAGE (state,message,error) {
     state.message.text = message ;
     state.message.error = error;

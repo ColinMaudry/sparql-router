@@ -12,6 +12,7 @@ export const getQueryMetadata = function (store,type,name) {
   var queryType = encodeURIComponent("router:" + functions.capitalizeFirst(type) + "Query");
   var url = siteRootUrl + "/api/graphs/query-metadata.jsonld?$name=%22" + name + "%22&queryType=" + queryType;
   var scheme = {};
+  var resultObject = {};
   if (app.config.public.scheme === 'https') {scheme = https} else {scheme = http};
 
   var req = scheme.get(url, (res) => {
@@ -21,7 +22,17 @@ export const getQueryMetadata = function (store,type,name) {
         result += data;
       });
       res.on('end',function() {
-        store.dispatch('MESSAGE', "Request succeeded",false);
+        resultObject = JSON.parse(result);
+        var query = {};
+        query.name = resultObject.label;
+        query.author = resultObject.author;
+        query.endpoint = resultObject.endpoint;
+        scheme.get(siteRootUrl + "/api/" + type + "/" + name + ".rq", (res2) => {
+          res2.on('data', (chunk) => {
+             query.query = chunk;
+           });
+        });
+        store.dispatch('QUERY', query);
       });
   });
   req.on('error', (e) => {
