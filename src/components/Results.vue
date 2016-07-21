@@ -1,15 +1,15 @@
 <template>
-  <table v-if="parentResults.type === 'application/sparql-results+json'" class="table" id="tableResults">
+  <table v-if="results.type === 'application/sparql-results+json'" class="table" id="tableResults">
     <tr>
-      <th v-for="variable in parentResults.data.head.vars">{{ variable }}</th>
+      <th v-for="variable in results.data.head.vars">{{ variable }}</th>
     </tr>
-    <tr v-for="result in parentResults.data.results.bindings">
+    <tr v-for="result in results.data.results.bindings">
       <td v-for="column in result">
         {{ column.value }}
       </td>
     </tr>
   </table>
-  <div v-if="parentResults.type === 'application/ld+json'">
+  <div v-if="results.type === 'application/ld+json'">
     <p class="col-md-4 col-md-offset-4">The query works! But no visualisation for graph results, yet.</p>
   </div>
 </template>
@@ -22,14 +22,20 @@
 </style>
 
 <script>
+import { getResults } from '../lib/getters.js'
+
 export default {
 	el () {
     return "#results"
 	},
-  props : ["parentResults"],
+  vuex: {
+    getters: {
+      results: getResults
+    }
+  },
   computed : {
     data : function () {
-        return this.parentResults.data
+        return this.results.data
     }
   }
 }

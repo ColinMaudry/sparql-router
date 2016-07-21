@@ -66,7 +66,7 @@
         {{ message.text }}
       </div>
       <div id="results">
-        <results :parent-results="results"></results>
+        <results></results>
       </div>
     </div>
   </div>
@@ -99,11 +99,11 @@
   .expand-transition {
     transition: all .3s ease;
     overflow: hidden;
-    height: inherit;
+    max-height: 2000px;
   }
 
   .expand-enter, .expand-leave {
-  height: 0;
+  max-height: 0;
   opacity: 0;
 }
 .queryName {
@@ -121,6 +121,7 @@ import Results from './Results.vue'
 import { getMessage } from '../lib/getters.js'
 import { getQuery } from '../lib/getters.js'
 import { getQueryMetadata } from '../lib/actions.js'
+import { getQueryResults } from '../lib/actions.js'
 
 export default {
 	el () {
@@ -174,7 +175,8 @@ export default {
      query: getQuery
    },
    actions: {
-     getQueryMetadata: getQueryMetadata
+     getQueryMetadata: getQueryMetadata,
+     getQueryResults: getQueryResults
    }
   },
   methods: {
@@ -204,7 +206,7 @@ export default {
         }
       };
       this.getQueryMetadata(type,name);
-      functions.sendQuery(options,{},this.results,this.message);
+      this.getQueryResults(options);
     }
   }
 </script>

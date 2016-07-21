@@ -4,22 +4,22 @@
         <fieldset>
           <div class="form-group">
             <label for="name" class="control-label">Name *</label>
-            <input class="form-control input-sm" title="The name of the query." v-model="parentForm.query.name" placeholder="Name" type="text" v-on:keyup="updateSlug">
+            <input class="form-control input-sm" title="The name of the query." v-model="thisQueryName" placeholder="Name" type="text" v-on:keyup="updateSlug">
           </div>
           <div class="form-group">
             <label for="author" class="control-label">Author</label>
-            <input class="form-control input-sm" title="Your name or email or nothing." v-model="parentForm.query.author" placeholder="Name" type="text">
+            <input class="form-control input-sm" title="Your name or email or nothing." v-model="thisQueryAuthor" placeholder="Name" type="text">
           </div>
           <div class="form-group">
           <div class="radio">
             <label>
-              <input v-model="parentForm.type" id="tables" value="tables" checked="" type="radio">
+              <input v-model="type" id="tables" value="tables" checked="" type="radio">
               Table query (SELECT)
             </label>
           </div>
           <div class="radio">
             <label>
-              <input v-model="parentForm.type" id="graphs" value="graphs" type="radio">
+              <input v-model="type" id="graphs" value="graphs" type="radio">
               Graph query (DESCRIBE, CONSTRUCT or ASK )
             </label>
           </div>
@@ -39,13 +39,13 @@
         </div>
   			<div class="form-group">
   				<label for="endpoint" class="control-label">SPARQL endpoint URL</label>
-  				<input v-model="parentForm.query.endpoint" placeholder="{{ defaultEndpointUrl }}" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
+  				<input v-model="thisQueryEndpoint" placeholder="{{ defaultEndpointUrl }}" class="form-control input-sm" id="endpoint" title="The endpoint you want to query." type="text"/>
   			</div>
 
         </fieldset>
       </form>
-			<div class="well well-sm new" v-bind:class="{ 'error': parentMessage.error}" id="terminal">
-        {{{ parentMessage.text }}}
+			<div class="well well-sm new" v-bind:class="{ 'error': message.error}" id="terminal" v-if="message.text">
+        {{{ message.text }}}
       </div>
     </div>
 </template>
@@ -53,6 +53,9 @@
 <script>
 import slug from 'slug'
 import sanitize from 'sanitize-filename'
+import { updateQuery } from '../lib/actions.js'
+import { getQuery } from '../lib/getters.js'
+import { getMessage } from '../lib/getters.js'
 
 export default {
 	el () {
@@ -61,7 +64,7 @@ export default {
   props: ['parentForm','parentMessage'],
   methods: {
     updateSlug: function() {
-      this.parentForm.slug = sanitize(slug(this.parentForm.query.name).toLowerCase());
+      this.slug = sanitize(slug(this.query.name).toLowerCase());
     },
     goTo (type) {
       this.$route.router.go({name: 'view', params : {
@@ -71,19 +74,69 @@ export default {
       })
     }
   },
+  data () {
+    return {
+      slug: "",
+      type: ""
+    }
+  },
+  vuex: {
+    getters: {
+      query: getQuery,
+      message: getMessage
+    },
+    actions: {
+      updateQuery: updateQuery
+    }
+  },
   computed : {
+    thisQueryAuthor: {
+      get () {
+        return this.query.author;
+      },
+      set (value) {
+        var query = this.query;
+        query.author = value;
+        this.updateQuery(query);
+      }
+    },
+    thisQueryName: {
+      get () {
+        return this.query.name;
+      },
+      set (value) {
+        var query = this.query;
+        query.name = value;
+        this.updateQuery(query);
+      }
+    },
+    thisQueryEndpoint: {
+      get () {
+        return this.query.endpoint;
+      },
+      set (value) {
+        var query = this.query;
+        query.endpoint = value;
+        this.updateQuery(query);
+      }
+    },
     apiurl : function () {
-      return siteRootUrl + "/api/" + this.parentForm.type + "/" + this.parentForm.slug
+      return siteRootUrl + "/api/" + this.type + "/" + this.slug
     },
     weburl : function () {
-      return siteRootUrl + "/#/view/" + this.parentForm.type + "/" + this.parentForm.slug
+      return siteRootUrl + "/#/view/" + this.type + "/" + this.slug
     },
     defaultEndpointUrl : function () {
       return app.defaultEndpoint.replace("/localhost",app.config.public.hostname);
     }
-
+  },
+  created () {
+    if (this.$route.params.type && this.$route.params.slug) {
+      var params = this.$route.params;
+      this.slug = params.slug;
+      this.type = params.type;
+    }
   }
-
 }
 </script>
 

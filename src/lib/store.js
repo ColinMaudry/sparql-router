@@ -7,9 +7,13 @@ Vue.use(Vuex)
 // Create an object to hold the initial state when
 // the app starts up
 const state = {
+  form: {
+    slug: "",
+    type: ""
+  },
   query : {
     query: "",
-    name: "test",
+    name: "",
     author: "",
     endpoint: ""
   },
@@ -31,6 +35,9 @@ const mutations = {
   MESSAGE (state,message,error) {
     state.message.text = message ;
     state.message.error = error;
+  },
+  RESULTS (state,results) {
+    state.results = results;
   }
 }
 
