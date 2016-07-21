@@ -186,7 +186,6 @@ export default {
       })
     },
     showDetails: function () {
-      console.log("Show!");
       this.show = !this.show;
     }
   },
