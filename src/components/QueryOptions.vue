@@ -96,19 +96,20 @@ export default {
   .input-group a.btn-default {
   font-size: 16px;
   font-weight: bold;
-  &:hover,&:focus {
-    text-decoration: none;
+    &:hover,&:focus {
+      text-decoration: none;
+    }
   }
-}
-	#terminal {
-		font-size: 0.8em;
-		font-family: monospace;
-		&.error {
-			border: solid rgb(217, 83, 79) 4px;
-		}
+  #terminal {
+    font-size: 0.8em;
+    font-family: monospace;
+    &.error {
+      border: solid rgb(217, 83, 79) 4px;
+    }
     &.new {
       margin-left: -15px;
       margin-right: -15px;
     }
-	}
+  }
+
 </style>
