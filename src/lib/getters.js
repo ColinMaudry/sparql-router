@@ -1,7 +1,6 @@
-// This getter is a function which just returns the count
-// With ES6 you can also write it as:
-// export const getCount = state => state.count
-
 export function getMessage (state) {
-  return state.message
+  return state.message;
+}
+export function getQuery (state) {
+  return state.form.query;
 }

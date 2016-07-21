@@ -22,17 +22,23 @@ export const getQueryMetadata = function (store,type,name) {
         result += data;
       });
       res.on('end',function() {
+        console.log(result);
+
         resultObject = JSON.parse(result);
         var query = {};
         query.name = resultObject.label;
         query.author = resultObject.author;
         query.endpoint = resultObject.endpoint;
+        query.modificationDate = resultObject.modificationDate;
         scheme.get(siteRootUrl + "/api/" + type + "/" + name + ".rq", (res2) => {
+          var result = "";
           res2.on('data', (chunk) => {
-             query.query = chunk;
+            result += chunk;
+            console.log(result);
+            query.query = result;
+            store.dispatch('QUERY', query);
            });
         });
-        store.dispatch('QUERY', query);
       });
   });
   req.on('error', (e) => {
