@@ -48,7 +48,8 @@
         "json": "application/sparql-results+json",
         "srj": "application/sparql-results+json",
         "srx": "application/sparql-results+xml",
-        "xml": "application/sparql-results+xml"
+        "xml": "application/sparql-results+xml",
+        "rq": "application/sparql-query"
       },
       "graphs": {
         "xml": "application/rdf+xml",
@@ -65,11 +66,13 @@
         "srx": "application/sparql-results+xml",
         "json": "application/sparql-results+json",
         "srj": "application/sparql-results+json",
-        "csv": "text/csv"
+        "csv": "text/csv",
+        "rq": "application/sparql-query"
       },
       "update": {
         "json": "application/json",
-        "txt": "text/plain"
+        "txt": "text/plain",
+        "rq": "application/sparql-query"
       }
     }
   }
