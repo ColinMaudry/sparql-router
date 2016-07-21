@@ -1,4 +1,5 @@
 import http from 'http'
+import slug from 'slug'
 import https from 'https'
 import functions from './functions.js'
 
@@ -22,8 +23,6 @@ export const getQueryMetadata = function (store,type,name) {
         result += data;
       });
       res.on('end',function() {
-        console.log(result);
-
         resultObject = JSON.parse(result);
         var query = {};
         query.name = resultObject.label;
@@ -34,7 +33,6 @@ export const getQueryMetadata = function (store,type,name) {
           var result = "";
           res2.on('data', (chunk) => {
             result += chunk;
-            console.log(result);
             query.query = result;
             store.dispatch('QUERY', query);
            });
@@ -47,3 +45,90 @@ export const getQueryMetadata = function (store,type,name) {
   });
   req.end();
 }
+
+export const updateQuery = function (store,query) {
+  store.dispatch('QUERY', query);
+}
+
+export const updateSlug = function (store,name) {
+  var slug = sanitize(slug(this.query.name).toLowerCase());
+  store.dispatch('SLUG', slug);
+}
+
+export const writeQuery = function (store,type,slug) {
+  var options = {
+    scheme : app.config.public.scheme,
+    hostname: app.config.public.hostname,
+    port: app.config.port,
+    path: "/api/" + type + "/" + slug,
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      "accept" : "*/*"
+    }
+  };
+  module.exports.getQueryResults(store,options);
+}
+
+export const testQuery = function (store,type,slug) {
+  var accept = (type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
+console.log(type);
+  var options = {
+    data: {
+      query: store.query.query,
+      endpoint: store.query.query
+    },
+    scheme : app.config.public.scheme,
+    hostname: app.config.public.hostname,
+    port: app.config.public.port,
+    path: "/api/sparql",
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "accept" : accept
+    }
+  };
+  module.exports.getQueryResults(store,options);
+}
+
+export const getQueryResults = function (store, options) {
+  console.log(JSON.stringify(options,null,2));
+  // console.log(JSON.stringify(form.query,null,2));
+  var result = "";
+  var data = (options.method === "POST" && options.data) ? options.data : "";
+  var queryResults = {};
+  var scheme = {};
+  if (options.scheme === 'https') {scheme = https} else {scheme = http};
+  var req = scheme.request(options, (res) => {
+      res.setEncoding('utf8');
+      res.on('data', (data) => {
+        result += data;
+      });
+      res.on('end', () => {
+          if (res.statusCode < 300) {
+
+            queryResults.type = functions.stringBefore(res.headers["content-type"],';').replace(' ','');
+
+            if (/json/.test(queryResults.type)) {
+              //console.log(result);
+              queryResults.data = JSON.parse(result);
+              store.dispatch('RESULTS',queryResults);
+              store.dispatch('MESSAGE',"",false);
+            } else {
+              var now = new Date();
+              now = now.toString();
+              result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+              store.dispatch('MESSAGE',result,false);
+            }
+          } else {
+            result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+            store.dispatch('MESSAGE',result,true);
+          }
+      })
+    });
+    req.on('error', (e) => {
+        throw new Error ("There was an error sending the form data: " + e.message + ".\n");
+    });
+    req.write(JSON.stringify(data));
+    req.end();
+};
