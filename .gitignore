@@ -5,3 +5,4 @@ config/*.json
 !config/test.json
 coverage
 *.sh
+*.swp
