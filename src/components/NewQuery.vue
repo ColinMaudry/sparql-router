@@ -9,7 +9,7 @@
   	    <query-text></query-text>
         <div class="form-group">
           <button type="button" v-on:click="createQuery" class="btn btn-primary navbar-right">Create</button>
-          <button type="button" v-on:click="testQuery" class="btn btn-default navbar-right">Test</button>
+          <button type="button" v-on:click="testQuery(query,type)" class="btn btn-default navbar-right">Test</button>
         </div>
   		</div>
   	</form>
@@ -30,6 +30,8 @@ import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { writeQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
+import { getQuery } from '../lib/getters.js'
+import { getForm } from '../lib/getters.js'
 
 
 export default {
@@ -41,42 +43,20 @@ export default {
     QueryText,
     Results
   },
-  // methods: {
-  //   createQuery () {
-  //     var options = {
-  //       scheme : app.config.public.scheme,
-  //       hostname: app.config.public.hostname,
-  //       port: app.config.port,
-  //       path: "/api/" + this.type + "/" + this.slug,
-  //       method: "PUT",
-  //       headers: {
-  //         "content-type": "application/json",
-  //         "accept" : "*/*"
-  //       }
-  //     };
-  //     functions.sendQuery(options,this.query,this.results,this.message);
-  //   },
-  //   testQuery () {
-  //     var accept = (this.form.type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
-  //     var options = {
-  //       scheme : app.config.public.scheme,
-  //       hostname: app.config.public.hostname,
-  //       port: app.config.public.port,
-  //       path: "/api/sparql",
-  //       method: "POST",
-  //       headers: {
-  //         "content-type": "application/json",
-  //         "accept" : accept
-  //       }
-  //     };
-  //     functions.sendQuery(options,this.query,this.results,this.message);
-  //   }
-  // },
   vuex: {
    actions: {
      getQueryMetadata: getQueryMetadata,
      update: writeQuery,
      testQuery: testQuery
+   },
+   getters: {
+     form: getForm,
+     query: getQuery
+   },
+   computed: {
+     type: function () {
+       return this.$route.params.type ;
+     }
    }
   }
 

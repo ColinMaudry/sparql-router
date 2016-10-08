@@ -9,7 +9,7 @@
         <query-text :parent-form.sync="form"></query-text>
         <div class="form-group">
           <button type="button" v-on:click="updateQuery(type,slug)" class="btn btn-primary navbar-right">Save</button>
-          <button type="button" v-on:click="testQuery(type)" class="btn btn-default navbar-right">Test</button>
+          <button type="button" v-on:click="testQuery(query,type)" class="btn btn-default navbar-right">Test</button>
         </div>
       </div>
     </form>
@@ -32,6 +32,7 @@ import { getQueryResults } from '../lib/actions.js'
 import { writeQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
 import { getForm } from '../lib/getters.js'
+import { getQuery } from '../lib/getters.js'
 
 export default {
 	el () {
@@ -50,7 +51,8 @@ export default {
      testQuery: testQuery
    },
    getters: {
-     form: getForm
+     form: getForm,
+     query: getQuery
    }
   },
   computed: {
