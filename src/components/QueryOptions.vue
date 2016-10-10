@@ -13,13 +13,13 @@
           <div class="form-group">
           <div class="radio">
             <label>
-              <input v-model="type" id="tables" value="tables" checked="" type="radio">
+              <input v-model="thisQueryType" id="tables" value="tables" checked="" type="radio">
               Table query (SELECT)
             </label>
           </div>
           <div class="radio">
             <label>
-              <input v-model="type" id="graphs" value="graphs" type="radio">
+              <input v-model="thisQueryType" id="graphs" value="graphs" type="radio">
               Graph query (DESCRIBE, CONSTRUCT or ASK )
             </label>
           </div>
@@ -54,14 +54,15 @@
 import slug from 'slug'
 import sanitize from 'sanitize-filename'
 import { updateQuery } from '../lib/actions.js'
+import { updateForm } from '../lib/actions.js'
 import { getQuery } from '../lib/getters.js'
+import { getForm } from '../lib/getters.js'
 import { getMessage } from '../lib/getters.js'
 
 export default {
 	el () {
     return "#left"
 	},
-  props: ['parentForm','parentMessage'],
   methods: {
     updateSlug: function() {
       this.slug = sanitize(slug(this.query.name).toLowerCase());
@@ -83,10 +84,12 @@ export default {
   vuex: {
     getters: {
       query: getQuery,
-      message: getMessage
+      message: getMessage,
+      form: getForm
     },
     actions: {
-      updateQuery: updateQuery
+      updateQuery: updateQuery,
+      updateForm: updateForm
     }
   },
   computed : {
@@ -110,6 +113,17 @@ export default {
         this.updateQuery(query);
       }
     },
+    thisQueryType: {
+      get () {
+        var result = (this.$route.params.type) ? this.$route.params.type : this.form.type
+        return result;
+      },
+      set (value) {
+        var form = this.form;
+        form.type = value;
+        this.updateForm(form);
+      }
+    },
     thisQueryEndpoint: {
       get () {
         return this.query.endpoint;
@@ -121,10 +135,10 @@ export default {
       }
     },
     apiurl : function () {
-      return siteRootUrl + "/api/" + this.type + "/" + this.slug
+      return siteRootUrl + "/api/" + this.thisQueryType + "/" + this.slug
     },
     weburl : function () {
-      return siteRootUrl + "/#/view/" + this.type + "/" + this.slug
+      return siteRootUrl + "/#/view/" + this.thisQueryType + "/" + this.slug
     },
     defaultEndpointUrl : function () {
       return app.defaultEndpoint.replace("/localhost",app.config.public.hostname);

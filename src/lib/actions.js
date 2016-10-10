@@ -50,6 +50,10 @@ export const updateQuery = function (store,query) {
   store.dispatch('QUERY', query);
 }
 
+export const updateForm = function (store,form) {
+  store.dispatch('FORM', form);
+}
+
 export const updateSlug = function (store,name) {
   var slug = sanitize(slug(store.query.name).toLowerCase());
   store.dispatch('SLUG', slug);
@@ -72,7 +76,7 @@ export const writeQuery = function (store,type,slug) {
 
 export const testQuery = function (store,query,type) {
   var accept = (type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
-  console.log(type);
+  console.log("type = " + type);
   var options = {
     data: {
       query: query.query,

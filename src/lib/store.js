@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const state = {
   form: {
     slug: "",
-    type: ""
+    type: "tables"
   },
   query : {
     query: "",
@@ -31,6 +31,9 @@ const state = {
 const mutations = {
   QUERY (state,query) {
     state.query = query;
+  },
+  FORM (state,form) {
+    state.form = form;
   },
   MESSAGE (state,message,error) {
     state.message.text = message ;
