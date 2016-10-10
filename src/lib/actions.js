@@ -59,8 +59,11 @@ export const updateSlug = function (store,name) {
   store.dispatch('SLUG', slug);
 }
 
-export const writeQuery = function (store,type,slug) {
+export const writeQuery = function (store,query,type,slug) {
+  var scheme = {};
+  if (options.scheme === 'https') {scheme = https} else {scheme = http};
   var options = {
+    data: query,
     scheme : app.config.public.scheme,
     hostname: app.config.public.hostname,
     port: app.config.port,
@@ -71,7 +74,9 @@ export const writeQuery = function (store,type,slug) {
       "accept" : "*/*"
     }
   };
-  module.exports.getQueryResults(store,options);
+
+  module.exports.getQueryResults(store,options)
+
 }
 
 export const testQuery = function (store,query,type) {
@@ -92,42 +97,23 @@ export const testQuery = function (store,query,type) {
       "accept" : accept
     }
   };
-  module.exports.getQueryResults(store,options);
-}
+  module.exports.sendHTTPRequest(store,options,module.exports.getQueryResults);
+};
 
-export const getQueryResults = function (store, options) {
+export const sendHTTPRequest = function (store, options,cb) {
   console.log(JSON.stringify(options,null,2));
-  // console.log(JSON.stringify(form.query,null,2));
-  var result = "";
   var data = (options.method === "POST" && options.data) ? options.data : "";
-  var queryResults = {};
   var scheme = {};
+  var result = "";
   if (options.scheme === 'https') {scheme = https} else {scheme = http};
+
   var req = scheme.request(options, (res) => {
       res.setEncoding('utf8');
       res.on('data', (data) => {
         result += data;
       });
       res.on('end', () => {
-          if (res.statusCode < 300) {
-
-            queryResults.type = functions.stringBefore(res.headers["content-type"],';').replace(' ','');
-
-            if (/json/.test(queryResults.type)) {
-              //console.log(result);
-              queryResults.data = JSON.parse(result);
-              store.dispatch('RESULTS',queryResults);
-              store.dispatch('MESSAGE',"",false);
-            } else {
-              var now = new Date();
-              now = now.toString();
-              result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
-              store.dispatch('MESSAGE',result,false);
-            }
-          } else {
-            result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
-            store.dispatch('MESSAGE',result,true);
-          }
+          cb(store,res,result);
       })
     });
     req.on('error', (e) => {
@@ -135,4 +121,27 @@ export const getQueryResults = function (store, options) {
     });
     req.write(JSON.stringify(data));
     req.end();
+};
+
+
+export const getQueryResults = function (store,res, result) {
+  var queryResults = {};
+  if (res.statusCode < 300) {
+    queryResults.type = functions.stringBefore(res.headers["content-type"],';').replace(' ','');
+
+    if (/json/.test(queryResults.type)) {
+      //console.log(result);
+      queryResults.data = JSON.parse(result);
+      store.dispatch('RESULTS',queryResults);
+      store.dispatch('MESSAGE',"",false);
+    } else {
+      var now = new Date();
+      now = now.toString();
+      result = now + "\n" + result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+      store.dispatch('MESSAGE',result,false);
+    }
+  } else {
+    result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+    store.dispatch('MESSAGE',result,true);
+  }
 };
