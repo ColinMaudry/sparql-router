@@ -122,6 +122,7 @@ import { getMessage } from '../lib/getters.js'
 import { getQuery } from '../lib/getters.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
+import { sendHTTPRequest } from '../lib/actions.js'
 
 export default {
 	el () {
@@ -176,7 +177,9 @@ export default {
    },
    actions: {
      getQueryMetadata: getQueryMetadata,
-     getQueryResults: getQueryResults
+     getQueryResults: getQueryResults,
+     sendHTTPRequest: sendHTTPRequest
+
    }
   },
   methods: {
@@ -206,7 +209,7 @@ export default {
         }
       };
       this.getQueryMetadata(type,name);
-      this.getQueryResults(options);
+      this.sendHTTPRequest(options,getQueryResults);
     }
   }
 </script>

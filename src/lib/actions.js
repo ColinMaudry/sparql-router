@@ -59,29 +59,43 @@ export const updateSlug = function (store,name) {
   store.dispatch('SLUG', slug);
 }
 
-export const writeQuery = function (store,query,type,slug) {
+export const createQuery = function (store,query,type,slug,router) {
+  var callback = function (store,res,result) {
+    if (res.statusCode < 300) {
+      store.dispatch('MESSAGE',"Query created successfully.",false);
+      router.go({name: 'edit', params : {
+        type: type,
+        slug: slug
+      }});
+      } else {
+      result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+      store.dispatch('MESSAGE',result,true);
+    }
+  };
+  module.exports.writeQuery(store,query,type,slug,callback);
+}
+
+export const writeQuery = function (store,query,type,slug,cb) {
   var scheme = {};
-  if (options.scheme === 'https') {scheme = https} else {scheme = http};
   var options = {
     data: query,
     scheme : app.config.public.scheme,
     hostname: app.config.public.hostname,
-    port: app.config.port,
+    port: app.config.public.port,
     path: "/api/" + type + "/" + slug,
     method: "PUT",
     headers: {
-      "content-type": "application/json",
-      "accept" : "*/*"
+      "Content-Type": "application/json",
+      "Accept" : "*/*"
     }
   };
 
-  module.exports.getQueryResults(store,options)
+  module.exports.sendHTTPRequest(store,options,cb);
 
 }
 
 export const testQuery = function (store,query,type) {
   var accept = (type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
-  console.log("type = " + type);
   var options = {
     data: {
       query: query.query,
@@ -93,7 +107,7 @@ export const testQuery = function (store,query,type) {
     path: "/api/sparql",
     method: "POST",
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
       "accept" : accept
     }
   };
@@ -102,7 +116,7 @@ export const testQuery = function (store,query,type) {
 
 export const sendHTTPRequest = function (store, options,cb) {
   console.log(JSON.stringify(options,null,2));
-  var data = (options.method === "POST" && options.data) ? options.data : "";
+  var data = (options.method != "GET" && options.data) ? options.data : "";
   var scheme = {};
   var result = "";
   if (options.scheme === 'https') {scheme = https} else {scheme = http};
@@ -126,11 +140,10 @@ export const sendHTTPRequest = function (store, options,cb) {
 
 export const getQueryResults = function (store,res, result) {
   var queryResults = {};
-  if (res.statusCode < 300) {
+  if (res.statusCode < 300 || res.statusCode === 304) {
     queryResults.type = functions.stringBefore(res.headers["content-type"],';').replace(' ','');
 
     if (/json/.test(queryResults.type)) {
-      //console.log(result);
       queryResults.data = JSON.parse(result);
       store.dispatch('RESULTS',queryResults);
       store.dispatch('MESSAGE',"",false);

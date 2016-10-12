@@ -29,6 +29,7 @@ import Results from './Results.vue'
 import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
+import { sendHTTPRequest } from '../lib/actions.js'
 import { writeQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
 import { getForm } from '../lib/getters.js'
@@ -47,6 +48,7 @@ export default {
    actions: {
      getQueryMetadata: getQueryMetadata,
      getQueryResults: getQueryResults,
+     sendHTTPRequest: sendHTTPRequest,
      updateQuery: writeQuery,
      testQuery: testQuery
    },
@@ -75,7 +77,8 @@ export default {
         }
       };
       this.getQueryMetadata(type,name);
-      this.getQueryResults(options);
+      this.sendHTTPRequest(options,getQueryResults);
+
     }
 
 }

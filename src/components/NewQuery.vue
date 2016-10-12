@@ -8,7 +8,7 @@
   		<div id="right" class="col-md-7 col-md-offset-1">
   	    <query-text></query-text>
         <div class="form-group">
-          <button type="button" v-on:click="createQuery" class="btn btn-primary navbar-right">Create</button>
+          <button type="button" v-on:click="createQueryAndGo(query,form.type,form.slug)" class="btn btn-primary navbar-right">Create</button>
           <button type="button" v-on:click="testQuery(query,form.type)" class="btn btn-default navbar-right">Test</button>
         </div>
   		</div>
@@ -28,7 +28,7 @@ import QueryText from './QueryText.vue'
 import Results from './Results.vue'
 import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
-import { writeQuery } from '../lib/actions.js'
+import { createQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
 import { getQuery } from '../lib/getters.js'
 import { getForm } from '../lib/getters.js'
@@ -46,14 +46,19 @@ export default {
   vuex: {
    actions: {
      getQueryMetadata: getQueryMetadata,
-     update: writeQuery,
-     testQuery: testQuery
+     testQuery: testQuery,
+     createQuery: createQuery
    },
    getters: {
      form: getForm,
      query: getQuery
    }
-  }
+ },
+ methods: {
+   createQueryAndGo : function (query,type,slug) {
+     createQuery(this.$store,query,type,slug,this.$route.router);
 
-}
+       }
+     }
+   }
 </script>

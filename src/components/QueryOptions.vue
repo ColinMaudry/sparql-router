@@ -27,6 +27,7 @@
         <div class="form-group">
           <label for="weburl" class="control-label">Web URL</label>
           <div class="input-group">
+            <input title="slug" v-model="thisQuerySlug" type="text" hidden="hidden" readonly>
             <input class="form-control input-sm" title="Go to Web URL." v-model="weburl" type="text" readonly>
             <span class="input-group-btn">
              <a class="btn-sm btn-default" type="button" href="{{ weburl }}" target="_blank">⇨</a>
@@ -65,7 +66,7 @@ export default {
 	},
   methods: {
     updateSlug: function() {
-      this.slug = sanitize(slug(this.query.name).toLowerCase());
+      this.form.slug = sanitize(slug(this.query.name).toLowerCase());
     },
     goTo (type) {
       this.$route.router.go({name: 'view', params : {
@@ -124,6 +125,11 @@ export default {
         this.updateForm(form);
       }
     },
+    thisQuerySlug: {
+      get () {
+        return sanitize(slug(this.query.name).toLowerCase());
+      }
+    },
     thisQueryEndpoint: {
       get () {
         return this.query.endpoint;
@@ -135,10 +141,10 @@ export default {
       }
     },
     apiurl : function () {
-      return siteRootUrl + "/api/" + this.thisQueryType + "/" + this.slug
+      return siteRootUrl + "/api/" + this.thisQueryType + "/" + this.thisQuerySlug
     },
     weburl : function () {
-      return siteRootUrl + "/#/view/" + this.thisQueryType + "/" + this.slug
+      return siteRootUrl + "/#/view/" + this.thisQueryType + "/" + this.thisQuerySlug
     },
     defaultEndpointUrl : function () {
       return app.defaultEndpoint.replace("/localhost",app.config.public.hostname);
