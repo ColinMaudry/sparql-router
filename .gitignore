@@ -8,3 +8,4 @@ coverage
 *.swp
 bin/selenium*
 reports
+*debug.log
