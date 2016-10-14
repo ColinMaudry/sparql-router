@@ -6,3 +6,5 @@ config/*.json
 coverage
 *.sh
 *.swp
+bin/selenium*
+reports
