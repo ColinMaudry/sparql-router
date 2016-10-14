@@ -68,22 +68,39 @@ SPARQL router is also available as an [NPM package](https://www.npmjs.com/packag
 
 [On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Configuring-SPARQL-router).
 
-### Test
+## Test
 
 I haven't found a proper way to mock a triple store for testing purposes. I consequently use a remote triple store. That means the tests only work if the machine has Internet access.
 
 The configuration used for the tests is stored in `config/test.json`.
 
-To run the tests:
+First, make sure, you have all the dev dependencies installed:
+
+```bash
+npm install
+```
+
+Tests rely on [mocha](http://mochajs.org/) and
+[supertest](https://www.npmjs.com/package/supertest) for the API, and on [nightwatch](http://nightwatchjs.org) for the frontend.
+
+### API
+
+To run the API tests:
 
 ```bash
 npm test
 ```
 
-[Overview of the tests](test/tests.png).
+[Overview of the API tests](test/tests.png).
 
-Tests rely on [mocha](http://mochajs.org/) and
-[supertest](https://www.npmjs.com/package/supertest).
+### Frontend
+
+To run the frontend tests:
+
+```bash
+# Run the frontend tests with the test configuration
+npm run test-ui
+```
 
 ## Start it
 
