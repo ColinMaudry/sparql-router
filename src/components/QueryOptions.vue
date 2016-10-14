@@ -26,12 +26,7 @@
         </div>
         <div class="form-group">
           <label for="weburl" class="control-label">Web URL</label>
-          <div class="input-group">
-            <input title="slug" v-model="thisQuerySlug" type="text" hidden="hidden" readonly>
             <input class="form-control input-sm" title="Go to Web URL." v-model="weburl" type="text" readonly>
-            <span class="input-group-btn">
-             <a class="btn-sm btn-default" type="button" href="{{ weburl }}" target="_blank">⇨</a>
-           </span>
           </div>
         </div>
         <div class="form-group">

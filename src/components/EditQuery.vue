@@ -1,9 +1,14 @@
 <template>
   <div class="container">
     <div class="row">
+      <div id="actionBar">
+        <action-bar></action-bar>
+      </div>
+    </div>
+    <div class="row">
       <form class="form-horizontal" name="query-form" >
       <div id="left" class="col-md-4">
-        <query-options :parent-form.sync="form" :parent-message.sync="message"></query-options>
+        <query-options></query-options>
       </div>
       <div id="right" class="col-md-7 col-md-offset-1">
         <query-text :parent-form.sync="form"></query-text>
@@ -25,6 +30,7 @@
 <script>
 import QueryOptions from './QueryOptions.vue'
 import QueryText from './QueryText.vue'
+import ActionBar from './ActionBar.vue'
 import Results from './Results.vue'
 import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
@@ -41,6 +47,7 @@ export default {
 	},
 	components : {
     QueryOptions,
+    ActionBar,
     QueryText,
     Results
   },
