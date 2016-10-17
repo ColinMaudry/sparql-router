@@ -23,13 +23,13 @@ insert data {
 		a router:TablesQuery ;
     a router:TestQuery ;
 		dct:author "Colin Maudry" ;
-		rdfs:label "Tables test 1" ;
+		rdfs:label "Test" ;
 		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test2> dct:identifier "test2" ;
   		a router:TablesQuery ;
       a router:TestQuery ;
   		dct:author "Colin Maudry" ;
-  		rdfs:label "Test" ;
+  		rdfs:label "Test2" ;
   		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test3> dct:identifier "test3" ;
   		a router:TablesQuery ;
