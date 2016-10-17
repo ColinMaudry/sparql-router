@@ -8,7 +8,7 @@
           </div>
           <div class="form-group">
             <label for="author" class="control-label">Author</label>
-            <input class="form-control input-sm" title="Your name or email or nothing." v-model="thisQueryAuthor" placeholder="Name" type="text">
+            <input class="form-control input-sm" title="Your name or email or nothing." v-model="thisQueryAuthor" placeholder="Author" type="text">
           </div>
           <div class="form-group">
           <div class="radio">

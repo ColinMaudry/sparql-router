@@ -8,8 +8,8 @@
   		<div id="right" class="col-md-7 col-md-offset-1">
   	    <query-text></query-text>
         <div class="form-group">
-          <button type="button" v-on:click="createQueryAndGo(query,form.type,form.slug)" class="btn btn-primary navbar-right">Create</button>
-          <button type="button" v-on:click="testQuery(query,form.type)" class="btn btn-default navbar-right">Test</button>
+          <button type="button" v-on:click="createQueryAndGo(query,form.type,form.slug)" id="saveQuery" class="btn btn-primary navbar-right">Create</button>
+          <button type="button" v-on:click="testQuery(query,form.type)" id="testQuery" class="btn btn-default navbar-right">Test</button>
         </div>
   		</div>
   	</form>
