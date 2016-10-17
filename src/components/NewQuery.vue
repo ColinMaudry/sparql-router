@@ -30,6 +30,7 @@ import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { createQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
+import { initStore } from '../lib/actions.js'
 import { getQuery } from '../lib/getters.js'
 import { getForm } from '../lib/getters.js'
 
@@ -47,7 +48,8 @@ export default {
    actions: {
      getQueryMetadata: getQueryMetadata,
      testQuery: testQuery,
-     createQuery: createQuery
+     createQuery: createQuery,
+     initStore: initStore
    },
    getters: {
      form: getForm,
@@ -59,6 +61,9 @@ export default {
      createQuery(this.$store,query,type,slug,this.$route.router);
 
        }
-     }
-   }
+     },
+created () {
+    initStore(this.$store);
+}
+}
 </script>

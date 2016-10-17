@@ -158,3 +158,25 @@ export const getQueryResults = function (store,res, result) {
     store.dispatch('MESSAGE',result,true);
   }
 };
+
+export const initStore = function(store) {
+  const query = {
+    query: "",
+    name: "",
+    author: "",
+    endpoint: ""
+  };
+  const results = {
+    data: {},
+    type: ""
+  };
+  const form = {
+    slug: "",
+    type: "tables"
+  };
+
+  store.dispatch('FORM', form);
+  store.dispatch('QUERY', query);
+  store.dispatch('MESSAGE', "", false);
+  store.dispatch('RESULTS', results);
+};
