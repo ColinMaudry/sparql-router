@@ -4,6 +4,7 @@
     <button v-if="$route.name === 'view'" type="button" class="btn btn-primary navbar-left" v-on:click="goTo('edit')">Edit</button>
     <button v-if="$route.name === 'edit'" type="button" class="btn btn-default navbar-left" v-on:click="goTo('view')">View</button>
     <button v-if="$route.name === 'view'" type="button" v-on:click="showDetails()" class="btn btn-default navbar-left">+ Details</button>
+    <button v-if="$route.name === 'view' || $route.name === 'edit'" type="button" v-on:click="deleteQueryAndGo($route.params.type,$route.params.slug)" class="btn btn-danger navbar-left">Delete</button>
     <span v-if="$route.params.type === 'tables'">
       <a type="button" href="{{ queryBaseUrl + 'json' }}" class="btn btn-default navbar-right">JSON</a>
       <a type="button" href="{{ queryBaseUrl + 'xml' }}" class="btn btn-default navbar-right">XML</a>
@@ -92,6 +93,8 @@ div.btn-group > a.dropdown-toggle {
 
 <script>
 import { getQuery } from '../lib/getters.js'
+import { getForm } from '../lib/getters.js'
+import { deleteQuery } from '../lib/actions.js'
 
 export default {
   el () {
@@ -133,8 +136,12 @@ export default {
   },
   vuex: {
    getters: {
-     query: getQuery
-   }}
+     query: getQuery,
+     form: getForm
+   },
+ actions: {
+   deleteQuery: deleteQuery
+ }}
    ,
 methods: {
   goTo: function (name) {
@@ -146,6 +153,9 @@ methods: {
   },
   showDetails: function () {
     this.show = !this.show;
+  },
+  deleteQueryAndGo: function(type,slug) {
+    deleteQuery(this.$store,type,slug,this.$router);
   }
 }
 }

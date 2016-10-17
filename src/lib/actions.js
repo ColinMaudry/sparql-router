@@ -76,7 +76,6 @@ export const createQuery = function (store,query,type,slug,router) {
 }
 
 export const writeQuery = function (store,query,type,slug,cb) {
-  var scheme = {};
   var options = {
     data: query,
     scheme : app.config.public.scheme,
@@ -91,8 +90,27 @@ export const writeQuery = function (store,query,type,slug,cb) {
   };
 
   module.exports.sendHTTPRequest(store,options,cb);
-
 }
+
+export const deleteQuery = function (store,type,slug,router) {
+  var callback = function (store,res,result) {
+    if (res.statusCode < 300) {
+      store.dispatch('MESSAGE',"Query deleted successfully: " + type + "/" + slug,false);
+      router.go({name: 'new'});
+      } else {
+      result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+      store.dispatch('MESSAGE',result,true);
+    }
+  };
+  var options = {
+      scheme : app.config.public.scheme,
+      hostname: app.config.public.hostname,
+      port: app.config.public.port,
+      path: "/api/" + type + "/" + slug,
+      method: "DELETE"
+    }
+    module.exports.sendHTTPRequest(store,options,callback);
+};
 
 export const testQuery = function (store,query,type) {
   var accept = (type === "tables") ? "application/sparql-results+json" : "text/turtle; q=0.2, application/ld+json";
@@ -177,6 +195,5 @@ export const initStore = function(store) {
 
   store.dispatch('FORM', form);
   store.dispatch('QUERY', query);
-  store.dispatch('MESSAGE', "", false);
   store.dispatch('RESULTS', results);
 };
