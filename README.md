@@ -98,6 +98,14 @@ npm test
 To run the frontend tests:
 
 ```bash
+# Make sure the dev dependencies are installed
+
+npm install
+
+# Start the server in development mode with the test configuration
+
+NODE_ENV=test npm run dev
+
 # Run the frontend tests with the test configuration
 npm run test-ui
 ```
