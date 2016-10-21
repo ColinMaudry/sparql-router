@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid" id="view">
     <div v-if="message.error != true" class="row">
       <div id="actionBar" class="col-md-8 col-md-offset-2">
         <action-bar></action-bar>
@@ -9,7 +9,7 @@
       <div class="col-md-4 col-md-offset-4 well well-sm view" v-bind:class="{ 'error': message.error}" v-if="message.text !== ''" id="terminal">
         {{ message.text }}
       </div>
-      <div id="results">
+      <div id="results" >
         <results></results>
       </div>
     </div>
@@ -93,7 +93,6 @@ export default {
   },
   vuex: {
    getters: {
-     // note that you're passing the function itself, and not the value 'getCount()'
      message: getMessage
    },
    actions: {

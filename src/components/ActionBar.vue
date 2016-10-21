@@ -1,10 +1,10 @@
 <template>
   <div class="actions">
-    <button type="button" class="btn btn-success navbar-left" v-on:click="goTo('new')">New</button>
-    <button v-if="$route.name === 'view'" type="button" class="btn btn-primary navbar-left" v-on:click="goTo('edit')">Edit</button>
-    <button v-if="$route.name === 'edit'" type="button" class="btn btn-default navbar-left" v-on:click="goTo('view')">View</button>
-    <button v-if="$route.name === 'view'" type="button" v-on:click="showDetails()" class="btn btn-default navbar-left">+ Details</button>
-    <button v-if="$route.name === 'view' || $route.name === 'edit'" type="button" v-on:click="deleteQueryAndGo($route.params.type,$route.params.slug)" class="btn btn-danger navbar-left">Delete</button>
+    <button id="newButton" type="button" class="btn btn-success navbar-left" v-on:click="goTo('new')">New</button>
+    <button id="editButton" v-if="$route.name === 'view'" type="button" class="btn btn-primary navbar-left" v-on:click="goTo('edit')">Edit</button>
+    <button id="viewButton" v-if="$route.name === 'edit'" type="button" class="btn btn-default navbar-left" v-on:click="goTo('view')">View</button>
+    <button id="detailsButton" v-if="$route.name === 'view'" type="button" v-on:click="showDetails()" class="btn btn-default navbar-left">+ Details</button>
+    <button id="deleteButton" v-if="$route.name === 'view' || $route.name === 'edit'" type="button" v-on:click="deleteQueryAndGo($route.params.type,$route.params.slug)" class="btn btn-danger navbar-left">Delete</button>
     <span v-if="$route.params.type === 'tables'">
       <a type="button" href="{{ queryBaseUrl + 'json' }}" class="btn btn-default navbar-right">JSON</a>
       <a type="button" href="{{ queryBaseUrl + 'xml' }}" class="btn btn-default navbar-right">XML</a>
@@ -27,7 +27,7 @@
   </div>
   <div class="row" id="queryDetails" v-if="show" transition="expand">
     <div class="col-md-12">
-      <div class="well well-sm queryName">
+      <div class="well well-sm queryName" id="name">
         {{ query.name }}
       </div>
     </div>
@@ -41,7 +41,7 @@
     </div>
     <div class="col-md-3">
       <ul class="list-group">
-        <li class="list-group-item">
+        <li class="list-group-item" id="author">
           <span class="badge">{{ query.author }}</span>
           Author
         </li>

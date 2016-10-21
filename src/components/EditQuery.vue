@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" id="edit">
     <div class="row">
       <div id="actionBar">
         <action-bar></action-bar>

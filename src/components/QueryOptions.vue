@@ -4,34 +4,34 @@
         <fieldset>
           <div class="form-group">
             <label for="name" class="control-label">Name *</label>
-            <input class="form-control input-sm" title="The name of the query." v-model="thisQueryName" placeholder="Name" type="text" v-on:keyup="updateSlug">
+            <input id="name" class="form-control input-sm" title="The name of the query." v-model="thisQueryName" placeholder="Name" type="text" v-on:keyup="updateSlug">
           </div>
           <div class="form-group">
             <label for="author" class="control-label">Author</label>
-            <input class="form-control input-sm" title="Your name or email or nothing." v-model="thisQueryAuthor" placeholder="Author" type="text">
+            <input class="form-control input-sm" title="Your name or email or nothing." id="author" "v-model="thisQueryAuthor" placeholder="Author" type="text">
           </div>
           <div class="form-group">
           <div class="radio">
             <label>
-              <input v-model="thisQueryType" id="tables" value="tables" checked="" type="radio">
+              <input name="type" v-model="thisQueryType" id="tables" value="tables" checked="" type="radio">
               Table query (SELECT)
             </label>
           </div>
           <div class="radio">
             <label>
-              <input v-model="thisQueryType" id="graphs" value="graphs" type="radio">
+              <input name="type" v-model="thisQueryType" id="graphs" value="graphs" type="radio">
               Graph query (DESCRIBE, CONSTRUCT or ASK )
             </label>
           </div>
         </div>
         <div class="form-group">
           <label for="weburl" class="control-label">Web URL</label>
-            <input class="form-control input-sm" title="Go to Web URL." v-model="weburl" type="text" readonly>
+            <input class="form-control input-sm" v-model="weburl" id="weburl" type="text" readonly>
           </div>
         </div>
         <div class="form-group">
           <label for="apiurl" class="control-label">API URL</label>
-          <input class="form-control input-sm" title="Go to API URL." v-model="apiurl" type="text" readonly>
+          <input class="form-control input-sm" v-model="apiurl" id="apiurl" type="text" readonly>
         </div>
   			<div class="form-group">
   				<label for="endpoint" class="control-label">SPARQL endpoint URL</label>
