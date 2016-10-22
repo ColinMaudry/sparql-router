@@ -56,8 +56,19 @@ module.exports = {
       .click('#newButton')
       .waitForElementVisible('#testQuery', 500)
       .assert.value("input[id=name]","")
-      .end()
-
+    },
+    'Delete query': function (browser) {
+      browser
+        .url('http://localhost:3333/#/view/graphs/test-ui')
+        .waitForElementVisible('#deleteButton', 1000)
+        .click('#deleteButton')
+        .waitForElementVisible('#testQuery', 500)
+        .assert.value("input[id=name]","")
+        .assert.containsText("#terminal","Query deleted successfully: graphs/test-ui")
+        .url('http://localhost:3333/#/view/graphs/test-ui')
+        .assert.containsText("#terminal","graphs/test-ui: This query does not exist.")
+        .assert.elementNotPresent("div.actions")
+        .end()
     }
 
 };
