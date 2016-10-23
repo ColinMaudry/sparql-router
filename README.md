@@ -1,6 +1,6 @@
 # SPARQL router [0.3.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.3.0+)
 
-#### A NodeJS/Express application to serve canned SPARQL queries to the world.
+#### The NodeJS/Express application that powers [queery.link](http://queery.link) to serve canned SPARQL queries to the world.
 
 | [master](https://github.com/ColinMaudry/sparql-router) ([**demo**](https://queery.link/api))|  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) ([**demo**](https://sparql-router.herokuapp.com/api))|
 | ------------- | ------------- |
@@ -42,12 +42,10 @@ This server application solves the issue:
 
 **[Known issues](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug)**
 
-Now it's still jut a useful middleman between your RDF data and your data consumers, but the objective is to develop an open platform to share SPARQL queries on any endpoint. With [a nice UI](https://github.com/ColinMaudry/sparql-router-ui).
-
 ## Demo
 
-- Master/stable: http://queery.link/api
-- Develop/test: https://sparql-router.herokuapp.com/api
+- Master/stable: http://queery.link
+- Develop/test: https://sparql-router.herokuapp.com
 
 ## Requirements
 
@@ -99,14 +97,12 @@ To run the frontend tests:
 
 ```bash
 # Make sure the dev dependencies are installed
-
 npm install
 
 # Start the server in development mode with the test configuration
-
 NODE_ENV=test npm run dev
 
-# Run the frontend tests with the test configuration
+# Run the frontend tests
 npm run test-ui
 ```
 
@@ -150,7 +146,7 @@ The API documentation can be found [here](https://sparql-router.herokuapp.com/ap
 
 The actions that are not read-only on the canned queries or the data require [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
 
-- HTTP POST to create or update a query
+- HTTP PUT to create or update a query
 - HTTP DELETE to delete a query
 
 ## Similar software
