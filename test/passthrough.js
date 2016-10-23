@@ -22,12 +22,20 @@ describe('POST and GET queries in passthrough mode', function() {
       + "&endpoint=" + encodeURIComponent('http://dydra.com/colin-maudry/dgfr/sparql'))
       .expect(200)
       .expect('Content-Type', /xml|json|csv/, done)
-
   });
   it('GET queries to /sparql are passed through for provided endpoint and return accepted content type', function(done) {
     request(app)
       .get('/api/sparql?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 5')
       + "&endpoint=" + encodeURIComponent('http://dydra.com/colin-maudry/dgfr/sparql'))
+      .set("Accept","text/csv")
+      .expect(200)
+      .expect('Content-Type', /csv/, done)
+
+  });
+  it('GET queries to /sparql are passed through for provided HTTPS endpoint and return accepted content type', function(done) {
+    request(app)
+      .get('/api/sparql?query=' + encodeURIComponent('select * where {?s ?p ?o} limit 5')
+      + "&endpoint=" + encodeURIComponent('https://query.wikidata.org/bigdata/namespace/wdq/sparql'))
       .set("Accept","text/csv")
       .expect(200)
       .expect('Content-Type', /csv/, done)
