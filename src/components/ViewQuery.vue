@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <div class="col-md-4 col-md-offset-4 well well-sm view" v-bind:class="{ 'error': message.error}" v-if="message.text !== ''" id="terminal">
-        {{ message.text }}
+        {{{ message.text }}}
       </div>
       <div id="details">
         <query-details></query-details>
@@ -72,28 +72,6 @@ export default {
       var params = this.$route.params;
       var url = siteRootUrl + "/api/" + params.type + "/" + params.slug + ".";
       return url;
-    },
-    modificationDate: function () {
-      var unformattedDate = "";
-      if (this.query.modificationDate) {
-        if (typeof this.query.modificationDate === "string") {
-          unformattedDate = this.query.modificationDate;
-        } else  {
-          unformattedDate = this.query.modificationDate[0];
-        }
-        return unformattedDate;
-      }
-    },
-    queryText: function () {
-      var query = "";
-      if (this.query.query) {
-        query = this.query.query
-            .replace("<","&lt;")
-            .replace(/\n/g,"<br>")
-            .replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
-        console.log(query);
-        return query;
-      }
     }
   },
   vuex: {

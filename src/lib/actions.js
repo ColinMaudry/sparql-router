@@ -199,8 +199,6 @@ export const initStore = function(store) {
 };
 
 export const showDetails = function (store,show) {
-  console.log(show);
   var newShow = !show;
-  console.log(newShow);
   store.dispatch('SHOWDETAILS',newShow);
 };

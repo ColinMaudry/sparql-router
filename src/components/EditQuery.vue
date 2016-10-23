@@ -36,10 +36,12 @@ import functions from './../lib/functions.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
 import { sendHTTPRequest } from '../lib/actions.js'
+import { showDetails } from '../lib/actions.js'
 import { writeQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
 import { getForm } from '../lib/getters.js'
 import { getQuery } from '../lib/getters.js'
+import { getShow } from '../lib/getters.js'
 
 export default {
 	el () {
@@ -57,11 +59,13 @@ export default {
      getQueryResults: getQueryResults,
      sendHTTPRequest: sendHTTPRequest,
      updateQuery: writeQuery,
-     testQuery: testQuery
+     testQuery: testQuery,
+     showDetails: showDetails
    },
    getters: {
      form: getForm,
-     query: getQuery
+     query: getQuery,
+     show: getShow
    }
   },
   computed: {
@@ -83,6 +87,7 @@ export default {
           "accept" : accept
         }
       };
+      showDetails(this.$store,this.show);
       this.getQueryMetadata(type,name);
       this.sendHTTPRequest(options,getQueryResults);
 

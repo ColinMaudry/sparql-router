@@ -1,39 +1,28 @@
 <template>
-  <div class="row" id="queryDetails" v-if="show" transition="expand">
-    <div class="col-md-12">
-      <div class="well well-sm queryName" id="name">
-        {{ query.name }}
+  <div id="queryDetails" v-if="show && !message.error" v-bind:class="{ 'col-md-3': show}">
+    <fieldset>
+      <div class="form-group">
+        <label for="name" class="control-label">Name</label>
+        <input id="name" class="form-control input-lg" title="The name of the query." v-model="query.name" type="text" readonly>
       </div>
-    </div>
-    <div class="col-md-6">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <span class="badge">{{ query.endpoint }}</span>
-          Endpoint URL
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <ul class="list-group">
-        <li class="list-group-item" id="author">
-          <span class="badge">{{ query.author }}</span>
-          Author
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <span class="badge">{{ modificationDate }}</span>
-          Last update
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <label for="author" class="control-label">Author</label>
+        <input class="form-control" title="Author of the query" id="author" v-model="query.author" type="text" readonly>
+      </div>
       <div class="well" id="text">
         {{{ queryText }}}
       </div>
-    </div>
+      <div class="form-group">
+        <label for="endpoint" class="control-label">Endpoint URL</label>
+        <input class="form-control" title="The URL of the SPARQL endpoint for this query" id="author" v-model="query.endpoint" type="text" readonly>
+      </div>
+      <div class="form-group">
+        <label for="modification" class="control-label">Last modification</label>
+        <div class="well-sm well form-control" title="The date and time when the query text was modified for the last time" id="modification">{{ modificationDate }}</div>
+      </div>
+
+    </fieldset>
+  </div>
 
 </template>
 
@@ -44,7 +33,7 @@
   .expand-transition {
     transition: all .15s ease;
     overflow: hidden;
-    max-height: 2000px;
+    width: 2000px;
   }
 
   .expand-enter, .expand-leave {
@@ -55,8 +44,12 @@
   font-size: 22px
 }
 #text {
-  font-size: 90%;
+  font-size: 80%;
 }
+#modification {
+  background-color: #fff;
+}
+
 div.btn-group > a.dropdown-toggle {
   padding: 16.72px;
 }
@@ -66,6 +59,8 @@ div.btn-group > a.dropdown-toggle {
 import { getQuery } from '../lib/getters.js'
 import { getShow } from '../lib/getters.js'
 import { getForm } from '../lib/getters.js'
+import { getMessage } from '../lib/getters.js'
+
 
 export default {
   el () {
@@ -99,7 +94,8 @@ export default {
    getters: {
      query: getQuery,
      form: getForm,
-     show: getShow
+     show: getShow,
+     message: getMessage
    }
  },
 methods: {

@@ -27,7 +27,6 @@
         <div class="form-group">
           <label for="weburl" class="control-label">Web URL</label>
             <input class="form-control input-sm" v-model="weburl" id="weburl" type="text" readonly>
-          </div>
         </div>
         <div class="form-group">
           <label for="apiurl" class="control-label">API URL</label>

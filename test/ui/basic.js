@@ -47,28 +47,28 @@ module.exports = {
       .assert.value("textarea[id=text]","describe ?s where { ?s ?p ?o } limit 1")
       .click('#viewButton')
       .waitForElementVisible('#view', 1000)
+      .assert.elementPresent('#queryDetails')
       .assert.urlContains("/view/graphs/test-ui")
-      .assert.elementNotPresent('#queryDetails')
-      .click("#detailsButton")
-      .waitForElementVisible('#queryDetails', 500)
-      .assert.containsText("div[id=name]","Test UI")
+      .assert.value("input[id=name]","Test UI")
       .assert.containsText("div[id=text]","describe ?s where { ?s ?p ?o } limit 1")
+      .assert.value("input[id=author]","Tester")
+      .click("#detailsButton")
+      .assert.elementNotPresent('#queryDetails')
       .click('#newButton')
       .waitForElementVisible('#testQuery', 500)
       .assert.value("input[id=name]","")
-    },
-    'Delete query': function (browser) {
-      browser
-        .url('http://localhost:3333/#/view/graphs/test-ui')
-        .waitForElementVisible('#deleteButton', 1000)
-        .click('#deleteButton')
-        .waitForElementVisible('#testQuery', 500)
-        .assert.value("input[id=name]","")
-        .assert.containsText("#terminal","Query deleted successfully: graphs/test-ui")
-        .url('http://localhost:3333/#/view/graphs/test-ui')
-        .assert.containsText("#terminal","graphs/test-ui: This query does not exist.")
-        .assert.elementNotPresent("div.actions")
-        .end()
-    }
-
+  },
+  'Delete query': function (browser) {
+    browser
+      .url('http://localhost:3333/#/view/graphs/test-ui')
+      .waitForElementVisible('#deleteButton', 1000)
+      .click('#deleteButton')
+      .waitForElementVisible('#testQuery', 500)
+      .assert.value("input[id=name]","")
+      .assert.containsText("#terminal","Query deleted successfully: graphs/test-ui")
+      .url('http://localhost:3333/#/view/graphs/test-ui')
+      .assert.containsText("#terminal","graphs/test-ui: This query does not exist.")
+      .assert.elementNotPresent("div.actions")
+      .end()
+  }
 };

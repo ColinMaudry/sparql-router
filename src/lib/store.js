@@ -25,7 +25,7 @@ const state = {
     text: "",
     error: false
   },
-  showDetails: false
+  showDetails: true
 }
 
 // Create an object storing various mutations. We will write the mutation
