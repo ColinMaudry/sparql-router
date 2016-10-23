@@ -10,3 +10,6 @@ export function getResults (state) {
 export function getForm (state) {
   return state.form;
 }
+export function getShow (state) {
+  return state.showDetails;
+}

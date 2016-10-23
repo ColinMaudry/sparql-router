@@ -9,6 +9,9 @@
       <div class="col-md-4 col-md-offset-4 well well-sm view" v-bind:class="{ 'error': message.error}" v-if="message.text !== ''" id="terminal">
         {{ message.text }}
       </div>
+      <div id="details">
+        <query-details></query-details>
+      </div>
       <div id="results" >
         <results></results>
       </div>
@@ -40,6 +43,7 @@
 import functions from './../lib/functions.js'
 import Results from './Results.vue'
 import ActionBar from './ActionBar.vue'
+import QueryDetails from './QueryDetails.vue'
 import { getMessage } from '../lib/getters.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
@@ -51,7 +55,8 @@ export default {
 	},
 	components : {
     Results,
-    ActionBar
+    ActionBar,
+    QueryDetails
   },
   data () {
     return {

@@ -24,7 +24,8 @@ const state = {
   message: {
     text: "",
     error: false
-  }
+  },
+  showDetails: false
 }
 
 // Create an object storing various mutations. We will write the mutation
@@ -41,6 +42,10 @@ const mutations = {
   },
   RESULTS (state,results) {
     state.results = results;
+  },
+  SHOWDETAILS (state,show) {
+    state.showDetails = show;
+
   }
 }
 
