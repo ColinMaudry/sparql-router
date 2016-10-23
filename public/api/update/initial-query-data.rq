@@ -49,6 +49,12 @@ insert data {
 		dct:author "Colin Maudry" ;
 		rdfs:label "Test5" ;
 		router:endpoint <http://queery.link:3030/test/sparql> .
+<uri:sparql-router:test:tables:test-wikidata> dct:identifier "test-wikidata" ;
+		a router:TablesQuery ;
+    a router:TestQuery ;
+		dct:author "Colin Maudry" ;
+		rdfs:label "Test Wikidata" ;
+		router:endpoint <https://query.wikidata.org/bigdata/namespace/wdq/sparql> .
 
 
 <uri:sparql-router:test:graphs:test> dct:identifier "test" ;
