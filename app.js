@@ -1,9 +1,11 @@
+var FileStreamRotator = require('file-stream-rotator')
 var bodyParser = require('body-parser');
 var expose = require('express-expose');
 var debug = require('debug')('routes');
 var passport = require('passport');
 var cors = require('express-cors');
 var express = require('express');
+var morgan = require('morgan');
 var config = require('config');
 var helmet = require('helmet');
 var fs = require('fs');
@@ -91,6 +93,17 @@ express.static.mime.define({'application/ld+json': ['jsonld']});
 //Security
 app.use(helmet());
 app.use(cors);
+
+//Logging
+var logDirectory = __dirname + '/log'
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'weekly',
+  verbose: false
+})
+app.use(morgan('combined', {stream: accessLogStream}))
 
 app.get('/', function(request,response) {
   debug(request.url + " .get");

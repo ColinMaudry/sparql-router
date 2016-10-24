@@ -10,3 +10,4 @@ bin/selenium*
 reports
 *debug.log
 lib/views/analytics.js
+log

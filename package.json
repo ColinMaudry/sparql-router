@@ -1,7 +1,7 @@
 {
   "name": "sparql-router",
-  "version": "0.3.0",
-  "description": "An API layer in front of a SPARQL endpoint in order to serve canned queries, and more.",
+  "version": "0.4.0",
+  "description": "The NodeJS/Express application that powers queery.link to serve canned SPARQL queries to the world.",
   "keywords": [
     "sparql",
     "endpoint",
@@ -50,10 +50,12 @@
     "express": "^4.13.3",
     "express-cors": "0.0.3",
     "express-expose": "^0.3.4",
+    "file-stream-rotator": "0.0.7",
     "fs": "0.0.2",
     "helmet": "^2.1.1",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
     "pug": "^2.0.0-alpha7",
