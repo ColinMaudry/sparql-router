@@ -39,7 +39,8 @@
 		"public": {
 			"scheme": "https",
 			"hostname": "sparql-router.herokuapp.com",
-			"port": ""
+			"port": "",
+      "analytics": false 
 		},
 		"maxQueryLength": 4000,
     "typeByExtension": {

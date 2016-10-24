@@ -98,13 +98,13 @@ app.get('/', function(request,response) {
 
   exposed.config = JSON.parse(JSON.stringify(config.get('app')));
   exposed.defaultEndpoint = defaultEndpointQuery;
-  exposed.config.user = "";
-  exposed.config.password = "";
+  exposed.config.user = "hidden";
+  exposed.config.password = "hidden";
   exposed.config.port = request.socket.localPort;
 
   response.expose(exposed);
   response.expose('var siteRootUrl = "' + siteRootUrl + '";');
-	response.render('index', { layout: false });
+	response.render('index', { layout: false, analytics: config.get("app.public.analytics") });
 });
 
 app.options('*',function(request,response){

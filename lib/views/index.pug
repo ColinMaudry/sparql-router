@@ -4,6 +4,9 @@ head
     title queery.link
     link(href='dist/main.css', rel='stylesheet')
     script!= javascript
+    if analytics === true
+      script(type="text/javascript")
+        include ./analytics.js
 body#app(style='padding-top: 60px;')
   .navbar.navbar-default.navbar-fixed-top
     .container
@@ -35,5 +38,3 @@ body#app(style='padding-top: 60px;')
       p
   script(src='dist/jquery-2.2.3.min.js')
   script(src='dist/build.js')
-  script(type="text/javascript")
-    include ./analytics.js
