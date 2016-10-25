@@ -25,7 +25,9 @@ const state = {
     text: "",
     error: false
   },
-  showDetails: true
+  showDetails: true,
+  loading: false,
+  elapsedTime: 0
 }
 
 // Create an object storing various mutations. We will write the mutation
@@ -45,7 +47,12 @@ const mutations = {
   },
   SHOWDETAILS (state,show) {
     state.showDetails = show;
-
+  },
+  LOADING (state,loading) {
+    state.loading = loading;
+  },
+  ELAPSEDTIME (state,time) {
+    state.elapsedTime = time;
   }
 }
 

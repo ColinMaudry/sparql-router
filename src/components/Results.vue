@@ -1,5 +1,9 @@
 <template>
   <div v-bind:class="{ 'col-md-8': show, 'col-md-12': !show}">
+    <div style="text-align:center" v-if="loading">
+      <img src="/dist/art/gif-load.gif" />
+    </div>
+    <p v-if="elapsedTime > 0"><span class="label label-default">{{ elapsedTime }} seconds</span></p>
     <table v-if="results.type === 'application/sparql-results+json'" class="table" id="tableResults">
       <tr>
         <th>#</th>
@@ -19,7 +23,7 @@
 </template>
 
 <style>
-  #results p {
+  #results table p {
     margin-top: 100px;
     text-align: center;
   }
@@ -28,6 +32,8 @@
 <script>
 import { getResults } from '../lib/getters.js'
 import { getShow } from '../lib/getters.js'
+import { getLoading } from '../lib/getters.js'
+import { getElapsedTime } from '../lib/getters.js'
 
 export default {
 	el () {
@@ -36,7 +42,9 @@ export default {
   vuex: {
     getters: {
       results: getResults,
-      show: getShow
+      show: getShow,
+      loading: getLoading,
+      elapsedTime: getElapsedTime
     }
   },
   computed : {

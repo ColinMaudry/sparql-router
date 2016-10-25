@@ -13,3 +13,9 @@ export function getForm (state) {
 export function getShow (state) {
   return state.showDetails;
 }
+export function getLoading (state) {
+  return state.loading;
+}
+export function getElapsedTime (state) {
+  return state.elapsedTime;
+}

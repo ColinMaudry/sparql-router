@@ -59,7 +59,6 @@ export default {
  methods: {
    createQueryAndGo : function (query,type,slug) {
      createQuery(this.$store,query,type,slug,this.$route.router);
-
        }
      },
 created () {

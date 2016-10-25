@@ -87,7 +87,7 @@ export default {
           "accept" : accept
         }
       };
-      showDetails(this.$store,this.show);
+      showDetails(this.$store,false,"edit");
       this.getQueryMetadata(type,name);
       this.sendHTTPRequest(options,getQueryResults);
 

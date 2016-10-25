@@ -139,12 +139,21 @@ export const sendHTTPRequest = function (store, options,cb) {
   var result = "";
   if (options.scheme === 'https') {scheme = https} else {scheme = http};
 
+  var start = new Date();
+  start = start.setDate(start.getDate());
+
+  store.dispatch('LOADING',true);
+
   var req = scheme.request(options, (res) => {
       res.setEncoding('utf8');
       res.on('data', (data) => {
         result += data;
       });
       res.on('end', () => {
+          store.dispatch('LOADING',false);
+          var end = new Date();
+          end = end.setDate(end.getDate());
+          store.dispatch('ELAPSEDTIME',(end - start)/1000);
           cb(store,res,result);
       })
     });
@@ -196,9 +205,15 @@ export const initStore = function(store) {
   store.dispatch('FORM', form);
   store.dispatch('QUERY', query);
   store.dispatch('RESULTS', results);
+  store.dispatch('SHOWDETAILS', false);
+  store.dispatch('ELAPSEDTIME', 0);
 };
 
-export const showDetails = function (store,show) {
-  var newShow = !show;
+export const showDetails = function (store,show,view) {
+  if (view != "view") {
+    var newShow = false;
+  } else {
+    var newShow = !show;
+  }
   store.dispatch('SHOWDETAILS',newShow);
 };
