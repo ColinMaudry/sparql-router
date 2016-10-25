@@ -3,7 +3,6 @@ var bodyParser = require('body-parser');
 var expose = require('express-expose');
 var debug = require('debug')('routes');
 var passport = require('passport');
-var cors = require('express-cors');
 var express = require('express');
 var morgan = require('morgan');
 var config = require('config');
@@ -103,16 +102,17 @@ var accessLogStream = FileStreamRotator.getStream({
   frequency: 'weekly',
   verbose: false
 })
-app.use(morgan('combined', {stream: accessLogStream}))
+app.use(morgan(':date[iso]\t:remote-addr\t:method\t:url\t:req[accept]\t:req[content-type]\t:req[content-length]\t:response-time[0]\t:status', {stream: accessLogStream}))
 
+//Home page
 app.get('/', function(request,response) {
   debug(request.url + " .get");
   var exposed = {};
 
   exposed.config = JSON.parse(JSON.stringify(config.get('app')));
   exposed.defaultEndpoint = defaultEndpointQuery;
-  exposed.config.user = "hidden";
-  exposed.config.password = "hidden";
+  exposed.config.user = "*****";
+  exposed.config.password = "*****";
   exposed.config.port = request.socket.localPort;
 
   response.expose(exposed);
@@ -142,6 +142,8 @@ app.use(queryMetadata);
 app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
+
+//Error management
 app.use(function(err, req, res, next) {
   debug(req.url + " Mayday!")
   console.error(err.stack);
