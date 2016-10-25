@@ -27,6 +27,9 @@
     margin-top: 100px;
     text-align: center;
   }
+  #results p {
+    margin: none;
+  }
 </style>
 
 <script>
