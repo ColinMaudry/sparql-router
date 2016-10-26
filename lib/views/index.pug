@@ -27,9 +27,12 @@ body#app(style='padding-top: 60px;')
   .navbar.navbar-default.navbar-fixed-top
     .container
       .navbar-header
-        a.navbar-brand#logo(href='/') queery.link
+        a.navbar-brand#logo(href='/#/') queery.link
       #navbar-main.navbar-collapse.collapse
         ul.nav.navbar-nav.navbar-right
+          li
+            a Your IP address is&nbsp;
+              span.text-primary #{userIp}
           li
             a(href='/#/feedback') Feedback
           li

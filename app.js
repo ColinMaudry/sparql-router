@@ -118,7 +118,7 @@ app.get('/', function(request,response) {
   response.expose(exposed);
   response.expose('var siteRootUrl = "' + siteRootUrl + '";');
   response.expose('var userIp = "' + request.ip + '";');
-	response.render('index', { layout: false, analytics: config.get("app.public.analytics") });
+	response.render('index', { layout: false,userIp: request.ip, analytics: config.get("app.public.analytics") });
 });
 
 app.options('*',function(request,response){
