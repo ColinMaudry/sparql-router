@@ -4,6 +4,7 @@ import Vue from 'vue'
 import NewQuery from './components/NewQuery.vue'
 import ViewQuery from './components/ViewQuery.vue'
 import EditQuery from './components/EditQuery.vue'
+import Feedback from './components/Feedback.vue'
 import store from './lib/store.js'
 
 Vue.use(VueRouter);
@@ -27,6 +28,10 @@ router.map({
     '/edit/:type/:slug' : {
       component: EditQuery,
       name: 'edit'
+    },
+    '/feedback' : {
+      component: Feedback,
+      name: 'feedback'
     }
 });
 router.mode = 'html5';

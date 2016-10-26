@@ -117,6 +117,7 @@ app.get('/', function(request,response) {
 
   response.expose(exposed);
   response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+  response.expose('var userIp = "' + request.ip + '";');
 	response.render('index', { layout: false, analytics: config.get("app.public.analytics") });
 });
 
