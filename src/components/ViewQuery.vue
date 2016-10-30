@@ -15,6 +15,9 @@
       <div id="results" >
         <results></results>
       </div>
+      <div class="comments">
+        <disqus shortname="queery-link"></disqus>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +55,7 @@ import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
 import { sendHTTPRequest } from '../lib/actions.js'
 import { showDetails } from '../lib/actions.js'
+import Disqus from './../../node_modules/vue-disqus/vue-disqus.vue'
 
 export default {
 	el () {
@@ -60,7 +64,8 @@ export default {
 	components : {
     Results,
     ActionBar,
-    QueryDetails
+    QueryDetails,
+    Disqus
   },
   data () {
     return {
