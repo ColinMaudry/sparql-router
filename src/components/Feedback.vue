@@ -8,8 +8,9 @@
       <h3 id="-help-">"Help!"</h3>
       <p>If you contact me about trouble using queery.link, please give me your IP address: <span class="ip text-primary">{{ ip }}</span></p>
       <p>This way I can easily filter your activity in the server logs ;-)</p>
+      <h3>Comments (refresh to see them)</h3>
+      <div id="disqus_thread"></div>
   </div>
-
 </template>
 <script>
 export default {
