@@ -41,7 +41,7 @@
   opacity: 0;
 }
 .queryName {
-  font-size: 22px
+  font-size: 22px;
 }
 #text {
   font-size: 80%;

@@ -6,7 +6,7 @@
     <p>If you have a Twitter account, you can <a href="https://twitter.com/CMaudry">chat with me (cmaudry)</a> even if you don't follow me.</p>
     <p>You can also tweet to <a href="http://twitter.com/QueeryLink">@QueeryLink</a> or with #QueeryLink tag.</p>
     <h3>Github</h3>
-    <p>The issue tracket is waiting for your bug reports and feature requests!</p>
+    <p>The <a href="https://github.com/ColinMaudry/sparql-router/issues" target="_blank">issue tracker</a> is waiting for your bug reports and feature requests!</p>
     <p>Make sure you first check the <a href="https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+-label%3Abug" target="_blank">upcoming features</a> and the <a href="https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug" target="_blank">known issues</a>.</p>
     <h3 id="-help-">"Help!"</h3>
     <p>If you contact me about trouble using queery.link, please give me your IP address: <span class="ip text-primary">{{ ip }}</span></p>
