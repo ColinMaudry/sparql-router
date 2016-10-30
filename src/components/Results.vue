@@ -3,7 +3,7 @@
     <div style="text-align:center" v-if="loading">
       <img src="/dist/art/gif-load.gif" />
     </div>
-    <p v-if="elapsedTime > 0"><span class="label label-default">{{ elapsedTime }} seconds</span></p>
+    <p class="elapsedTime" v-if="elapsedTime > 0"><span class="label label-default">{{ elapsedTime }} seconds</span></p>
     <table v-if="results.type === 'application/sparql-results+json'" class="table" id="tableResults">
       <tr>
         <th>#</th>
@@ -27,8 +27,8 @@
     margin-top: 100px;
     text-align: center;
   }
-  #results p {
-    margin: none;
+  p.elapsedTime {
+    margin: 0 0;
   }
 </style>
 
