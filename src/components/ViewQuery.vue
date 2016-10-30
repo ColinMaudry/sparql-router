@@ -36,6 +36,9 @@
     }
   }
 
+#view #results {
+  margin-top: 20px;
+}
 
 </style>
 
@@ -48,6 +51,7 @@ import { getMessage } from '../lib/getters.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
 import { sendHTTPRequest } from '../lib/actions.js'
+import { showDetails } from '../lib/actions.js'
 
 export default {
 	el () {
@@ -81,8 +85,8 @@ export default {
    actions: {
      getQueryMetadata: getQueryMetadata,
      getQueryResults: getQueryResults,
-     sendHTTPRequest: sendHTTPRequest
-
+     sendHTTPRequest: sendHTTPRequest,
+     showDetails: showDetails
    }
   },
   methods: {
@@ -111,6 +115,7 @@ export default {
           "accept" : accept
         }
       };
+      this.showDetails(false,"view");
       this.getQueryMetadata(type,name);
       this.sendHTTPRequest(options,getQueryResults);
     }
