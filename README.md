@@ -1,6 +1,6 @@
-# SPARQL router [0.3.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.3.0+)
+# SPARQL router [0.4.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.4.0+)
 
-#### The NodeJS/Express application that powers [queery.link](http://queery.link) to serve canned SPARQL queries to the world.
+#### The NodeJS/Express application that powers [queery.link](https://queery.link) to serve canned SPARQL queries to the world.
 
 | [master](https://github.com/ColinMaudry/sparql-router) ([**demo**](https://queery.link/api))|  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) ([**demo**](https://sparql-router.herokuapp.com/api))|
 | ------------- | ------------- |
@@ -44,7 +44,7 @@ This server application solves the issue:
 
 ## Demo
 
-- Master/stable: http://queery.link
+- Master/stable: https://queery.link
 - Develop/test: https://sparql-router.herokuapp.com
 
 ## Requirements
@@ -65,6 +65,12 @@ SPARQL router is also available as an [NPM package](https://www.npmjs.com/packag
 ## Configuration
 
 [On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Configuring-SPARQL-router).
+
+Once it's configured, you must initialize the system queries and test queries:
+
+```
+npm run initialize
+```
 
 ## Test
 
@@ -115,7 +121,6 @@ npm start
 ```
 
 Using `config/myconfig.json` configuration file:
-
 ```
 NODE_ENV=myconfig npm start
 ```
@@ -166,7 +171,7 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 - The default endpoint is the endpoint that is used if no endpoint is provided by the client
 - Added support for ASK queries on `/api/ask`
 - Started work on UI, using VueJS (just wireframes for now)
-- Updated the [API documentation](http://queery.link/api) accordingly
+- Updated the [API documentation](https://queery.link/api) accordingly
 
 ##### 0.2.2
 
