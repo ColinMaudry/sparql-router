@@ -51,7 +51,10 @@ export default {
   },
   ready () {
       var _this = this;
+      var value = _this.query.query || "select * where {\n       ?s ?p ?o\n      }\n      limit 10";
       this.yasqe = YASQE.fromTextArea(this.$el);
+      console.log(value);
+      this.yasqe.setValue(value);
       var query = _this.query;
       query.query = this.yasqe.getValue();
       _this.updateQuery(query);
@@ -60,6 +63,14 @@ export default {
         query.query = cm.getValue();
         _this.updateQuery(query);
       })
-  }
+  },
+  watch: {
+    'thisQueryText': function (newVal,oldVal) {
+      const editor_value = this.yasqe.getValue();
+      if (newVal !== editor_value) {
+         this.yasqe.setValue(newVal);
+        }
+      }
+    }
 }
 </script>
