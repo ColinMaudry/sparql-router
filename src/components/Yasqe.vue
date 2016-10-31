@@ -7,8 +7,10 @@ limit 10
 </textarea>
 </template>
 <style>
-  .yasqe div.CodeMirror {
+  .yasqe div.CodeMirror, #text {
     font-family: "Consolas","Monaco","Ubuntu Mono",monospace;
+  }
+  .yasqe div.CodeMirror {
     height: 390px;
   }
   .yasqe .yasqe_share {
@@ -16,13 +18,14 @@ limit 10
     }
   .yasqe .CodeMirror-fullscreen {
     margin-top: 40px;
+    margin-bottom: 30px;
   }
 </style>
 <script>
 import { getQuery } from '../lib/getters.js'
 import { getQueryMetadata } from '../lib/actions.js'
 import { updateQuery } from '../lib/actions.js'
-var YASQE = require('./../vendor/YASGUI.YASQE/src/main.js')
+var YASQE = require('./../vendor/yasqe/src/main.js')
 
 export default {
   data () {
@@ -47,7 +50,6 @@ export default {
     }
   },
   ready () {
-    console.log("ready");
       var _this = this;
       this.yasqe = YASQE.fromTextArea(this.$el);
       var query = _this.query;
