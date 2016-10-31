@@ -25,10 +25,12 @@ export const getQueryMetadata = function (store,type,name) {
       res.on('end',function() {
         resultObject = JSON.parse(result);
         var query = {};
-        query.name = resultObject.label;
+        query.name = resultObject.label || resultObject["http://www.w3.org/2000/01/rdf-schema#label"];
         query.author = resultObject.author;
         query.endpoint = resultObject.endpoint;
         query.modificationDate = resultObject.modificationDate;
+
+        // Get the query text
         scheme.get(siteRootUrl + "/api/" + type + "/" + name + ".rq", (res2) => {
           var result = "";
           res2.on('data', (chunk) => {
