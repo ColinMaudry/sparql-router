@@ -10,10 +10,11 @@ module.exports = {
     browser
       .url('http://localhost:3333/#/')
       .waitForElementVisible('#testQuery', 2000)
-      .clearValue("textarea[id=text]")
-      .setValue("textarea[id=text]","select * where {  ?s ?p ?o   } limit 7")
+      .click('.yasqe textarea').keys('select * where { ?s ?p ?o } limit 7')
+      .pause(100)
       .click("#testQuery")
-      .waitForElementVisible("#tableResults",2000)
+      .waitForElementVisible("#tableResults",10000)
+      .pause(10000)
       .assert.containsText("#tableResults tr:last-child td:first-child","7")
       .end()
   },
