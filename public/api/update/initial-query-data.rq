@@ -1,5 +1,5 @@
-PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
 PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 delete   {
   graph <uri:graph:sparql-router:queries> {
@@ -54,6 +54,12 @@ insert data {
     a router:TestQuery ;
 		dct:author "Colin Maudry" ;
 		rdfs:label "Test Wikidata" ;
+		router:endpoint <https://query.wikidata.org/bigdata/namespace/wdq/sparql> .
+<uri:sparql-router:test:tables:cats-on-wikidata> dct:identifier "cats-on-wikidata" ;
+		a router:TablesQuery ;
+    a router:TestQuery ;
+		dct:author "Jens Ohlig" ;
+		rdfs:label "Cats on Wikidata" ;
 		router:endpoint <https://query.wikidata.org/bigdata/namespace/wdq/sparql> .
 
 
