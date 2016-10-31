@@ -133,7 +133,6 @@ export const testQuery = function (store,query,type) {
 };
 
 export const sendHTTPRequest = function (store, options,cb) {
-  console.log(JSON.stringify(options,null,2));
   var data = (options.method != "GET" && options.data) ? options.data : "";
   var scheme = {};
   var result = "";
