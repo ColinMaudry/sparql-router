@@ -82,10 +82,9 @@ export default {
       var query = "";
       if (this.query.query) {
         query = this.query.query
-            .replace("<","&lt;")
+            .replace(/</g,"&lt;")
             .replace(/\n/g,"<br>")
             .replace(/\t/g,"&nbsp;&nbsp;&nbsp;&nbsp;");
-        console.log(query);
         return query;
       }
     }
