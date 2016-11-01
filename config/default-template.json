@@ -40,7 +40,7 @@
 			"scheme": "https",
 			"hostname": "sparql-router.herokuapp.com",
 			"port": "",
-      "analytics": false 
+      "analytics": false
 		},
 		"maxQueryLength": 4000,
     "typeByExtension": {
@@ -60,7 +60,8 @@
         "nt": "application/n-triples",
         "json": "application/ld+json",
         "trig": "application/trig",
-        "trix": "application/trix"
+        "trix": "application/trix",
+        "rq": "application/sparql-query"
       },
       "ask": {
         "xml": "application/sparql-results+xml",
