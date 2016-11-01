@@ -6102,3 +6102,7 @@ footer.footer {
     footer.footer p.text-muted a {
       font-weight: bold;
       color: inherit; }
+
+.navbar span.beta {
+  color: #DF691A;
+  font-weight: bold; }
