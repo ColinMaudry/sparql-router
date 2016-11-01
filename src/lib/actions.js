@@ -61,6 +61,18 @@ export const updateSlug = function (store,name) {
   store.dispatch('SLUG', slug);
 }
 
+export const saveQuery = function (store,query,type,slug) {
+  var callback = function (store,res,result) {
+    if (res.statusCode < 300) {
+      store.dispatch('MESSAGE',"Query saved successfully.",false);
+      } else {
+      result = result.replace(/(?:\r\n|\r|\n)/g, '<br />').replace(/\t/g,'  ');
+      store.dispatch('MESSAGE',result,true);
+    }
+  };
+  module.exports.writeQuery(store,query,type,slug,callback);
+}
+
 export const createQuery = function (store,query,type,slug,router) {
   var callback = function (store,res,result) {
     if (res.statusCode < 300) {

@@ -13,7 +13,7 @@
       <div id="right" class="col-md-7 col-md-offset-1">
         <query-text :parent-form.sync="form"></query-text>
         <div class="form-group">
-          <button type="button" v-on:click="updateQuery(type,slug)" class="btn btn-primary navbar-right">Save</button>
+          <button type="button" v-on:click="saveQueryAndGo(query,form.type,form.slug)" class="btn btn-primary navbar-right">Save</button>
           <button type="button" v-on:click="testQuery(query,type)" class="btn btn-default navbar-right">Test</button>
         </div>
       </div>
@@ -37,8 +37,9 @@ import { getQueryMetadata } from '../lib/actions.js'
 import { getQueryResults } from '../lib/actions.js'
 import { sendHTTPRequest } from '../lib/actions.js'
 import { showDetails } from '../lib/actions.js'
-import { writeQuery } from '../lib/actions.js'
+import { saveQuery } from '../lib/actions.js'
 import { testQuery } from '../lib/actions.js'
+import { updateForm } from '../lib/actions.js'
 import { getForm } from '../lib/getters.js'
 import { getQuery } from '../lib/getters.js'
 import { getShow } from '../lib/getters.js'
@@ -58,9 +59,10 @@ export default {
      getQueryMetadata: getQueryMetadata,
      getQueryResults: getQueryResults,
      sendHTTPRequest: sendHTTPRequest,
-     updateQuery: writeQuery,
+     saveQuery: saveQuery,
      testQuery: testQuery,
-     showDetails: showDetails
+     showDetails: showDetails,
+     updateForm: updateForm
    },
    getters: {
      form: getForm,
@@ -73,22 +75,30 @@ export default {
       return this.$route.params.type;
     }
   },
+  methods: {
+    saveQueryAndGo: function(query,type,slug) {
+      console.log("slug: " + slug);
+      saveQuery(this.$store,query,type,slug);
+    }
+  },
   created: function () {
-      var type = this.$route.params.type;
-      var name = this.$route.params.slug;
-      var accept = (type === "tables") ? "application/sparql-results+json" : "application/ld+json";
+      var form = {};
+      form.type = this.$route.params.type;
+      form.slug = this.$route.params.slug;
+      this.updateForm(form);
+      var accept = (form.type === "tables") ? "application/sparql-results+json" : "application/ld+json";
       var options = {
         scheme : app.config.public.scheme,
         hostname: app.config.public.hostname,
         port: app.config.public.port,
-        path: "/api/" + type + "/" + name,
+        path: "/api/" + form.type + "/" + form.slug,
         method: "GET",
         headers: {
           "accept" : accept
         }
       };
       showDetails(this.$store,false,"edit");
-      this.getQueryMetadata(type,name);
+      this.getQueryMetadata(form.type,form.slug);
       this.sendHTTPRequest(options,getQueryResults);
 
     }
