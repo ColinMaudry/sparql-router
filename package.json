@@ -23,11 +23,12 @@
     "start": "node bin/www",
     "watch-scss": "node-sass -w ./src/main.scss ./public/dist/main.css",
     "build-css": "node-sass ./src/main.scss | cleancss -v -d -o ./public/dist/main.css",
+    "build-js": "browserify --ignore unicode/category/So ./src/main.js | uglifyjs -c > ./public/dist/build.js",
     "watch-js": "watchify -vd -p browserify --ignore unicode/category/So -e src/main.js -o ./public/dist/build.js",
     "browser-sync": "browser-sync start --config 'bs-config.js'",
     "nodemon": "nodemon --watch ./lib --watch app.js --watch ./lib/views --debug bin/www",
     "dev": "DEBUG=functions,routes npm-run-all --parallel watch-js watch-scss nodemon browser-sync",
-    "build": "NODE_ENV=production browserify --ignore unicode/category/So ./src/main.js | uglifyjs -c > ./public/dist/build.js & npm run build-css",
+    "build": "NODE_ENV=production npm-run-all --sequential build-js build-css",
     "lint": "eslint --ext .js,.vue src test/unit"
   },
   "browserify": {
@@ -45,6 +46,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "codemirror": "^5.17.0",
     "config": "^1.21.0",
     "debug": "^2.2.0",
     "express": "^4.14.0",
@@ -54,6 +56,7 @@
     "helmet": "^2.3.0",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "jquery": "^2.2.4",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
@@ -63,7 +66,9 @@
     "sparqljs": "^1.1.4",
     "vue": "^1.0.24",
     "vue-router": "^0.7.13",
-    "vuex": "^1.0.0-rc.2"
+    "vuex": "^1.0.0-rc.2",
+    "yasgui-utils": "^1.6.0"
+
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
