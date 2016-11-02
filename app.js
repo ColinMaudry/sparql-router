@@ -102,12 +102,16 @@ var accessLogStream = FileStreamRotator.getStream({
   frequency: 'weekly',
   verbose: false
 })
-app.use(morgan(':date[iso]\t:remote-addr\t:method\t:url\t:req[accept]\t:req[content-type]\t:req[content-length]\t:response-time[0]\t:status', {stream: accessLogStream}))
+morgan.token('real-ip', function getRealIp (request) {
+  return request.headers["x-real-ip"] || request.ip;
+})
+app.use(morgan(':date[iso]\t:real-ip\t:method\t:url\t:req[accept]\t:req[content-type]\t:req[content-length]\t:response-time[0]\t:status', {stream: accessLogStream}))
 
 //Home page
 app.get('/', function(request,response) {
   debug(request.url + " .get");
   var exposed = {};
+  var realIp = request.headers["x-real-ip"] || request.ip;
 
   exposed.config = JSON.parse(JSON.stringify(config.get('app')));
   exposed.defaultEndpoint = defaultEndpointQuery;
@@ -117,7 +121,7 @@ app.get('/', function(request,response) {
 
   response.expose(exposed);
   response.expose('var siteRootUrl = "' + siteRootUrl + '";');
-  response.expose('var userIp = "' + request.ip + '";');
+  response.expose('var userIp = "' + realIp + '";');
 	response.render('index', { layout: false,userIp: request.ip, analytics: config.get("app.public.analytics") });
 });
 
