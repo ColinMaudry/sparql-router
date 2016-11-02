@@ -521,8 +521,8 @@
             }
         }
     },
-    "host": "sparql-router.heroku.com",
+    "host": "localhost:3333",
     "schemes": [
-        "https"
+        "http"
     ]
 }

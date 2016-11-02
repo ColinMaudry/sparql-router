@@ -1,22 +1,60 @@
 doctype html(lang='en')
 head
     meta(charset='utf-8')
-    title Wikidata router
+    title queery.link
     link(href='dist/main.css', rel='stylesheet')
+    link(rel='apple-touch-icon', sizes='57x57', href='/dist/art/apple-icon-57x57.png')
+    link(rel='apple-touch-icon', sizes='60x60', href='/dist/art/apple-icon-60x60.png')
+    link(rel='apple-touch-icon', sizes='72x72', href='/dist/art/apple-icon-72x72.png')
+    link(rel='apple-touch-icon', sizes='76x76', href='/dist/art/apple-icon-76x76.png')
+    link(rel='apple-touch-icon', sizes='114x114', href='/dist/art/apple-icon-114x114.png')
+    link(rel='apple-touch-icon', sizes='120x120', href='/dist/art/apple-icon-120x120.png')
+    link(rel='apple-touch-icon', sizes='144x144', href='/dist/art/apple-icon-144x144.png')
+    link(rel='apple-touch-icon', sizes='152x152', href='/dist/art/apple-icon-152x152.png')
+    link(rel='apple-touch-icon', sizes='180x180', href='/dist/art/apple-icon-180x180.png')
+    link(rel='icon', type='image/png', sizes='192x192', href='/dist/art/android-icon-192x192.png')
+    link(rel='icon', type='image/png', sizes='32x32', href='/dist/art/favicon-32x32.png')
+    link(rel='icon', type='image/png', sizes='96x96', href='/dist/art/favicon-96x96.png')
+    link(rel='icon', type='image/png', sizes='16x16', href='/dist/art/favicon-16x16.png')
+    link(rel='manifest', href='/dist/art/manifest.json')
+    link(rel='stylesheet',href='/dist/yasqe.min.css')
+    meta(name='msapplication-TileColor', content='#ffffff')
+    meta(name='msapplication-TileImage', content='/ms-icon-144x144.png')
     script!= javascript
-body
-    app
+    if analytics === true
+      script(type="text/javascript")
+        include ./analytics.js
+body#app(style='padding-top: 60px;')
+  .navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header
+        a.navbar-brand#logo(href='/#/') queery.link
+          span.beta &nbsp;beta
+      #navbar-main.navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href='/#/') New query
+          li
+            a(href='/#/about') About
+          li
+            a(href='/#/feedback') Feedback
+          li
+            a(href='https://twitter.com/queerylink',target='_blank') News
+          li
+            a(href='https://github.com/ColinMaudry/sparql-router', target='_blank') Source
+  #new
+    router-view
     | &#x9;&#x9;
-    footer.footer
-      .container
-        p.text-muted
-          | Developed by
-          a(href='http://colin.maudry.com', target='_blank') Colin Maudry
-          |  using
-          a(href='http://vuejs.org', target='_blank') Vue.js
-          | . The Superhero Bootstrap theme was created by
-          a(href='http://bootswatch.com', target='_blank') Bootswatch
-          | .
-        p
-    script(src='https://code.jquery.com/jquery-2.2.3.min.js')
-    script(src='dist/build.js')
+  footer.footer
+    .container
+      p.text-muted
+        | Developed by&nbsp;
+        a(href='https://twitter.com/CMaudry', target='_blank') Colin Maudry&nbsp;
+        |using&nbsp;
+        a(href='http://vuejs.org', target='_blank') Vue.js&nbsp;
+        | . The Superhero Bootstrap theme was created by&nbsp;
+        a(href='http://bootswatch.com', target='_blank') Bootswatch
+        | .
+      p
+  script(src='dist/jquery-2.2.3.min.js')
+  script(src='dist/build.js')

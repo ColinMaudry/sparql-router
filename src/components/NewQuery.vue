@@ -1,19 +1,39 @@
 <template>
-  <div class="row">
-		<form class="form-horizontal" name="query">
-		<div id="left" class="col-md-4">
-    	<query-options></query-options>
-		</div>
-		<div id="right" class="col-md-7 col-md-offset-1">
-	    <query-text></query-text>
-		</div>
-	</form>
+  <div class="container">
+    <div class="row">
+  		<form class="form-horizontal" name="query-form" >
+  		<div id="left" class="col-md-4">
+      	<query-options></query-options>
+  		</div>
+  		<div id="right" class="col-md-7 col-md-offset-1">
+  	    <query-text></query-text>
+        <div class="form-group">
+          <button type="button" v-on:click="createQueryAndGo(query,form.type,form.slug)" id="saveQuery" class="btn btn-primary navbar-right">Create</button>
+          <button type="button" v-on:click="testQuery(query,form.type)" id="testQuery" class="btn btn-default navbar-right">Test</button>
+        </div>
+  		</div>
+  	</form>
+    </div>
+    <div class="row">
+      <div id="results">
+        <results></results>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import QueryOptions from './QueryOptions.vue'
 import QueryText from './QueryText.vue'
+import Results from './Results.vue'
+import functions from './../lib/functions.js'
+import { getQueryMetadata } from '../lib/actions.js'
+import { createQuery } from '../lib/actions.js'
+import { testQuery } from '../lib/actions.js'
+import { initStore } from '../lib/actions.js'
+import { getQuery } from '../lib/getters.js'
+import { getForm } from '../lib/getters.js'
+
 
 export default {
 	el () {
@@ -21,15 +41,28 @@ export default {
 	},
 	components : {
     QueryOptions,
-    QueryText
+    QueryText,
+    Results
   },
-  data () {
-    return {
-      // Note: modifying `msg` below will not cause changes to occur with
-      // hot-reload. As reloaded components preserve their initial state,
-      // modifying these values will have no effect.
-      msg: 'Hello World!'
-    }
-  }
+  vuex: {
+   actions: {
+     getQueryMetadata: getQueryMetadata,
+     testQuery: testQuery,
+     createQuery: createQuery,
+     initStore: initStore
+   },
+   getters: {
+     form: getForm,
+     query: getQuery
+   }
+ },
+ methods: {
+   createQueryAndGo : function (query,type,slug) {
+     createQuery(this.$store,query,type,slug,this.$route.router);
+       }
+     },
+created () {
+    initStore(this.$store);
+}
 }
 </script>

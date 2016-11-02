@@ -1,10 +1,12 @@
+var FileStreamRotator = require('file-stream-rotator')
+var bodyParser = require('body-parser');
 var expose = require('express-expose');
+var debug = require('debug')('routes');
 var passport = require('passport');
-var cors = require('express-cors');
 var express = require('express');
+var morgan = require('morgan');
 var config = require('config');
 var helmet = require('helmet');
-var debug = require('debug')('routes');
 var fs = require('fs');
 var app = express();
 
@@ -12,9 +14,15 @@ var apiDoc = require('./lib/routes/apiDoc');
 var sparql = require('./lib/routes/sparql');
 var cannedQueries = require('./lib/routes/cannedQueries');
 
+//My middlewares
+var queryMetadata = require('./lib/middlewares/queryMetadata');
+var cors = require('./lib/middlewares/cors');
 
 //My functions
 var functions = require('./lib/functions');
+
+var parseJson = bodyParser.json({ extended: false });
+
 
 /*
 MIT License (MIT)
@@ -83,23 +91,38 @@ express.static.mime.define({'application/ld+json': ['jsonld']});
 
 //Security
 app.use(helmet());
+app.use(cors);
 
+//Logging
+var logDirectory = __dirname + '/log'
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'weekly',
+  verbose: false
+})
+app.use(morgan(':date[iso]\t:remote-addr\t:method\t:url\t:req[accept]\t:req[content-type]\t:req[content-length]\t:response-time[0]\t:status', {stream: accessLogStream}))
+
+//Home page
 app.get('/', function(request,response) {
   debug(request.url + " .get");
-	// response.expose('var siteRootUrl = "' + siteRootUrl + '";');
-	// response.render('index', { layout: false });
-  response.redirect(307,'/api');
+  var exposed = {};
+
+  exposed.config = JSON.parse(JSON.stringify(config.get('app')));
+  exposed.defaultEndpoint = defaultEndpointQuery;
+  exposed.config.user = "*****";
+  exposed.config.password = "*****";
+  exposed.config.port = request.socket.localPort;
+
+  response.expose(exposed);
+  response.expose('var siteRootUrl = "' + siteRootUrl + '";');
+  response.expose('var userIp = "' + request.ip + '";');
+	response.render('index', { layout: false,userIp: request.ip, analytics: config.get("app.public.analytics") });
 });
 
-app.use(function(req, res, next) {
-	//CORS support
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-	//Set app root directory
-	req.appRoot = __dirname;
-
-  next();
+app.options('*',function(request,response){
+  response.sendStatus(200)
 });
 
 app.param('type', function (req, res, next, type) {
@@ -108,10 +131,20 @@ app.param('type', function (req, res, next, type) {
   next();
 });
 
+app.use(function(request,response,next) {
+  //Set app root directory
+  request.appRoot = __dirname;
+  next();
+});
+
 app.use('/api', apiDoc);
+app.use(parseJson);
+app.use(queryMetadata);
 app.use('/api/:type(tables|graphs|ask|update)', cannedQueries);
 app.use('/api/:sparql(sparql|query)', sparql);
 app.use(express.static('public'));
+
+//Error management
 app.use(function(err, req, res, next) {
   debug(req.url + " Mayday!")
   console.error(err.stack);

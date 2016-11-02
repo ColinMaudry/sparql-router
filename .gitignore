@@ -4,3 +4,10 @@ config/*.json
 !config/default-template.json
 !config/test.json
 coverage
+*.sh
+*.swp
+bin/selenium*
+reports
+*debug.log
+lib/views/analytics.js
+log

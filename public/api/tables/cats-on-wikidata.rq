@@ -1,0 +1,14 @@
+#Cats on Wikidata
+#From https://blog.wikimedia.de/2016/10/30/10-cool-queries-for-wikidata-that-will-blow-your-mind-number-7-will-shock-you/
+
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX bd: <http://www.bigdata.com/rdf#>
+
+SELECT ?item ?itemLabel
+WHERE
+{
+	?item wdt:P31 wd:Q146 .
+	SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+}

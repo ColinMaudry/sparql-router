@@ -1,5 +1,5 @@
-PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
 PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX router: <https://github.com/ColinMaudry/sparql-router#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 delete   {
   graph <uri:graph:sparql-router:queries> {
@@ -23,103 +23,97 @@ insert data {
 		a router:TablesQuery ;
     a router:TestQuery ;
 		dct:author "Colin Maudry" ;
-		rdfs:label "Tables test 1" ;
+		rdfs:label "Test" ;
 		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test2> dct:identifier "test2" ;
   		a router:TablesQuery ;
       a router:TestQuery ;
   		dct:author "Colin Maudry" ;
-  		rdfs:label "Tables test 2" ;
+  		rdfs:label "Test2" ;
   		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test3> dct:identifier "test3" ;
   		a router:TablesQuery ;
       a router:TestQuery ;
   		dct:author "Colin Maudry" ;
-  		rdfs:label "Tables test 3" ;
+  		rdfs:label "Test3" ;
   		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test4> dct:identifier "test4" ;
 		a router:TablesQuery ;
     a router:TestQuery ;
 		dct:author "Colin Maudry" ;
-		rdfs:label "Tables test 4" ;
+		rdfs:label "Test4" ;
 		router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:tables:test5> dct:identifier "test5" ;
 		a router:TablesQuery ;
     a router:TestQuery ;
 		dct:author "Colin Maudry" ;
-		rdfs:label "Tables test 5" ;
+		rdfs:label "Test5" ;
 		router:endpoint <http://queery.link:3030/test/sparql> .
+<uri:sparql-router:test:tables:test-wikidata> dct:identifier "test-wikidata" ;
+		a router:TablesQuery ;
+    a router:TestQuery ;
+		dct:author "Colin Maudry" ;
+		rdfs:label "Test Wikidata" ;
+		router:endpoint <https://query.wikidata.org/bigdata/namespace/wdq/sparql> .
+<uri:sparql-router:test:tables:cats-on-wikidata> dct:identifier "cats-on-wikidata" ;
+		a router:TablesQuery ;
+    a router:TestQuery ;
+		dct:author "Jens Ohlig" ;
+		rdfs:label "Cats on Wikidata" ;
+		router:endpoint <https://query.wikidata.org/bigdata/namespace/wdq/sparql> .
 
 
 <uri:sparql-router:test:graphs:test> dct:identifier "test" ;
   	a router:GraphsQuery ;
     a router:TestQuery ;
   	dct:author "Colin Maudry" ;
-  	rdfs:label "Graphs test 1" ;
+  	rdfs:label "Test" ;
   	router:endpoint <http://queery.link:3030/test/sparql> .
+
 
 <uri:sparql-router:test:ask:test> dct:identifier "test" ;
   	a router:AskQuery ;
     a router:TestQuery ;
   	dct:author "Colin Maudry" ;
-  	rdfs:label "Ask test 1" ;
+  	rdfs:label "Test" ;
   	router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:ask:test2> dct:identifier "test2" ;
   	a router:AskQuery ;
     a router:TestQuery ;
   	dct:author "Colin Maudry" ;
-  	rdfs:label "Ask test 2" ;
+  	rdfs:label "Test2" ;
   	router:endpoint <http://queery.link:3030/test/sparql> .
 <uri:sparql-router:test:ask:test3> dct:identifier "test3" ;
   	a router:AskQuery ;
     a router:TestQuery ;
   	dct:author "Colin Maudry" ;
-  	rdfs:label "Ask test 3" ;
+  	rdfs:label "Test3" ;
   	router:endpoint <http://queery.link:3030/test/sparql> .
 
-<uri:sparql-router:test:ask:test> dct:identifier "test" ;
-      	a router:AskQuery ;
-        a router:TestQuery ;
-      	dct:author "Colin Maudry" ;
-      	rdfs:label "Ask test 1" ;
-      	router:endpoint <http://queery.link:3030/test/sparql> .
-
-<uri:sparql-router:test:ask:test2> dct:identifier "test2" ;
-  	a router:AskQuery ;
-    a router:TestQuery ;
-  	dct:author "Colin Maudry" ;
-  	rdfs:label "Ask test 2" ;
-  	router:endpoint <http://queery.link:3030/test/sparql> .
-<uri:sparql-router:test:ask:test3> dct:identifier "test3" ;
-  	a router:AskQuery ;
-    a router:TestQuery ;
-  	dct:author "Colin Maudry" ;
-  	rdfs:label "Ask test 3" ;
-  	router:endpoint <http://queery.link:3030/test/sparql> .
 
 <uri:sparql-router:test:update:test> dct:identifier "test" ;
       	a router:UpdateQuery ;
         a router:TestQuery ;
       	dct:author "Colin Maudry" ;
-      	rdfs:label "Update test 1" ;
+      	rdfs:label "Test" ;
       	router:endpoint <http://queery.link:3030/test/update> .
 <uri:sparql-router:test:update:test2> dct:identifier "test2" ;
       	a router:UpdateQuery ;
         a router:TestQuery ;
       	dct:author "Colin Maudry" ;
-      	rdfs:label "Update test 2" ;
+      	rdfs:label "Test2" ;
       	router:endpoint <http://queery.link:3030/test/update> .
 <uri:sparql-router:test:update:test3> dct:identifier "test3" ;
       	a router:UpdateQuery ;
         a router:TestQuery ;
       	dct:author "Colin Maudry" ;
-      	rdfs:label "Update test 3" ;
+      	rdfs:label "Test3" ;
       	router:endpoint <http://queery.link:3030/test/update> .
 <uri:sparql-router:test:update:test4> dct:identifier "test4" ;
       	a router:UpdateQuery ;
         a router:TestQuery ;
       	dct:author "Colin Maudry" ;
-      	rdfs:label "Update test 4" ;
+      	rdfs:label "Test4" ;
       	router:endpoint <http://queery.link:3030/test/update> .
 
 #System queries

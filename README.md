@@ -1,6 +1,6 @@
-# SPARQL router [0.3.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.3.0+)
+# SPARQL router [0.4.0](https://github.com/ColinMaudry/sparql-router/issues?utf8=%E2%9C%93&q=is%3Aissue+milestone%3A0.4.0+)
 
-#### A NodeJS/Express application to serve canned SPARQL queries to the world.
+#### The NodeJS/Express application that powers [queery.link](https://queery.link) to serve canned SPARQL queries to the world.
 
 | [master](https://github.com/ColinMaudry/sparql-router) ([**demo**](https://queery.link/api))|  [develop](https://github.com/ColinMaudry/sparql-router/tree/develop) ([**demo**](https://sparql-router.herokuapp.com/api))|
 | ------------- | ------------- |
@@ -42,12 +42,10 @@ This server application solves the issue:
 
 **[Known issues](https://github.com/ColinMaudry/sparql-router/issues?q=is%3Aissue+is%3Aopen+label%3Abug)**
 
-Now it's still jut a useful middleman between your RDF data and your data consumers, but the objective is to develop an open platform to share SPARQL queries on any endpoint. With [a nice UI](https://github.com/ColinMaudry/sparql-router-ui).
-
 ## Demo
 
-- Master/stable: http://queery.link/api
-- Develop/test: https://sparql-router.herokuapp.com/api
+- Master/stable: https://queery.link
+- Develop/test: https://sparql-router.herokuapp.com
 
 ## Requirements
 
@@ -68,22 +66,51 @@ SPARQL router is also available as an [NPM package](https://www.npmjs.com/packag
 
 [On the wiki](https://github.com/ColinMaudry/sparql-router/wiki/Configuring-SPARQL-router).
 
-### Test
+Once it's configured, you must initialize the system queries and test queries:
+
+```
+npm run initialize
+```
+
+## Test
 
 I haven't found a proper way to mock a triple store for testing purposes. I consequently use a remote triple store. That means the tests only work if the machine has Internet access.
 
 The configuration used for the tests is stored in `config/test.json`.
 
-To run the tests:
+First, make sure, you have all the dev dependencies installed:
+
+```bash
+npm install
+```
+
+Tests rely on [mocha](http://mochajs.org/) and
+[supertest](https://www.npmjs.com/package/supertest) for the API, and on [nightwatch](http://nightwatchjs.org) for the frontend.
+
+### API
+
+To run the API tests:
 
 ```bash
 npm test
 ```
 
-[Overview of the tests](test/tests.png).
+[Overview of the API tests](test/tests.png).
 
-Tests rely on [mocha](http://mochajs.org/) and
-[supertest](https://www.npmjs.com/package/supertest).
+### Frontend
+
+To run the frontend tests:
+
+```bash
+# Make sure the dev dependencies are installed
+npm install
+
+# Start the server in development mode with the test configuration
+NODE_ENV=test npm run dev
+
+# Run the frontend tests
+npm run test-ui
+```
 
 ## Start it
 
@@ -94,7 +121,6 @@ npm start
 ```
 
 Using `config/myconfig.json` configuration file:
-
 ```
 NODE_ENV=myconfig npm start
 ```
@@ -125,7 +151,7 @@ The API documentation can be found [here](https://sparql-router.herokuapp.com/ap
 
 The actions that are not read-only on the canned queries or the data require [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
 
-- HTTP POST to create or update a query
+- HTTP PUT to create or update a query
 - HTTP DELETE to delete a query
 
 ## Similar software
@@ -135,7 +161,22 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 - [The Datatank](https://github.com/tdt/) (PHP5) "The DataTank is open source software, which you can use to transform any dataset into an HTTP API."
 - [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."
 
+## Contact
+
+- Email: colin@maudry.com
+- Twitter: [@cmaudry](https://twitter.com/CMaudry) / [@queerylink](https://twitter.com/queerylink)
+
+
 ## Change log
+
+#### 0.4.0
+
+- User interface using Vue.js 1 and Bootstrap 3 (see https://queery.link)
+  - @OpenTriply's YASQE as the editor (http://yasqe.yasgui.org/)
+  - Table query results
+  - Single page application (= very fast transitions)
+- Possibility to delete a query
+- Requesting .rq or application/sparql-query returns the query text instead of the query results
 
 #### 0.3.0
 
@@ -145,7 +186,7 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 - The default endpoint is the endpoint that is used if no endpoint is provided by the client
 - Added support for ASK queries on `/api/ask`
 - Started work on UI, using VueJS (just wireframes for now)
-- Updated the [API documentation](http://queery.link/api) accordingly
+- Updated the [API documentation](https://queery.link/api) accordingly
 
 ##### 0.2.2
 
