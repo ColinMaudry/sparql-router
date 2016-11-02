@@ -161,7 +161,22 @@ If SPARQL router doesn't match your requirements, you can have a look at these s
 - [The Datatank](https://github.com/tdt/) (PHP5) "The DataTank is open source software, which you can use to transform any dataset into an HTTP API."
 - [BASIL](https://github.com/the-open-university/basil) (Java) " BASIL is designed as middleware system that mediates between SPARQL endpoints and applications. With BASIL you can build Web APIs on top of SPARQL endpoints."
 
+## Contact
+
+- Email: colin@maudry.com
+- Twitter: [@cmaudry](https://twitter.com/CMaudry) / [@queerylink](https://twitter.com/queerylink)
+
+
 ## Change log
+
+#### 0.4.0
+
+- User interface using Vue.js 1 and Bootstrap 3 (see https://queery.link)
+  - @OpenTriply's YASQE as the editor (http://yasqe.yasgui.org/)
+  - Table query results
+  - Single page application (= very fast transitions)
+- Possibility to delete a query
+- Requesting .rq or application/sparql-query returns the query text instead of the query results
 
 #### 0.3.0
 
