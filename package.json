@@ -53,7 +53,7 @@
     "express-expose": "^0.3.4",
     "file-stream-rotator": "0.0.7",
     "fs": "0.0.2",
-    "helmet": "^2.3.0",
+    "helmet": "^3.6.1",
     "http": "0.0.0",
     "https": "^1.0.0",
     "jquery": "^2.2.4",
@@ -68,7 +68,6 @@
     "vue-router": "^0.7.13",
     "vuex": "^1.0.0-rc.2",
     "yasgui-utils": "^1.6.0"
-
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
