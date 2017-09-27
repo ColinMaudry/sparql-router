@@ -29,7 +29,9 @@
     "nodemon": "nodemon --watch ./lib --watch app.js --watch ./lib/views --debug bin/www",
     "dev": "DEBUG=functions,routes npm-run-all --parallel watch-js watch-scss nodemon browser-sync",
     "build": "NODE_ENV=production npm-run-all --sequential build-js build-css",
-    "lint": "eslint --ext .js,.vue src test/unit"
+    "lint": "eslint --ext .js,.vue src test/unit",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "browserify": {
     "transform": [
@@ -67,8 +69,8 @@
     "vue": "^1.0.24",
     "vue-router": "^0.7.13",
     "vuex": "^1.0.0-rc.2",
-    "yasgui-utils": "^1.6.0"
-
+    "yasgui-utils": "^1.6.0",
+    "snyk": "^1.41.1"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -95,5 +97,6 @@
     "vueify": "^8.4.1",
     "vueify-insert-css": "^1.0.0",
     "watchify": "^3.4.0"
-  }
+  },
+  "snyk": true
 }
