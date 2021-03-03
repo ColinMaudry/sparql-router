@@ -60,7 +60,7 @@
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
-    "pug": "^2.0.0-alpha7",
+    "pug": "^3.0.1",
     "sanitize-filename": "^1.6.0",
     "slug": "^0.9.1",
     "sparqljs": "^1.1.4",
